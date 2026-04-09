@@ -34,33 +34,95 @@
             </div>
             <p class="text-slate-500 mb-6 text-sm ml-10">Pilih program yang sesuai dengan jenjang pendidikan dan rencana studi kamu</p>
 
-            <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition duration-300">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-200 shrink-0">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
+            <div class="grid grid-cols-1 gap-8">
+                
+                <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-200 shrink-0">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800">Sarjana</h4>
+                            <span class="inline-block bg-orange-50 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-orange-100">Beasiswa Sarjana</span>
+                        </div>
                     </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-slate-800">Sarjana</h4>
-                        <span class="inline-block bg-orange-50 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-orange-100">Beasiswa Sarjana</span>
-                    </div>
+
+                    <p class="text-slate-600 text-sm mb-5">Sarjana program satu gelar (single degree/joint degree) atau dua gelar (double degree) selama masa studi.</p>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start gap-3 text-sm text-slate-700">
+                            <svg class="w-5 h-5 text-orange-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Beasiswa Garuda Sarjana, Beasiswa Talenta Indonesia</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-slate-700">
+                            <svg class="w-5 h-5 text-orange-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span><strong>Syarat:</strong> Beasiswa Garuda Sarjana (Umum : IELTS : 6,5 - iBT : 80, PTE: 58, ITP:500) - (Khusus : IQ : 110, SAT : ≥ 1.170)</span>
+                        </li>
+                    </ul>
+
+                    <a href="{{ route('pendaftaran.create', ['program' => 'sarjana']) }}" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl transition shadow-lg shadow-orange-200 flex items-center justify-center gap-2 cursor-pointer">
+                        Daftar Sekarang &rarr;
+                    </a>
                 </div>
 
-                <p class="text-slate-600 text-sm mb-5">Sarjana program satu gelar (single degree/joint degree) atau dua gelar (double degree) selama masa studi</p>
-                
-                <ul class="space-y-3 mb-8">
-                    <li class="flex items-start gap-3 text-sm text-slate-700">
-                        <svg class="w-5 h-5 text-orange-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span>Beasiswa Garuda Sarjana, Beasiswa Talenta Indonesia</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-slate-700">
-                        <svg class="w-5 h-5 text-orange-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span><strong>Syarat:</strong> Beasiswa Garuda Sarjana (Umum : IELTS : 6,5 - iBT : 80, PTE: 58, ITP:500) - (Khusus : IQ : 110, SAT : ≥ 1.170)</span>
-                    </li>
-                </ul>
+                <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200 shrink-0">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800">Magister (S2)</h4>
+                            <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-blue-100">Beasiswa Lanjutan</span>
+                        </div>
+                    </div>
 
-                <button class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl transition shadow-lg shadow-orange-200 flex items-center justify-center gap-2">
-                    Daftar Sekarang &rarr;
-                </button>
+                    <p class="text-slate-600 text-sm mb-5">Magister program satu gelar (single degree) paling lama 24 bulan untuk riset dan pengembangan keilmuan pada Bidang STEM dan SHARE.</p>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start gap-3 text-sm text-slate-700">
+                            <svg class="w-5 h-5 text-blue-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Beasiswa Reguler S2, Beasiswa Perguruan Tinggi Utama Dunia (PTUD) S2</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-slate-700">
+                            <svg class="w-5 h-5 text-blue-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span><strong>Syarat:</strong> IPK minimal 3.00. Kemampuan Bahasa Inggris (Dalam Negeri: TOEFL ITP 500 / Luar Negeri: IELTS 6.5 / iBT 80)</span>
+                        </li>
+                    </ul>
+
+                    <a href="{{ route('pendaftaran.create', ['program' => 'magister']) }}" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl transition shadow-lg shadow-blue-200 flex items-center justify-center gap-2 cursor-pointer">
+                        Daftar Magister S2 &rarr;
+                    </a>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-200 shrink-0">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800">Dokter Spesialis & Subspesialis</h4>
+                            <span class="inline-block bg-emerald-50 text-emerald-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-emerald-100">Beasiswa Target</span>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-600 text-sm mb-5">Program pemenuhan tenaga kesehatan dan pendidik medis untuk profesi Dokter Spesialis dan Subspesialis di rumah sakit jejaring seluruh Indonesia.</p>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start gap-3 text-sm text-slate-700">
+                            <svg class="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Beasiswa Dokter Spesialis Kementerian Kesehatan/LPDP</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-slate-700">
+                            <svg class="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span><strong>Syarat:</strong> Memiliki STR (Surat Tanda Registrasi) yang masih berlaku. Berkomitmen mengabdi (n+1) tahun di wilayah yang ditentukan.</span>
+                        </li>
+                    </ul>
+
+                    <a href="{{ route('pendaftaran.create', ['program' => 'dokter']) }}" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 rounded-2xl transition shadow-lg shadow-emerald-200 flex items-center justify-center gap-2 cursor-pointer">
+                        Daftar Spesialis &rarr;
+                    </a>
+                </div>
+
             </div>
         </div>
 
@@ -150,7 +212,7 @@
                     &larr; Kembali
                 </button>
                 <div x-show="step === 1"></div> 
-                <button <a href="{{ route('pendaftaran') }}" @click="step < 3 ? step++ : document.getElementById('welcome-popover').remove()" 
+                <button <a href="{{ route('pendaftaran.index') }}" @click="step < 3 ? step++ : document.getElementById('welcome-popover').remove()" 
                         class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-8 rounded-xl shadow-lg shadow-orange-200 transition-all transform hover:-translate-y-0.5 cursor-pointer">
                     <span x-text="step < 3 ? 'Selanjutnya' : 'Lengkapi Profil Sekarang'"></span>
                 </button>

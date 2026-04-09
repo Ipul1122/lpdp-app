@@ -44,7 +44,7 @@
                 <input type="file" name="foto_ktp" accept="image/*" required
                        @class([
                            'w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 border rounded-xl cursor-pointer',
-                           'border-red-500 focus:ring-red-500' => $errors->has('foto_ktp'),
+                           'border-red-500' => $errors->has('foto_ktp'),
                            'border-slate-300' => !$errors->has('foto_ktp'),
                        ])>
                 <p class="text-xs text-slate-400 mt-1">Format: JPG, PNG. Maksimal 5MB.</p>
@@ -55,7 +55,9 @@
 
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1">NIK <span class="text-red-500">*</span></label>
-                <input type="text" name="nik" required maxlength="16" placeholder="16 Digit NIK" value="{{ old('nik') }}"
+                <input type="text" name="nik" required maxlength="16" placeholder="16 Digit NIK" 
+                       value="{{ old('nik') }}"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                        @class([
                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none',
                            'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('nik'),
@@ -68,7 +70,8 @@
             
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
-                <input type="text" name="nama" required placeholder="Sesuai KTP" value="{{ old('nama') }}"
+                <input type="text" name="nama" required placeholder="Sesuai KTP" 
+                       value="{{ old('nama') }}"
                        @class([
                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none',
                            'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('nama'),
@@ -79,9 +82,25 @@
                 @enderror
             </div>
 
+            <div class="md:col-span-2">
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Nomor Telepon (WhatsApp) <span class="text-red-500">*</span></label>
+                <input type="text" name="no_telp" required placeholder="Contoh: 081234567890" 
+                       value="{{ old('no_telp') }}"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                       @class([
+                           'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none',
+                           'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('no_telp'),
+                           'border-slate-300 focus:ring-orange-500' => !$errors->has('no_telp'),
+                       ])>
+                @error('no_telp')
+                    <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1">Tempat Lahir <span class="text-red-500">*</span></label>
-                <input type="text" name="tempat_lahir" required placeholder="Contoh: Jakarta" value="{{ old('tempat_lahir') }}"
+                <input type="text" name="tempat_lahir" required placeholder="Contoh: Jakarta" 
+                       value="{{ old('tempat_lahir') }}"
                        @class([
                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none bg-white',
                            'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('tempat_lahir'),
@@ -94,7 +113,8 @@
 
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1">Tanggal Lahir <span class="text-red-500">*</span></label>
-                <input type="date" name="tanggal_lahir" required value="{{ old('tanggal_lahir') }}"
+                <input type="date" name="tanggal_lahir" required 
+                       value="{{ old('tanggal_lahir') }}"
                        @class([
                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none bg-white cursor-pointer',
                            'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('tanggal_lahir'),
@@ -104,13 +124,14 @@
                     <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
                 @enderror
             </div>
-            
+
             <div class="md:col-span-2 border-t border-slate-100 pt-4 mt-2">
                 <h3 class="text-sm font-bold text-slate-800 mb-4">Detail Alamat</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="col-span-2 md:col-span-4">
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Alamat Jalan</label>
-                        <input type="text" name="alamat" required placeholder="Nama jalan, gang, atau blok" value="{{ old('alamat') }}"
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">Alamat Jalan <span class="text-red-500">*</span></label>
+                        <input type="text" name="alamat" required placeholder="Nama jalan, gang, atau blok" 
+                               value="{{ old('alamat') }}"
                                @class([
                                    'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none',
                                    'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('alamat'),
@@ -121,8 +142,10 @@
                         @enderror
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">RT</label>
-                        <input type="text" name="rt" required placeholder="001" value="{{ old('rt') }}"
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">RT <span class="text-red-500">*</span></label>
+                        <input type="text" name="rt" required placeholder="001" maxlength="3" 
+                               value="{{ old('rt') }}"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                                @class([
                                    'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none',
                                    'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('rt'),
@@ -133,8 +156,10 @@
                         @enderror
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">RW</label>
-                        <input type="text" name="rw" required placeholder="002" value="{{ old('rw') }}"
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">RW <span class="text-red-500">*</span></label>
+                        <input type="text" name="rw" required placeholder="002" maxlength="3" 
+                               value="{{ old('rw') }}"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                                @class([
                                    'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none',
                                    'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('rw'),
@@ -145,8 +170,9 @@
                         @enderror
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Kelurahan/Desa</label>
-                        <input type="text" name="kelurahan" required value="{{ old('kelurahan') }}"
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">Kelurahan/Desa <span class="text-red-500">*</span></label>
+                        <input type="text" name="kelurahan" required 
+                               value="{{ old('kelurahan') }}"
                                @class([
                                    'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none',
                                    'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('kelurahan'),
@@ -157,8 +183,9 @@
                         @enderror
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Kecamatan</label>
-                        <input type="text" name="kecamatan" required value="{{ old('kecamatan') }}"
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">Kecamatan <span class="text-red-500">*</span></label>
+                        <input type="text" name="kecamatan" required 
+                               value="{{ old('kecamatan') }}"
                                @class([
                                    'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none',
                                    'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('kecamatan'),
@@ -172,20 +199,20 @@
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Agama</label>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Agama <span class="text-red-500">*</span></label>
                 <select name="agama" required 
                         @class([
-                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none bg-white',
+                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none bg-white cursor-pointer',
                             'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('agama'),
                             'border-slate-300 focus:ring-orange-500' => !$errors->has('agama'),
                         ])>
                     <option value="" disabled {{ old('agama') ? '' : 'selected' }}>Pilih Agama</option>
-                    <option value="Islam" {{ old('agama') === 'Islam' ? 'selected' : '' }}>Islam</option>
-                    <option value="Kristen" {{ old('agama') === 'Kristen' ? 'selected' : '' }}>Kristen</option>
-                    <option value="Katolik" {{ old('agama') === 'Katolik' ? 'selected' : '' }}>Katolik</option>
-                    <option value="Hindu" {{ old('agama') === 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                    <option value="Buddha" {{ old('agama') === 'Buddha' ? 'selected' : '' }}>Buddha</option>
-                    <option value="Konghucu" {{ old('agama') === 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
+                    <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                    <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                    <option value="Katolik" {{ old('agama') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+                    <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                    <option value="Buddha" {{ old('agama') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                    <option value="Konghucu" {{ old('agama') == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
                 </select>
                 @error('agama')
                     <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
@@ -193,18 +220,18 @@
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Status Perkawinan</label>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Status Perkawinan <span class="text-red-500">*</span></label>
                 <select name="status_perkawinan" required 
                         @class([
-                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none bg-white',
+                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none bg-white cursor-pointer',
                             'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('status_perkawinan'),
                             'border-slate-300 focus:ring-orange-500' => !$errors->has('status_perkawinan'),
                         ])>
                     <option value="" disabled {{ old('status_perkawinan') ? '' : 'selected' }}>Pilih Status</option>
-                    <option value="Belum Kawin" {{ old('status_perkawinan') === 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
-                    <option value="Kawin" {{ old('status_perkawinan') === 'Kawin' ? 'selected' : '' }}>Kawin</option>
-                    <option value="Cerai Hidup" {{ old('status_perkawinan') === 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
-                    <option value="Cerai Mati" {{ old('status_perkawinan') === 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
+                    <option value="Belum Kawin" {{ old('status_perkawinan') == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
+                    <option value="Kawin" {{ old('status_perkawinan') == 'Kawin' ? 'selected' : '' }}>Kawin</option>
+                    <option value="Cerai Hidup" {{ old('status_perkawinan') == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
+                    <option value="Cerai Mati" {{ old('status_perkawinan') == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
                 </select>
                 @error('status_perkawinan')
                     <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
@@ -212,8 +239,9 @@
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Pekerjaan</label>
-                <input type="text" name="pekerjaan" required placeholder="Contoh: Mahasiswa, Pegawai Swasta" value="{{ old('pekerjaan') }}"
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Pekerjaan <span class="text-red-500">*</span></label>
+                <input type="text" name="pekerjaan" required placeholder="Contoh: Mahasiswa, Pegawai Swasta" 
+                       value="{{ old('pekerjaan') }}"
                        @class([
                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none',
                            'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('pekerjaan'),
@@ -225,19 +253,40 @@
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Kewarganegaraan</label>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Kewarganegaraan <span class="text-red-500">*</span></label>
                 <select name="kewarganegaraan" required 
                         @class([
-                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none bg-white',
+                            'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none bg-white cursor-pointer',
                             'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('kewarganegaraan'),
                             'border-slate-300 focus:ring-orange-500' => !$errors->has('kewarganegaraan'),
                         ])>
-                    <option value="WNI" {{ old('kewarganegaraan', 'WNI') === 'WNI' ? 'selected' : '' }}>WNI</option>
-                    <option value="WNA" {{ old('kewarganegaraan') === 'WNA' ? 'selected' : '' }}>WNA</option>
+                    <option value="WNI" {{ old('kewarganegaraan', 'WNI') == 'WNI' ? 'selected' : '' }}>WNI</option>
+                    <option value="WNA" {{ old('kewarganegaraan') == 'WNA' ? 'selected' : '' }}>WNA</option>
                 </select>
                 @error('kewarganegaraan')
                     <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <div class="md:col-span-2 border-t border-slate-100 pt-6 mt-2">
+                <h3 class="text-sm font-bold text-slate-800 mb-4">Pemilihan Program</h3>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Pilih Program Beasiswa <span class="text-red-500">*</span></label>
+                    <select name="program_beasiswa" required 
+                            @class([
+                                'w-full px-4 py-2 border rounded-xl focus:ring-2 outline-none bg-white cursor-pointer',
+                                'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has('program_beasiswa'),
+                                'border-slate-300 focus:ring-orange-500' => !$errors->has('program_beasiswa'),
+                            ])>
+                        <option value="" disabled {{ !old('program_beasiswa') && !request('program') ? 'selected' : '' }}>-- Silakan Pilih Program --</option>
+                        <option value="sarjana" {{ old('program_beasiswa', request('program')) == 'sarjana' ? 'selected' : '' }}>Beasiswa Sarjana (S1)</option>
+                        <option value="magister" {{ old('program_beasiswa', request('program')) == 'magister' ? 'selected' : '' }}>Beasiswa Magister (S2)</option>
+                        <option value="dokter" {{ old('program_beasiswa', request('program')) == 'dokter' ? 'selected' : '' }}>Beasiswa Dokter Spesialis</option>
+                    </select>
+                    @error('program_beasiswa')
+                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
             <div class="md:col-span-2 mt-8">

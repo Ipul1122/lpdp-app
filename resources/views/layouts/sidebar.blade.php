@@ -27,7 +27,7 @@
             </svg>
         </a>
 
-        <a href="#" 
+        <a href="{{route('riwayat.index')}}" 
            class="w-full aspect-square rounded-2xl flex items-center justify-center transition-all duration-200 text-slate-400 hover:bg-orange-50 hover:text-orange-500"
            title="Riwayat">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

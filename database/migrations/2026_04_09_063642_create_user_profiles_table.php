@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('foto_ktp')->nullable();
             $table->string('nik', 16)->unique()->nullable();
             $table->string('nama')->nullable();
+            $table->string('no_telp', 15)->nullable();
             $table->string('tempat_tglLahir')->nullable();
             $table->string('alamat')->nullable();
             $table->string('rt', 5)->nullable();
@@ -24,6 +25,14 @@ return new class extends Migration
             $table->string('status_perkawinan')->nullable();
             $table->string('pekerjaan')->nullable();
             $table->string('kewarganegaraan')->nullable();
+            
+            // --- FIELD BARU DITAMBAHKAN DI SINI ---
+            // Menggunakan enum agar datanya ketat hanya menerima 3 pilihan ini (atau null jika belum milih)
+            $table->enum('program_beasiswa', ['sarjana', 'magister', 'dokter'])->nullable();
+            
+            // Menggunakan enum untuk status agar Admin mudah melakukan filter nanti
+            $table->enum('status', ['pending', 'diproses', 'diterima', 'ditolak'])->default('pending');
+            
             $table->timestamps();
         });
     }

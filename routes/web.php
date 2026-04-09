@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\OtpVerificationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\RiwayatController;
 
 Route::get('/', function () {
     return view('welcome'); // Ini bawaan Laravel
@@ -43,4 +44,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
     Route::get('/pendaftaran/buat', [PendaftaranController::class, 'create'])->name('pendaftaran.create');
     Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
+
+    Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
 });

@@ -49,6 +49,15 @@
                 });
             @endif
 
+            // Tangkap Error Validasi Bawaan Laravel (Termasuk error NIK)
+            @if($errors->any())
+                Toast.fire({
+                    icon: 'error',
+                    title: "{{ $errors->first() }}"
+                });
+            @endif
+            // -------------------------
+
             // Tangkap session 'info' dari Laravel
             @if(session('info'))
                 Toast.fire({
