@@ -1,28 +1,69 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - LPDP App</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-</head>
-<body class="bg-slate-50 font-sans">
+@extends('layouts.app')
 
-    <div class="p-8 max-w-7xl mx-auto">
-        <div class="flex justify-between items-center">
-            <h1 class="text-3xl font-bold text-slate-800">Dashboard Utama</h1>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="bg-red-50 px-4 py-2 rounded-lg text-red-600 font-semibold hover:bg-red-100 transition">Keluar</button>
-            </form>
-        </div>
+@section('title', 'Beranda')
+
+@section('content')
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <div class="max-w-6xl mx-auto space-y-8">
         
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-32">Status Pendaftaran</div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-32">Riwayat Dokumen</div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-32">Pengumuman</div>
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-3xl p-8 md:p-10 text-white shadow-xl flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
+            <div class="md:w-3/4 z-10">
+                <h2 class="text-3xl font-bold mb-3">Lengkapi Profil & CV Sebelum Mendaftar</h2>
+                <p class="text-orange-50 mb-8 leading-relaxed text-sm md:text-base pr-4">
+                    Profil dan CV wajib dilengkapi untuk melanjutkan pendaftaran beasiswa. Isi data dirimu agar kami dapat menampilkan syarat dan program yang paling sesuai. Jika data dirimu sudah lengkap, silakan lanjutkan ke tahap pendaftaran.
+                </p>
+                <button class="bg-white text-orange-600 font-bold px-6 py-3 rounded-full hover:bg-orange-50 transition shadow-lg inline-flex items-center text-sm">
+                    Lengkapi Profil Sekarang &rarr;
+                </button>
+            </div>
+            
+            <div class="hidden md:flex md:w-1/4 z-10 justify-end">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=lpdp&backgroundColor=transparent" alt="Mascot" class="w-40 h-40 object-contain drop-shadow-2xl">
+            </div>
+
+            <div class="absolute right-0 top-0 w-96 h-96 bg-white opacity-10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
         </div>
+
+        <div>
+            <div class="flex items-center gap-3 mb-2">
+                <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
+                </svg>
+                <h3 class="text-2xl font-bold text-slate-800">Beasiswa yang Sedang Dibuka</h3>
+            </div>
+            <p class="text-slate-500 mb-6 text-sm ml-10">Pilih program yang sesuai dengan jenjang pendidikan dan rencana studi kamu</p>
+
+            <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition duration-300">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-200 shrink-0">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-slate-800">Sarjana</h4>
+                        <span class="inline-block bg-orange-50 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-orange-100">Beasiswa Sarjana</span>
+                    </div>
+                </div>
+
+                <p class="text-slate-600 text-sm mb-5">Sarjana program satu gelar (single degree/joint degree) atau dua gelar (double degree) selama masa studi</p>
+                
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start gap-3 text-sm text-slate-700">
+                        <svg class="w-5 h-5 text-orange-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Beasiswa Garuda Sarjana, Beasiswa Talenta Indonesia</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-700">
+                        <svg class="w-5 h-5 text-orange-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span><strong>Syarat:</strong> Beasiswa Garuda Sarjana (Umum : IELTS : 6,5 - iBT : 80, PTE: 58, ITP:500) - (Khusus : IQ : 110, SAT : ≥ 1.170)</span>
+                    </li>
+                </ul>
+
+                <button class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl transition shadow-lg shadow-orange-200 flex items-center justify-center gap-2">
+                    Daftar Sekarang &rarr;
+                </button>
+            </div>
+        </div>
+
     </div>
 
     @if(session('show_welcome_popover'))
@@ -56,7 +97,7 @@
                     <div x-show="step === 1" x-transition.opacity.duration.300ms>
                         <h2 class="text-3xl font-extrabold text-orange-600 mb-6">Selamat datang di LPDP</h2>
                         <div class="space-y-4 text-slate-700">
-                            <p class="font-medium text-lg text-slate-800">Halo, {{ Auth::user()->name }}</p>
+                            <p class="font-medium text-lg text-slate-800">Halo, {{ Auth::user()->name ?? 'User' }}</p>
                             <p class="font-semibold text-orange-700">Selamat Datang Di Beasiswa LPDP</p>
                             <p>Program Beasiswa LPDP adalah skema beasiswa terintegrasi lintas kementrian yang dirancang untuk menyiapkan talenta unggul indonesia pada <strong>Bidang STEM Industri Strategis</strong> serta program <strong>SHARE</strong>.</p>
                             <ul class="list-disc pl-5 space-y-2 mt-4 text-slate-600 marker:text-orange-500">
@@ -96,7 +137,7 @@
                         <p class="text-slate-600 max-w-sm mx-auto mb-8">
                             Lengkapi <strong>Profile & CV</strong> Anda untuk mulai mendaftar Beasiswa LPDP. Pastikan data pendidikan dan pengalaman kerja sudah sesuai dengan dokumen asli.
                         </p>
-                        <div class="bg-gray-300 px-6 py-4 rounded-xl border border-indigo-100 w-full max-w-sm">
+                        <div class="bg-gray-200 px-6 py-4 rounded-xl border border-gray-300 w-full max-w-sm">
                             <p class="text-orange-700 text-sm font-medium italic">"Pendidikan adalah senjata paling mematikan di dunia, karena dengan itu Anda bisa mengubah dunia."</p>
                         </div>
                     </div>
@@ -108,13 +149,13 @@
                 <button x-show="step > 1" @click="step--" class="text-slate-500 font-semibold hover:text-orange-600 transition cursor-pointer px-4 py-2">
                     &larr; Kembali
                 </button>
-                <div x-show="step === 1"></div> <button @click="step < 3 ? step++ : document.getElementById('welcome-popover').remove()" 
-                        class="bg-orange-600 hover:bg-orange-600 text-white font-bold py-2.5 px-8 rounded-xl shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5 cursor-pointer">
+                <div x-show="step === 1"></div> 
+                <button @click="step < 3 ? step++ : document.getElementById('welcome-popover').remove()" 
+                        class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-8 rounded-xl shadow-lg shadow-orange-200 transition-all transform hover:-translate-y-0.5 cursor-pointer">
                     <span x-text="step < 3 ? 'Selanjutnya' : 'Lengkapi Profil Sekarang'"></span>
                 </button>
             </div>
         </div>
     </div>
     @endif
-</body>
-</html>
+@endsection
