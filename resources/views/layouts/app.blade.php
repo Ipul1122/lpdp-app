@@ -17,5 +17,47 @@
         @yield('content')
     </main>
 
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // Konfigurasi bawaan untuk Toast
+            const Toast = window.Swal.mixin({
+                toast: true,
+                position: 'top-end', // Muncul di pojok kanan atas
+                showConfirmButton: false, // Hilangkan tombol OK
+                timer: 4000, // Hilang otomatis dalam 4 detik
+                timerProgressBar: true, // Ada garis loading di bawahnya
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', window.Swal.stopTimer)
+                    toast.addEventListener('mouseleave', window.Swal.resumeTimer)
+                }
+            });
+
+            // Tangkap session 'success' dari Laravel
+            @if(session('success'))
+                Toast.fire({
+                    icon: 'success',
+                    title: "{{ session('success') }}"
+                });
+            @endif
+
+            // Tangkap session 'error' dari Laravel (Opsional, sangat berguna)
+            @if(session('error'))
+                Toast.fire({
+                    icon: 'error',
+                    title: "{{ session('error') }}"
+                });
+            @endif
+
+            // Tangkap session 'info' dari Laravel
+            @if(session('info'))
+                Toast.fire({
+                    icon: 'info',
+                    title: "{{ session('info') }}"
+                });
+            @endif
+        });
+    </script>
+
 </body>
 </html>

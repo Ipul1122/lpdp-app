@@ -150,7 +150,7 @@
                     &larr; Kembali
                 </button>
                 <div x-show="step === 1"></div> 
-                <button @click="step < 3 ? step++ : document.getElementById('welcome-popover').remove()" 
+                <button <a href="{{ route('pendaftaran') }}" @click="step < 3 ? step++ : document.getElementById('welcome-popover').remove()" 
                         class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-8 rounded-xl shadow-lg shadow-orange-200 transition-all transform hover:-translate-y-0.5 cursor-pointer">
                     <span x-text="step < 3 ? 'Selanjutnya' : 'Lengkapi Profil Sekarang'"></span>
                 </button>
