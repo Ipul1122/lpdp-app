@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserProfile extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'user_id', 'foto_ktp', 'nik', 'nama', 'no_telp','tempat_tglLahir', 
+        'user_id', 'foto_ktp', 'nik', 'nama', 'no_telp', 'tempat_tglLahir', 
         'alamat', 'rt', 'rw', 'kelurahan', 'kecamatan', 
         'agama', 'status_perkawinan', 'pekerjaan', 'kewarganegaraan',
-        
-        // Tambahkan 2 field baru ini
-        'program_beasiswa',
-        'status'
+        'program_beasiswa', 'status', 'catatan'
     ];
 
     public function user()
