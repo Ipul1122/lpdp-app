@@ -60,9 +60,19 @@
                         </li>
                     </ul>
 
-                    <a href="{{ route('pendaftaran.create', ['program' => 'sarjana']) }}" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl transition shadow-lg shadow-orange-200 flex items-center justify-center gap-2 cursor-pointer">
-                        Daftar Sekarang &rarr;
-                    </a>
+                    @php
+                        $sudahDaftar = \App\Models\UserProfile::where('user_id', Auth::id())->exists();
+                    @endphp
+
+                    @if($sudahDaftar)
+                        <a href="{{ route('riwayat.index') }}" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-600 font-bold py-3.5 rounded-2xl transition flex items-center justify-center gap-2 cursor-pointer">
+                            Lihat Status Pendaftaran &rarr;
+                        </a>
+                    @else
+                        <a href="{{ route('pendaftaran.create', ['program' => 'sarjana']) }}" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl transition shadow-lg shadow-orange-200 flex items-center justify-center gap-2 cursor-pointer">
+                            Daftar Sekarang &rarr;
+                        </a>
+                    @endif
                 </div>
 
                 <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition duration-300">
