@@ -7,6 +7,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\RiwayatController;
 
+// ADMIN
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PendaftarController;
+
 Route::get('/', function () {
     return view('welcome'); // Ini bawaan Laravel
 });
@@ -46,4 +51,27 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
 
     Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
+});
+
+// --- RUTE ADMIN ---
+Route::prefix('admin')->name('admin.')->group(function () {
+    
+    // Rute yang bisa diakses tanpa login
+    Route::middleware('guest:admin')->group(function () {
+        Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [AuthController::class, 'login'])->name('login.process');
+    });
+
+    // Rute yang PROTECTED (Harus login admin)
+    Route::middleware('auth:admin')->group(function () {
+    
+            // Dashboard (Dinamis)
+            Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+            // Manajemen Pendaftar
+            Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
+            Route::post('/pendaftar/{id}/status', [PendaftarController::class, 'updateStatus'])->name('pendaftar.updateStatus');
+
+            Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        });
 });

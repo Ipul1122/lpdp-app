@@ -38,19 +38,35 @@
             <div>Status</div>
         </div>
 
-        <div class="flex-1 flex flex-col">
+       <div class="flex-1 flex flex-col">
             
             @if($riwayatProfil)
                 <div class="grid grid-cols-5 gap-4 p-6 border-b border-slate-50 items-center text-sm text-slate-700 hover:bg-slate-50 transition-colors">
                     <div class="font-bold text-slate-800">
                         REG-{{ str_pad($riwayatProfil->id, 5, '0', STR_PAD_LEFT) }}
                     </div>
-                    <div>Pengisian Profil & CV</div>
+                    
+                    <div class="capitalize">
+                        Beasiswa {{ $riwayatProfil->program_beasiswa ?? 'Belum Memilih' }}
+                    </div>
+                    
                     <div class="text-slate-500">-</div>
+                    
                     <div>{{ $riwayatProfil->created_at->format('d M Y, H:i') }} WIB</div>
+                    
                     <div>
-                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-200">
-                            Disubmit
+                        @php
+                            $statusColor = match($riwayatProfil->status) {
+                                'pending' => 'bg-amber-100 text-amber-700 border-amber-200',
+                                'diproses' => 'bg-blue-100 text-blue-700 border-blue-200',
+                                'diterima' => 'bg-green-100 text-green-700 border-green-200',
+                                'ditolak'  => 'bg-red-100 text-red-700 border-red-200',
+                                default    => 'bg-slate-100 text-slate-700 border-slate-200',
+                            };
+                        @endphp
+
+                        <span class="{{ $statusColor }} px-3 py-1 rounded-full text-xs font-bold border capitalize">
+                            {{ $riwayatProfil->status }}
                         </span>
                     </div>
                 </div>
