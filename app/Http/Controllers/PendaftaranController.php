@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\UserProfile;
+use App\Mail\NotifikasiPendaftaranAdmin;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class PendaftaranController extends Controller
 {
@@ -38,19 +41,13 @@ class PendaftaranController extends Controller
 
     public function store(Request $request)
     {
-
         if (UserProfile::where('user_id', Auth::id())->exists()) {
             return redirect()->route('riwayat.index')->with('error', 'Anda sudah terdaftar. Tidak diizinkan melakukan pendaftaran ganda.');
         }
 
-        // 1. Validasi input dengan pengecekan UNIQUE untuk NIK
         $validated = $request->validate([
             'foto_ktp'          => 'required|image|mimes:jpeg,png,jpg|max:5120',
-            
-            // Tambahkan rule unique ke tabel user_profiles kolom nik
-            // Pengecualian diberikan untuk user_id milik user yang sedang login agar dia bisa mengupdate datanya sendiri
             'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . Auth::id() . ',user_id',
-            
             'nama'              => 'required|string|max:255',
             'no_telp'           => 'required|numeric|digits_between:10,15',
             'tempat_lahir'      => 'required|string|max:100', 
@@ -66,25 +63,28 @@ class PendaftaranController extends Controller
             'kewarganegaraan'   => 'required|string|max:50',
             'program_beasiswa'  => 'required|in:sarjana,magister,dokter', 
         ], [
-            // Pesan Error Kustom jika NIK duplikat
             'nik.unique' => 'NIK sudah digunakan oleh pendaftar lain.',
         ]);
 
-        // ... Sisa kode di bawahnya (menggabungkan tanggal lahir, upload KTP, dll) tetap persis sama seperti sebelumnya ...
         $validated['tempat_tglLahir'] = $validated['tempat_lahir'] . ', ' . $validated['tanggal_lahir'];
         unset($validated['tempat_lahir']);
         unset($validated['tanggal_lahir']);
         $validated['status'] = 'pending';
+        $validated['is_pengajuan_ulang'] = false; // Set sebagai pendaftaran baru
 
         if ($request->hasFile('foto_ktp')) {
             $path = $request->file('foto_ktp')->store('ktp', 'public');
             $validated['foto_ktp'] = $path;
         }
 
-        UserProfile::updateOrCreate(
+        // Simpan data pendaftar
+        $pendaftar = UserProfile::updateOrCreate(
             ['user_id' => Auth::id()],
             $validated
         );
+
+        // --- KIRIM EMAIL KE ADMIN (PENDAFTARAN BARU) ---
+        Mail::to('msyaifulloh2024@gmail.com')->send(new NotifikasiPendaftaranAdmin($pendaftar, 'baru'));
 
         return redirect()->route('riwayat.index')->with('success', 'Pendaftaran program ' . ucfirst($validated['program_beasiswa']) . ' berhasil disubmit!');
     }
@@ -115,9 +115,8 @@ class PendaftaranController extends Controller
             return redirect()->route('riwayat.index')->with('error', 'Akses ditolak.');
         }
 
-        // Validasi input
         $validated = $request->validate([
-            'foto_ktp'          => 'nullable|image|mimes:jpeg,png,jpg|max:5120', // Nullable karena opsional diganti
+            'foto_ktp'          => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . $profil->id,
             'nama'              => 'required|string|max:255',
             'no_telp'           => 'required|numeric|digits_between:10,15',
@@ -137,15 +136,13 @@ class PendaftaranController extends Controller
             'nik.unique' => 'NIK sudah digunakan oleh pendaftar lain.',
         ]);
 
-        // Gabungkan tanggal lahir kembali
         $validated['tempat_tglLahir'] = $validated['tempat_lahir'] . ', ' . $validated['tanggal_lahir'];
         unset($validated['tempat_lahir']);
         unset($validated['tanggal_lahir']);
         
-        // Reset status, bersihkan catatan penolakan, dan beri flag pengajuan ulang
         $validated['status'] = 'pending';
         $validated['catatan'] = null;
-        $validated['is_pengajuan_ulang'] = true;
+        $validated['is_pengajuan_ulang'] = true; // Tandai sebagai pengajuan ulang
 
         if ($request->hasFile('foto_ktp')) {
             $path = $request->file('foto_ktp')->store('ktp', 'public');
@@ -153,6 +150,9 @@ class PendaftaranController extends Controller
         }
 
         $profil->update($validated);
+
+        // --- KIRIM EMAIL KE ADMIN (PENGAJUAN ULANG) ---
+        Mail::to('msyaifulloh2024@gmail.com')->send(new NotifikasiPendaftaranAdmin($profil, 'pengajuan_ulang'));
 
         return redirect()->route('riwayat.index')->with('success', 'Data pendaftaran berhasil diperbarui dan diajukan ulang!');
     }
