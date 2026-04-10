@@ -33,14 +33,44 @@ class RegistrationService
                 'expires_at' => Carbon::now()->addMinutes(10),
             ]);
 
-            // 3. Kirim Email (Untuk tahap development, ini akan masuk ke file log)
-            Mail::to($user->email)->queue(new OtpMail((string) $otp));
+            // 3. Kirim Email langsung ke Gmail
+            Mail::to($user->email)->send(new OtpMail((string) $otp));
 
             return $user;
         } catch (\Exception $e) {
             Log::error('Gagal membuat akun registrasi: ' . $e->getMessage());
             return null;
         }
+    }
+
+    /**
+     * Logika untuk mengirim ulang OTP
+     */
+    public function resendOtp(string $email): array
+    {
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return ['status' => false, 'message' => 'Pengguna tidak ditemukan!'];
+        }
+
+        // Hapus OTP lama jika ada
+        OtpCode::where('email', $email)->delete();
+
+        // 1. Generate OTP Baru
+        $otp = rand(100000, 999999);
+
+        // 2. Simpan OTP baru ke database
+        OtpCode::create([
+            'email'      => $user->email,
+            'otp'        => $otp,
+            'expires_at' => Carbon::now()->addMinutes(10),
+        ]);
+
+        // 3. Kirim Email OTP Baru
+        Mail::to($user->email)->send(new OtpMail((string) $otp));
+
+        return ['status' => true, 'message' => 'Kode OTP baru berhasil dikirim ke email Anda!'];
     }
 
     /**

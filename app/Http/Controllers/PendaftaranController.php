@@ -88,4 +88,72 @@ class PendaftaranController extends Controller
 
         return redirect()->route('riwayat.index')->with('success', 'Pendaftaran program ' . ucfirst($validated['program_beasiswa']) . ' berhasil disubmit!');
     }
+
+    public function edit($id)
+    {
+        // Cari data pendaftaran milik user yang login
+        $profil = UserProfile::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
+        // Keamanan: Hanya bisa diedit jika statusnya 'ditolak'
+        if ($profil->status !== 'ditolak') {
+            return redirect()->route('riwayat.index')->with('error', 'Hanya pendaftaran yang ditolak yang bisa diajukan ulang.');
+        }
+
+        // Pecah tempat_tglLahir menjadi dua variabel untuk mengisi value di form
+        $ttl = explode(', ', $profil->tempat_tglLahir);
+        $tempat_lahir = $ttl[0] ?? '';
+        $tanggal_lahir = $ttl[1] ?? '';
+
+        return view('pendaftaran.edit', compact('profil', 'tempat_lahir', 'tanggal_lahir'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $profil = UserProfile::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
+        if ($profil->status !== 'ditolak') {
+            return redirect()->route('riwayat.index')->with('error', 'Akses ditolak.');
+        }
+
+        // Validasi input
+        $validated = $request->validate([
+            'foto_ktp'          => 'nullable|image|mimes:jpeg,png,jpg|max:5120', // Nullable karena opsional diganti
+            'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . $profil->id,
+            'nama'              => 'required|string|max:255',
+            'no_telp'           => 'required|numeric|digits_between:10,15',
+            'tempat_lahir'      => 'required|string|max:100', 
+            'tanggal_lahir'     => 'required|date',           
+            'alamat'            => 'required|string',
+            'rt'                => 'required|numeric',
+            'rw'                => 'required|numeric',
+            'kelurahan'         => 'required|string|max:100',
+            'kecamatan'         => 'required|string|max:100',
+            'agama'             => 'required|string|max:50',
+            'status_perkawinan' => 'required|string|max:50',
+            'pekerjaan'         => 'required|string|max:100',
+            'kewarganegaraan'   => 'required|string|max:50',
+            'program_beasiswa'  => 'required|in:sarjana,magister,dokter', 
+        ], [
+            'nik.unique' => 'NIK sudah digunakan oleh pendaftar lain.',
+        ]);
+
+        // Gabungkan tanggal lahir kembali
+        $validated['tempat_tglLahir'] = $validated['tempat_lahir'] . ', ' . $validated['tanggal_lahir'];
+        unset($validated['tempat_lahir']);
+        unset($validated['tanggal_lahir']);
+        
+        // Reset status, bersihkan catatan penolakan, dan beri flag pengajuan ulang
+        $validated['status'] = 'pending';
+        $validated['catatan'] = null;
+        $validated['is_pengajuan_ulang'] = true;
+
+        if ($request->hasFile('foto_ktp')) {
+            $path = $request->file('foto_ktp')->store('ktp', 'public');
+            $validated['foto_ktp'] = $path;
+        }
+
+        $profil->update($validated);
+
+        return redirect()->route('riwayat.index')->with('success', 'Data pendaftaran berhasil diperbarui dan diajukan ulang!');
+    }
 }

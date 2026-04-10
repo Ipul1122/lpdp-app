@@ -43,7 +43,10 @@
 
         <div class="mt-8 text-center">
             <p class="text-sm text-slate-500">Tidak menerima kode? 
-                <button class="text-indigo-600 font-bold hover:underline cursor-pointer">Kirim Ulang</button>
+            <form action="{{ route('otp.resend') }}" method="POST">
+                @csrf
+                <button type="submit">Kirim Ulang Kode OTP</button>
+            </form>
             </p>
         </div>
     </div>

@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 
 class PendaftarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pendaftars = UserProfile::with('user')->latest()->get();
+        $query = UserProfile::with('user')->latest();
+
+        // Filter jika admin menekan tab pengajuan ulang
+        if ($request->filter === 'pengajuan_ulang') {
+            $query->where('is_pengajuan_ulang', true);
+        }
+
+        $pendaftars = $query->get();
         return view('admin.pendaftar.index', compact('pendaftars'));
     }
 

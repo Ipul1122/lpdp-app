@@ -54,7 +54,7 @@
                     
                     <div>{{ $riwayatProfil->created_at->format('d M Y, H:i') }} WIB</div>
                     
-                    <div>
+                    <div class="flex flex-col items-start gap-2">
                         @php
                             $statusColor = match($riwayatProfil->status) {
                                 'pending' => 'bg-amber-100 text-amber-700 border-amber-200',
@@ -68,6 +68,19 @@
                         <span class="{{ $statusColor }} px-3 py-1 rounded-full text-xs font-bold border capitalize">
                             {{ $riwayatProfil->status }}
                         </span>
+
+                        {{-- Fitur jika ditolak: Tampilkan alasan dan tombol Ajukan Ulang --}}
+                        @if($riwayatProfil->status === 'ditolak')
+                            <div class="mt-1 text-[11px] text-red-600 bg-red-50 p-2 rounded border border-red-100 w-full max-w-[150px]">
+                                <span class="font-bold block mb-0.5">Alasan Penolakan:</span>
+                                {{ $riwayatProfil->catatan ?? 'Tidak memenuhi syarat' }}
+                            </div>
+                            
+                            <a href="{{ route('pendaftaran.edit', $riwayatProfil->id) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 text-white text-xs font-semibold rounded-lg hover:bg-orange-600 transition shadow-sm mt-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                Ajukan Ulang
+                            </a>
+                        @endif
                     </div>
                 </div>
             @else
