@@ -13,7 +13,7 @@ class UserProfile extends Model
         'user_id', 'foto_ktp', 'nik', 'nama', 'no_telp', 'tempat_tglLahir', 
         'alamat', 'rt', 'rw', 'kelurahan', 'kecamatan', 
         'agama', 'status_perkawinan', 'pekerjaan', 'kewarganegaraan',
-        'program_beasiswa', 'status', 'catatan'
+        'program_beasiswa', 'status', 'catatan', 'is_pengajuan_ulang'
     ];
 
     public function user()
