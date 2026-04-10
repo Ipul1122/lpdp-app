@@ -58,6 +58,11 @@ class PendaftarController extends Controller
             $pendaftar->catatan = null; 
         }
 
+        // Reset is_pengajuan_ulang ke false ketika status berubah (baik diterima atau ditolak)
+        if ($request->status === 'diterima' || $request->status === 'ditolak') {
+            $pendaftar->is_pengajuan_ulang = false;
+        }
+
         $pendaftar->save();
 
         // Tentukan filter redirect berdasarkan status baru

@@ -2,7 +2,7 @@
     <h2 class="font-bold text-slate-700">Administrator Panel</h2>
     
     <div class="flex items-center gap-6">
-        
+{{--         
         <div class="relative">
             <a href="{{ route('admin.notifikasi.index') }}" class="p-2 text-slate-400 hover:text-blue-600 transition block relative" title="Notifikasi">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -13,7 +13,7 @@
                     <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 border-2 border-white"></span>
                 </span>
             </a>
-        </div>
+        </div> --}}
 
         <div class="h-8 w-px bg-slate-200"></div>
 
