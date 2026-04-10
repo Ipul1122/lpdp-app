@@ -5,17 +5,24 @@
 @section('content')
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    @php
+        $sudahDaftar = \App\Models\UserProfile::where('user_id', Auth::id())->exists();
+    @endphp
+
     <div class="max-w-6xl mx-auto space-y-8">
         
+        @if(!$sudahDaftar)
         <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-3xl p-8 md:p-10 text-white shadow-xl flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
             <div class="md:w-3/4 z-10">
                 <h2 class="text-3xl font-bold mb-3">Lengkapi Profil & CV Sebelum Mendaftar</h2>
                 <p class="text-orange-50 mb-8 leading-relaxed text-sm md:text-base pr-4">
-                    Profil dan CV wajib dilengkapi untuk melanjutkan pendaftaran beasiswa. Isi data dirimu agar kami dapat menampilkan syarat dan program yang paling sesuai. Jika data dirimu sudah lengkap, silakan lanjutkan ke tahap pendaftaran.
+                    Profil dan CV wajib dilengkapi untuk melanjutkan pendaftaran beasiswa. Isi data dirimu agar kami dapat menampilkan syarat dan program yang paling sesuai. Jika data dirimu sudah lengkap, silakan lanjutkan ke tahap pendaftaran. Silahkan pilih beasiswa yang kamu ambil.
                 </p>
-                <button class="bg-white text-orange-600 font-bold px-6 py-3 rounded-full hover:bg-orange-50 transition shadow-lg inline-flex items-center text-sm">
-                    Lengkapi Profil Sekarang &rarr;
-                </button>
+                <a href="{{ route('pendaftaran.create') }}">
+                    <button class="bg-white text-orange-600 font-bold px-6 py-3 rounded-full hover:bg-orange-50 transition shadow-lg inline-flex items-center text-sm">
+                        Lengkapi Profil Sekarang &rarr;
+                    </button>
+                </a>
             </div>
             
             <div class="hidden md:flex md:w-1/4 z-10 justify-end">
@@ -24,6 +31,7 @@
 
             <div class="absolute right-0 top-0 w-96 h-96 bg-white opacity-10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
         </div>
+        @endif
 
         <div>
             <div class="flex items-center gap-3 mb-2">
@@ -59,10 +67,6 @@
                             <span><strong>Syarat:</strong> Beasiswa Garuda Sarjana (Umum : IELTS : 6,5 - iBT : 80, PTE: 58, ITP:500) - (Khusus : IQ : 110, SAT : ≥ 1.170)</span>
                         </li>
                     </ul>
-
-                    @php
-                        $sudahDaftar = \App\Models\UserProfile::where('user_id', Auth::id())->exists();
-                    @endphp
 
                     @if($sudahDaftar)
                         <a href="{{ route('riwayat.index') }}" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-600 font-bold py-3.5 rounded-2xl transition flex items-center justify-center gap-2 cursor-pointer">

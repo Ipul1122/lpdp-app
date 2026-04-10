@@ -16,6 +16,10 @@ Route::get('/', function () {
     return view('welcome'); // Ini bawaan Laravel
 });
 
+Route::get('/buku-panduan', function () {
+    return view('panduan.index');
+})->name('panduan');
+
 // --------------------------------------------------------
 // 1. Rute untuk Tamu (Belum Login)
 // --------------------------------------------------------
