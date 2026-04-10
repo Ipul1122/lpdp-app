@@ -26,12 +26,11 @@ return new class extends Migration
             $table->string('pekerjaan')->nullable();
             $table->string('kewarganegaraan')->nullable();
             
-            // --- FIELD BARU DITAMBAHKAN DI SINI ---
-            // Menggunakan enum agar datanya ketat hanya menerima 3 pilihan ini (atau null jika belum milih)
             $table->enum('program_beasiswa', ['sarjana', 'magister', 'dokter'])->nullable();
-            
-            // Menggunakan enum untuk status agar Admin mudah melakukan filter nanti
             $table->enum('status', ['pending', 'diproses', 'diterima', 'ditolak'])->default('pending');
+            
+            // Kolom baru untuk menyimpan alasan penolakan
+            $table->string('catatan', 255)->nullable();
             
             $table->timestamps();
         });

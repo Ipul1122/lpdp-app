@@ -6,7 +6,7 @@
     <title>Admin Login - LPDP</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-slate-900 flex items-center justify-center min-h-screen">
+<body class="bg-slate-50 flex items-center justify-center min-h-screen">
 
     <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border-t-8 border-orange-500">
         <div class="text-center mb-8">
