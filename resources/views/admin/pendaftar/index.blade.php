@@ -6,14 +6,22 @@
 <div class="max-w-full mx-auto">
     <h1 class="text-2xl font-bold text-slate-800 mb-6">Manajemen Data Pendaftar</h1>
 
-    <div class="flex items-center gap-3 mb-6">
-        <a href="{{ route('admin.pendaftar.index') }}" 
-           class="px-4 py-2 text-sm font-semibold rounded-xl transition border {{ !request('filter') ? 'bg-orange-500 text-white border-orange-500 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50' }}">
-            Semua Pendaftar
+    <div class="flex items-center gap-3 mb-6 overflow-x-auto pb-2">
+        <a href="{{ route('admin.pendaftar.index', ['filter' => 'baru']) }}" 
+           class="px-4 py-2 text-sm font-semibold rounded-xl transition border whitespace-nowrap {{ (!request('filter') || request('filter') == 'baru') ? 'bg-orange-500 text-white border-orange-500 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50' }}">
+            Pendaftar Baru
         </a>
         <a href="{{ route('admin.pendaftar.index', ['filter' => 'pengajuan_ulang']) }}" 
-           class="px-4 py-2 text-sm font-semibold rounded-xl transition border {{ request('filter') == 'pengajuan_ulang' ? 'bg-orange-500 text-white border-orange-500 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50' }}">
+           class="px-4 py-2 text-sm font-semibold rounded-xl transition border whitespace-nowrap {{ request('filter') == 'pengajuan_ulang' ? 'bg-orange-500 text-white border-orange-500 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50' }}">
             Pengajuan Ulang
+        </a>
+        <a href="{{ route('admin.pendaftar.index', ['filter' => 'disetujui']) }}" 
+           class="px-4 py-2 text-sm font-semibold rounded-xl transition border whitespace-nowrap {{ request('filter') == 'disetujui' ? 'bg-green-500 text-white border-green-500 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50' }}">
+            Disetujui
+        </a>
+        <a href="{{ route('admin.pendaftar.index', ['filter' => 'ditolak']) }}" 
+           class="px-4 py-2 text-sm font-semibold rounded-xl transition border whitespace-nowrap {{ request('filter') == 'ditolak' ? 'bg-red-500 text-white border-red-500 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50' }}">
+            Ditolak
         </a>
     </div>
 
@@ -119,6 +127,7 @@
 
                             <form id="form-status-{{ $p->id }}" action="{{ route('admin.pendaftar.updateStatus', $p->id) }}" method="POST" class="flex justify-center gap-1.5">
                                 @csrf
+                                <input type="hidden" name="filter" value="{{ request('filter', 'baru') }}">
                                 
                                 <button type="submit" name="status" value="diterima" title="Terima & Kirim WA" 
                                         onclick="window.open('https://wa.me/{{ $phone }}?text={{ urlencode($msgTerima) }}', '_blank');" 
