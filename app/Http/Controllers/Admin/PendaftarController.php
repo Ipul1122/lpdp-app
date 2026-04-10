@@ -13,7 +13,7 @@ class PendaftarController extends Controller
         $query = UserProfile::with('user')->latest();
         $filterActive = $request->filter ?? 'baru';
 
-        // Filter berdasarkan URL parameter
+        // Filter berdasarkan URL parameter dari email (?filter=baru atau ?filter=pengajuan_ulang)
         switch ($filterActive) {
             case 'pengajuan_ulang':
                 $query->where('is_pengajuan_ulang', true);
@@ -26,7 +26,7 @@ class PendaftarController extends Controller
                 break;
             case 'baru':
             default:
-                // Tampilkan pendaftar baru (is_pengajuan_ulang false/null)
+                // Tampilkan pendaftar baru yang belum pernah diajukan ulang
                 $query->where(function($q) {
                     $q->where('is_pengajuan_ulang', false)
                       ->orWhereNull('is_pengajuan_ulang');
