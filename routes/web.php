@@ -76,6 +76,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
             Route::post('/pendaftar/{id}/status', [PendaftarController::class, 'updateStatus'])->name('pendaftar.updateStatus');
 
+            Route::get('/notifikasi', function () {return view('admin.notifikasi.index');
+            })->name('notifikasi.index');
+
             Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
         });
 });

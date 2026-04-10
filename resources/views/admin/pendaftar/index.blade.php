@@ -127,11 +127,29 @@
 
 <script>
     function konfirmasiTolak(pendaftarId, phone, nama, program) {
+        let selectedCatatan = null;
+        
         Swal.fire({
             title: 'Tolak & Beri Catatan',
             html: `
-                <p class="text-sm text-slate-500 mb-3">Tulis alasan penolakan untuk <b>${nama}</b>:</p>
-                <textarea id="catatanTolak" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 outline-none resize-none text-sm" rows="3" placeholder="Contoh: Foto KTP buram, kuota penuh..."></textarea>
+                <p class="text-sm text-slate-700 font-semibold mb-4 text-left">Pilih alasan penolakan untuk <b>${nama}</b>:</p>
+                <div class="space-y-2 text-left">
+                    <label class="flex items-center p-3 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-red-300 hover:bg-red-50 transition" onclick="selectCatatan('KTP buram', event)">
+                        <input type="radio" name="catatanPreset" value="KTP buram" class="w-4 h-4 text-red-600">
+                        <span class="ml-3 text-sm font-medium text-slate-700">KTP buram</span>
+                    </label>
+                    <label class="flex items-center p-3 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-red-300 hover:bg-red-50 transition" onclick="selectCatatan('Data tidak valid', event)">
+                        <input type="radio" name="catatanPreset" value="Data tidak valid" class="w-4 h-4 text-red-600">
+                        <span class="ml-3 text-sm font-medium text-slate-700">Data tidak valid</span>
+                    </label>
+                </div>
+                <div class="mt-4 mb-3 flex items-center gap-2">
+                    <div class="flex-1 h-px bg-slate-300"></div>
+                    <span class="text-xs text-slate-500 font-semibold">ATAU</span>
+                    <div class="flex-1 h-px bg-slate-300"></div>
+                </div>
+                <p class="text-sm text-slate-700 font-semibold mb-2 text-left">Tulis catatan custom:</p>
+                <textarea id="catatanTolak" class="w-full px-4 py-3 border-2 border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 outline-none resize-none text-sm" rows="3" placeholder="Contoh: Transkrip nilai tidak lengkap..."></textarea>
             `,
             showCancelButton: true,
             confirmButtonColor: '#ef4444',
@@ -139,9 +157,18 @@
             confirmButtonText: 'Tolak & Kirim WA',
             cancelButtonText: 'Batal',
             preConfirm: () => {
-                const catatan = document.getElementById('catatanTolak').value;
+                const textarea = document.getElementById('catatanTolak').value;
+                const selectedRadio = document.querySelector('input[name="catatanPreset"]:checked');
+                
+                let catatan = null;
+                if (selectedRadio && selectedRadio.value) {
+                    catatan = selectedRadio.value;
+                } else if (textarea) {
+                    catatan = textarea;
+                }
+                
                 if (!catatan) {
-                    Swal.showValidationMessage('Catatan alasan tidak boleh kosong!');
+                    Swal.showValidationMessage('Pilih salah satu opsi atau tulis catatan custom!');
                 }
                 return catatan;
             }
@@ -173,6 +200,17 @@
                 form.submit();
             }
         });
+    }
+    
+    function selectCatatan(value, event) {
+        // Uncheck semua radio button
+        document.querySelectorAll('input[name="catatanPreset"]').forEach(radio => {
+            radio.checked = false;
+        });
+        // Check radio button yang sesuai
+        event.currentTarget.querySelector('input[name="catatanPreset"]').checked = true;
+        // Clear textarea jika ada opsi preset yang dipilih
+        document.getElementById('catatanTolak').value = '';
     }
 </script>
 @endsection
