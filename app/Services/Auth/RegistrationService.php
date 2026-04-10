@@ -34,7 +34,7 @@ class RegistrationService
             ]);
 
             // 3. Kirim Email (Untuk tahap development, ini akan masuk ke file log)
-            Mail::to($user->email)->send(new OtpMail((string) $otp));
+            Mail::to($user->email)->queue(new OtpMail((string) $otp));
 
             return $user;
         } catch (\Exception $e) {

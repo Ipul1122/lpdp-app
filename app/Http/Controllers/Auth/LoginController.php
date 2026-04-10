@@ -16,20 +16,32 @@ class LoginController extends Controller
     public function processLogin(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+            $user = Auth::user();
 
-            // Arahkan langsung ke dashboard, dan kirim instruksi untuk memunculkan popover
-            return redirect()->intended('dashboard')->with('show_welcome_popover', true);
+            // Cek apakah user belum verifikasi OTP
+            if (is_null($user->email_verified_at)) {
+                // Logout paksa
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                // Kembalikan ke halaman OTP
+                return redirect()->route('otp.verify')
+                    ->with('registered_email', $user->email)
+                    ->with('error', 'Silakan verifikasi OTP terlebih dahulu sebelum login.');
+            }
+            // ----------------------------
+
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'Kredensial yang diberikan tidak cocok dengan data kami.',
-        ])->onlyInput('email');
+        return back()->with('error', 'Email atau password salah.');
     }
 
     public function logout(Request $request)
