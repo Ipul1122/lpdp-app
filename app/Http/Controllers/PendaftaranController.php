@@ -22,13 +22,27 @@ class PendaftaranController extends Controller
         return view('pendaftaran.index');
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        // Cek apakah user sudah mendaftar sebelumnya
+        $profilExist = UserProfile::where('user_id', Auth::id())->first();
+
+        // Jika data profil ditemukan, kunci halaman dan lempar ke riwayat
+        if ($profilExist) {
+            return redirect()->route('riwayat.index')->with('error', 'Akses Ditolak! Anda sudah melakukan pendaftaran untuk Beasiswa ' . ucfirst($profilExist->program_beasiswa) . '.');
+        }
+
+        // Jika belum mendaftar, izinkan masuk ke halaman form
         return view('pendaftaran.create');
     }
 
     public function store(Request $request)
     {
+
+        if (UserProfile::where('user_id', Auth::id())->exists()) {
+            return redirect()->route('riwayat.index')->with('error', 'Anda sudah terdaftar. Tidak diizinkan melakukan pendaftaran ganda.');
+        }
+
         // 1. Validasi input dengan pengecekan UNIQUE untuk NIK
         $validated = $request->validate([
             'foto_ktp'          => 'required|image|mimes:jpeg,png,jpg|max:5120',
