@@ -30,6 +30,8 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegistrationController::class, 'processRegistration'])->name('register.process');
     Route::get('/verify-otp', [OtpVerificationController::class, 'showVerifyForm'])->name('otp.verify');
     Route::post('/verify-otp', [OtpVerificationController::class, 'processVerification'])->name('otp.process');
+    // Tambahkan baris ini di bawahnya:
+    Route::post('/resend-otp', [OtpVerificationController::class, 'resendOtp'])->name('otp.resend');
 
     // Login
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -53,6 +55,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
     Route::get('/pendaftaran/buat', [PendaftaranController::class, 'create'])->name('pendaftaran.create');
     Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
+    Route::get('/pendaftaran/{id}/edit', [App\Http\Controllers\PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
+Route::put('/pendaftaran/{id}', [App\Http\Controllers\PendaftaranController::class, 'update'])->name('pendaftaran.update');
 
     Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
 });

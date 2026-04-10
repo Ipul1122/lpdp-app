@@ -6,6 +6,17 @@
 <div class="max-w-full mx-auto">
     <h1 class="text-2xl font-bold text-slate-800 mb-6">Manajemen Data Pendaftar</h1>
 
+    <div class="flex items-center gap-3 mb-6">
+        <a href="{{ route('admin.pendaftar.index') }}" 
+           class="px-4 py-2 text-sm font-semibold rounded-xl transition border {{ !request('filter') ? 'bg-orange-500 text-white border-orange-500 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50' }}">
+            Semua Pendaftar
+        </a>
+        <a href="{{ route('admin.pendaftar.index', ['filter' => 'pengajuan_ulang']) }}" 
+           class="px-4 py-2 text-sm font-semibold rounded-xl transition border {{ request('filter') == 'pengajuan_ulang' ? 'bg-orange-500 text-white border-orange-500 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50' }}">
+            Pengajuan Ulang
+        </a>
+    </div>
+
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse whitespace-nowrap">
@@ -23,7 +34,16 @@
                     <tr class="hover:bg-slate-50 transition">
                         
                         <td class="py-4 px-6 align-top">
-                            <div class="font-bold text-slate-900 text-base mb-1">{{ $p->nama }}</div>
+                            <div class="font-bold text-slate-900 text-base mb-1">
+                                {{ $p->nama }}
+                                
+                                {{-- Badge Penanda Pengajuan Ulang --}}
+                                @if($p->is_pengajuan_ulang)
+                                    <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-700 border border-purple-200 align-middle">
+                                        Pengajuan Ulang
+                                    </span>
+                                @endif
+                            </div>
                             <div class="flex flex-col gap-0.5 text-xs text-slate-500">
                                 <span><strong class="text-slate-600">ID:</strong> REG-{{ str_pad($p->user_id, 5, '0', STR_PAD_LEFT) }}</span>
                                 <span><strong class="text-slate-600">NIK:</strong> {{ $p->nik }}</span>
@@ -55,7 +75,7 @@
                         <td class="py-4 px-6 align-top">
                             <div class="font-bold text-slate-800 capitalize mb-2">Beasiswa {{ $p->program_beasiswa }}</div>
                             @if($p->foto_ktp)
-                                <a href="{{ asset('storage/' . $p->foto_ktp) }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 px-2.5 py-1.5 rounded-lg transition border border-blue-100">
+                                <a href="{{ asset('storage/' . $p->foto_ktp) }}"  class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 px-2.5 py-1.5 rounded-lg transition border border-blue-100">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                     Cek Foto KTP
                                 </a>

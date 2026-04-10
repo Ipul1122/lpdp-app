@@ -46,4 +46,26 @@ class OtpVerificationController extends Controller
         // Jika berhasil, arahkan ke halaman login atau dashboard
         return redirect()->route('register')->with('success', 'Akun terverifikasi! Silakan login.');
     }
+
+    public function resendOtp(Request $request)
+    {
+        // Ambil email dari session
+        $email = session('registered_email');
+        
+        if (!$email) {
+            return redirect()->route('register')->with('error', 'Sesi telah habis, silakan daftar ulang.');
+        }
+
+        // Pertahankan session email
+        session()->keep(['registered_email']);
+
+        // Panggil service untuk proses resend
+        $result = $this->registrationService->resendOtp($email);
+
+        if (!$result['status']) {
+            return back()->with('error', $result['message']);
+        }
+
+        return back()->with('success', $result['message']);
+    }
 }
