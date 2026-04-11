@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PendaftaranStep2Controller;
 use App\Http\Controllers\PendaftaranStep3Controller;
+use App\Http\Controllers\PendaftaranStep4Controller;
+use App\Http\Controllers\PendaftaranStep5Controller;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\Auth\PasswordResetController;
 
@@ -80,6 +82,13 @@ Route::middleware(['auth'])->group(function () {
     // TAHAP 3 (Universitas)
     Route::get('/pendaftaran/step/3', [PendaftaranStep3Controller::class, 'create'])->name('pendaftaran.step3');
     Route::post('/pendaftaran/step/3', [PendaftaranStep3Controller::class, 'store'])->name('pendaftaran.step3.store');
+
+    // TAHAP 4 (Profil & Biodata)
+    Route::get('/pendaftaran/step/4', [PendaftaranStep4Controller::class, 'create'])->name('pendaftaran.step4');
+    Route::post('/pendaftaran/step/4', [PendaftaranStep4Controller::class, 'store'])->name('pendaftaran.step4.store');
+
+    Route::get('/pendaftaran/step/5', [PendaftaranStep5Controller::class, 'create'])->name('pendaftaran.step5');
+    Route::post('/pendaftaran/step/5', [PendaftaranStep5Controller::class, 'store'])->name('pendaftaran.step5.store');
     
     // Rute Edit & Update (Untuk Revisi Admin) tetap di Controller Utama
     Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
