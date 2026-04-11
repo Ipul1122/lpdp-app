@@ -7,7 +7,7 @@
     @include('pendaftaran.components.stepper', ['step' => 1])
 
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-        <form action="{{ route('pendaftaran.step.store', 1) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('pendaftaran.step1.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

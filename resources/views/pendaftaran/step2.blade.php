@@ -7,7 +7,7 @@
     @include('pendaftaran.components.stepper', ['step' => 2])
 
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-        <form action="{{ route('pendaftaran.step.store', 2) }}" method="POST" enctype="multipart/form-data">
+        <form id="step-form" action="{{ route('pendaftaran.step2.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -106,7 +106,7 @@
             </div>
 
             <div class="flex justify-between mt-8 pt-6 border-t border-slate-100">
-                <a href="{{ route('pendaftaran.step', 1) }}" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 px-6 rounded-xl transition flex items-center gap-2">
+                <a href="{{ route('pendaftaran.step1') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 px-6 rounded-xl transition flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Kembali
                 </a>
                 <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg shadow-orange-200 flex items-center gap-2">
