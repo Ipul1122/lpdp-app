@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Models\IndustriPendukung;
+use App\Models\UniversitasPendaftaran;
 
 class PendaftaranController extends Controller
 {
@@ -41,6 +42,7 @@ class PendaftaranController extends Controller
 
         $userProfile = $profilExist;
         $industri = IndustriPendukung::where('user_id', Auth::id())->first();
+        $universitas = UniversitasPendaftaran::where('user_id', Auth::id())->first(); 
 
         // Siapkan variabel untuk Tempat dan Tanggal Lahir (khusus Step 1)
         $tempat_lahir = '';
@@ -56,7 +58,12 @@ class PendaftaranController extends Controller
         $viewName = 'pendaftaran.step' . $step; 
         
         if (view()->exists($viewName)) {
-            return view($viewName, compact('step', 'userProfile', 'industri', 'tempat_lahir', 'tanggal_lahir'));
+            return view($viewName, compact('step', 
+            'userProfile', 
+            'industri', 
+            'universitas',
+            'tempat_lahir', 
+            'tanggal_lahir'));
         }
 
         // Jika file pendaftaran/step3.blade.php (dan seterusnya) belum dibuat, tampilkan pesan ini
@@ -149,6 +156,45 @@ class PendaftaranController extends Controller
             IndustriPendukung::updateOrCreate(['user_id' => Auth::id()], $validated);
 
             return redirect()->route('pendaftaran.step', 3)->with('success', 'Data Industri tersimpan, lanjut ke Tahap 3.');
+        }
+
+        // ==========================================
+        // PENYIMPANAN TAHAP 3: UNIVERSITAS TUJUAN
+        // ==========================================
+        if ($step === 3) {
+            $validated = $request->validate([
+                'negara_tujuan' => 'nullable|string|max:255',
+                'provinsi' => 'nullable|string|max:255',
+                'kota' => 'nullable|string|max:255',
+                'nama_universitas' => 'nullable|string|max:255',
+                'program_studi' => 'nullable|string|max:255',
+                'tanggal_mulai_studi' => 'nullable|string',
+                'durasi_studi' => 'nullable|integer',
+                'loa' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+                'khs_ipk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            ]);
+
+            $univExist = UniversitasPendaftaran::where('user_id', Auth::id())->first();
+
+            // Cek dan simpan file LoA
+            if ($request->hasFile('loa')) {
+                if ($univExist && $univExist->loa) {
+                    Storage::disk('public')->delete($univExist->loa);
+                }
+                $validated['loa'] = $request->file('loa')->store('dokumen_universitas', 'public');
+            }
+
+            // Cek dan simpan file KHS/IPK
+            if ($request->hasFile('khs_ipk')) {
+                if ($univExist && $univExist->khs_ipk) {
+                    Storage::disk('public')->delete($univExist->khs_ipk);
+                }
+                $validated['khs_ipk'] = $request->file('khs_ipk')->store('dokumen_universitas', 'public');
+            }
+
+            UniversitasPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
+
+            return redirect()->route('pendaftaran.step', 4)->with('success', 'Data Universitas tersimpan, lanjut ke Tahap 4.');
         }
 
         // ==========================================
