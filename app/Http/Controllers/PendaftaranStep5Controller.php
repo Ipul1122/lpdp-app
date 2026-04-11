@@ -45,6 +45,6 @@ class PendaftaranStep5Controller extends Controller
 
         RekomendasiPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
 
-        return redirect()->route('riwayat.index')->with('success', 'Data Rekomendasi tersimpan. Tahap 6 sedang dikembangkan.');
+       return redirect()->route('pendaftaran.step6')->with('success', 'Rekomendasi tersimpan, lanjut ke Essay.');
     }
 }

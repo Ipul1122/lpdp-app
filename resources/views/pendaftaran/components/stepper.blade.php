@@ -4,14 +4,14 @@
     </div>
     <div>
         <h2 class="text-2xl font-bold text-slate-800">Form Pendaftaran Beasiswa</h2>
-        <p class="text-slate-500 text-sm">Lengkapi 9 tahap di bawah ini untuk mengajukan beasiswa.</p>
+        <p class="text-slate-500 text-sm">Lengkapi 7 tahap di bawah ini untuk mengajukan beasiswa.</p>
     </div>
 </div>
 
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6 overflow-x-auto">
     <div class="flex items-center justify-between min-w-[800px]">
-        @for($i = 1; $i <= 9; $i++)
-            <div class="flex items-center {{ $i == 9 ? '' : 'w-full' }}">
+        @for($i = 1; $i <= 7; $i++)
+            <div class="flex items-center {{ $i == 7 ? '' : 'w-full' }}">
                 <div class="w-10 h-10 shrink-0 flex items-center justify-center rounded-full font-bold text-sm transition-all duration-300 
                     {{ $step == $i ? 'bg-orange-500 text-white ring-4 ring-orange-100' : 
                       ($step > $i ? 'bg-green-500 text-white' : 'bg-slate-100 text-slate-400') }}">
@@ -21,7 +21,7 @@
                         {{ $i }}
                     @endif
                 </div>
-                @if($i < 9)
+                @if($i < 7)
                     <div class="w-full h-1 mx-2 rounded {{ $step > $i ? 'bg-green-500' : 'bg-slate-100' }}"></div>
                 @endif
             </div>
@@ -29,9 +29,14 @@
     </div>
     <div class="text-center mt-4">
         <span class="inline-block bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-            @if($step == 1) Tahap 1: Registrasi Data & KTP
-            @elseif($step == 2) Tahap 2: Industri / Pendukung
-            @else Tahap {{ $step }} @endif
+            @if($step == 1) Tahap 1: Registrasi Data
+            @elseif($step == 2) Tahap 2: Industri
+            @elseif($step == 3) Tahap 3: Universitas
+            @elseif($step == 4) Tahap 4: Profil
+            @elseif($step == 5) Tahap 5: Rekomendasi
+            @elseif($step == 6) Tahap 6: Essay
+            @elseif($step == 7) Tahap 7: Ringkasan & Kirim
+            @endif
         </span>
     </div>
 </div>
