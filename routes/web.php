@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\OtpVerificationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\Auth\PasswordResetController;
 
 // ADMIN
 use App\Http\Controllers\Admin\AuthController;
@@ -36,6 +37,13 @@ Route::middleware('guest')->group(function () {
     // Login
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'processLogin'])->name('login.process');
+
+    Route::get('/lupa-password', [PasswordResetController::class, 'showRequestForm'])->name('password.request');
+    Route::post('/lupa-password', [PasswordResetController::class, 'sendResetLink'])->name('password.email');
+    
+    // Rute Buat Password Baru
+    Route::get('/password-baru/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/password-baru', [PasswordResetController::class, 'updatePassword'])->name('password.update');
 });
 
 // --------------------------------------------------------

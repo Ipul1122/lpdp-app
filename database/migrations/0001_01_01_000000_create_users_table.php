@@ -8,6 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // 1. Tabel Utama Users
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name'); 
@@ -17,10 +18,18 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        // 2. Tabel Token Lupa Password (Tabel Baru)
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
     }
 
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
     }
 };
