@@ -58,6 +58,6 @@ class PendaftaranStep3Controller extends Controller
         UniversitasPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
 
         // Nanti diganti ke step4 jika sudah dibuat
-        return redirect()->route('riwayat.index')->with('success', 'Data Universitas tersimpan. Tahap 4 sedang dikembangkan.'); 
+        return redirect()->route('pendaftaran.step4')->with('success', 'Data Universitas tersimpan, lanjut ke Tahap 4.');
     }
 }
