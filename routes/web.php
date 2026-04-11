@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\OtpVerificationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\PendaftaranStep2Controller;
+use App\Http\Controllers\PendaftaranStep3Controller;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\Auth\PasswordResetController;
 
@@ -59,23 +61,29 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard.index'); // Pastikan file resources/views/dashboard/index.blade.php ada
     })->name('dashboard');
 
-    // --- RUTE PENDAFTARAN MULTI-STEP BARU ---
+   // --- RUTE PENDAFTARAN MULTI-STEP ---
     Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
     
     // Redirect rute 'buat' yang lama agar otomatis masuk ke step 1
     Route::get('/pendaftaran/buat', function() {
-        return redirect()->route('pendaftaran.step', 1);
+        return redirect()->route('pendaftaran.step1');
     })->name('pendaftaran.create');
 
-    // Rute dinamis untuk 9 Step
-    Route::get('/pendaftaran/step/{step}', [PendaftaranController::class, 'createStep'])->name('pendaftaran.step');
-    Route::post('/pendaftaran/step/{step}', [PendaftaranController::class, 'storeStep'])->name('pendaftaran.step.store');
-    // ----------------------------------------
+    // TAHAP 1 (Profil & KTP)
+    Route::get('/pendaftaran/step/1', [PendaftaranController::class, 'create'])->name('pendaftaran.step1');
+    Route::post('/pendaftaran/step/1', [PendaftaranController::class, 'store'])->name('pendaftaran.step1.store');
 
-    // Rute Edit & Update (Untuk Revisi/Pengajuan Ulang)
+    // TAHAP 2 (Industri Pendukung)
+    Route::get('/pendaftaran/step/2', [PendaftaranStep2Controller::class, 'create'])->name('pendaftaran.step2');
+    Route::post('/pendaftaran/step/2', [PendaftaranStep2Controller::class, 'store'])->name('pendaftaran.step2.store');
+
+    // TAHAP 3 (Universitas)
+    Route::get('/pendaftaran/step/3', [PendaftaranStep3Controller::class, 'create'])->name('pendaftaran.step3');
+    Route::post('/pendaftaran/step/3', [PendaftaranStep3Controller::class, 'store'])->name('pendaftaran.step3.store');
+    
+    // Rute Edit & Update (Untuk Revisi Admin) tetap di Controller Utama
     Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
     Route::put('/pendaftaran/{id}', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
-
     Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
 });
 
