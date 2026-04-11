@@ -7,15 +7,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800">
+<body class="bg-slate-50 font-sans text-slate-800 overflow-x-hidden" x-data="{ sidebarOpen: false }">
 
     @include('layouts.sidebar')
 
-    @include('layouts.navbar')
+    <div class="transition-all duration-300 ease-in-out md:ml-20"
+         :class="{'ml-0': !sidebarOpen, 'ml-20': sidebarOpen}">
+        
+        @include('layouts.navbar')
 
-    <main class="ml-20 p-8 min-h-[calc(100vh-5rem)]">
-        @yield('content')
-    </main>
+        <main class="p-4 md:p-8 min-h-[calc(100vh-5rem)]">
+            @yield('content')
+        </main>
+        
+    </div>
 
     <a href="{{ route('panduan') }}" 
        class="fixed bottom-6 right-6 md:bottom-8 md:right-8 w-14 h-14 bg-slate-800 text-white rounded-full flex items-center justify-center shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3)] hover:bg-orange-500 hover:scale-110 transition-all duration-300 z-50 group cursor-pointer border-2 border-white/20">
