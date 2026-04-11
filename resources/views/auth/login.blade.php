@@ -36,6 +36,12 @@
             </button>
         </form>
 
+        <div class="mt-4 text-center">
+            <a href="{{ route('password.request') }}" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                Lupa password?
+            </a>
+        </div>
+
         <div class="mt-6 text-center">
             <p class="text-slate-500 text-sm">
                 Belum punya akun? 
