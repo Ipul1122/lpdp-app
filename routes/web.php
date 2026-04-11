@@ -54,15 +54,25 @@ Route::middleware(['auth'])->group(function () {
     // Logout
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     
-
     // Halaman Dashboard Utama
     Route::get('/dashboard', function () {
         return view('dashboard.index'); // Pastikan file resources/views/dashboard/index.blade.php ada
     })->name('dashboard');
 
+    // --- RUTE PENDAFTARAN MULTI-STEP BARU ---
     Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
-    Route::get('/pendaftaran/buat', [PendaftaranController::class, 'create'])->name('pendaftaran.create');
-    Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
+    
+    // Redirect rute 'buat' yang lama agar otomatis masuk ke step 1
+    Route::get('/pendaftaran/buat', function() {
+        return redirect()->route('pendaftaran.step', 1);
+    })->name('pendaftaran.create');
+
+    // Rute dinamis untuk 9 Step
+    Route::get('/pendaftaran/step/{step}', [PendaftaranController::class, 'createStep'])->name('pendaftaran.step');
+    Route::post('/pendaftaran/step/{step}', [PendaftaranController::class, 'storeStep'])->name('pendaftaran.step.store');
+    // ----------------------------------------
+
+    // Rute Edit & Update (Untuk Revisi/Pengajuan Ulang)
     Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
     Route::put('/pendaftaran/{id}', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
 
