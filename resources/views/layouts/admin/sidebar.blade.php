@@ -1,4 +1,13 @@
-<aside class="w-20 bg-slate-900 flex flex-col items-center py-6 shadow-xl z-20 shrink-0">
+<div x-show="sidebarOpen" 
+     @click="sidebarOpen = false"
+     x-transition.opacity
+     style="display: none;"
+     class="md:hidden fixed inset-0 bg-slate-900/50 z-30 backdrop-blur-sm">
+</div>
+
+<aside class="w-20 bg-slate-900 flex flex-col items-center py-6 shadow-xl z-40 shrink-0 absolute inset-y-0 left-0 md:relative h-full transition-transform duration-300 ease-in-out"
+       :class="{'translate-x-0': sidebarOpen, '-translate-x-full md:translate-x-0': !sidebarOpen}">
+    
     <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mb-10 shadow-lg shadow-orange-500/30">
         L
     </div>

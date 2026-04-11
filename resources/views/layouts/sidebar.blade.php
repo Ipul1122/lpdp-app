@@ -1,4 +1,12 @@
-<aside class="w-20 bg-white border-r border-slate-200 h-screen fixed left-0 top-0 flex flex-col items-center py-6 z-40">
+<div x-show="sidebarOpen" 
+     @click="sidebarOpen = false"
+     x-transition.opacity
+     style="display: none;"
+     class="md:hidden fixed inset-0 bg-slate-900/50 z-40 backdrop-blur-sm">
+</div>
+
+<aside class="w-20 bg-white border-r border-slate-200 h-screen fixed left-0 top-0 flex flex-col items-center py-6 z-50 transition-transform duration-300 ease-in-out md:translate-x-0"
+       :class="{'translate-x-0 shadow-2xl': sidebarOpen, '-translate-x-full': !sidebarOpen}">
     
     <a href="{{ route('dashboard') }}" class="mb-10">
         <div class="w-10 h-10 flex items-center justify-center">
@@ -7,6 +15,8 @@
             </svg>
         </div>
     </a>
+    
+    
 
     <nav class="flex flex-col space-y-4 w-full px-3">
         
