@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('kewarganegaraan')->nullable();
             
             $table->enum('program_beasiswa', ['sarjana', 'magister', 'dokter'])->nullable();
-            $table->enum('status', ['pending', 'diproses', 'diterima', 'ditolak'])->default('pending');
+            $table->enum('status', ['pending', 'draft', 'diproses', 'diterima', 'ditolak'])->default('pending');
             
             // Kolom baru untuk menyimpan alasan penolakan
             $table->string('catatan', 255)->nullable();
