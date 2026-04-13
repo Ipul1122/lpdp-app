@@ -3,7 +3,7 @@
 @section('title', 'Riwayat Pendaftaran')
 
 @section('content')
-<div class="max-w-6xl mx-auto">
+<div class="max-w-6xl mx-auto mt-8 px-4 mb-20">
 
     <nav class="flex items-center text-sm font-medium text-slate-500 mb-8">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
@@ -14,7 +14,7 @@
 
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-slate-800 mb-2">Riwayat</h1>
-        <p class="text-slate-500">Riwayat pendaftaran beasiswa Anda</p>
+        <p class="text-slate-500">Pantau status dan riwayat pendaftaran beasiswa Anda di sini.</p>
     </div>
 
     <div class="flex items-center space-x-8 border-b border-slate-200 mb-6">
@@ -22,39 +22,63 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             Riwayat Pendaftaran
         </button>
-        
     </div>
 
     <div class="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden min-h-[400px] flex flex-col">
         
         <div class="grid grid-cols-5 gap-4 p-6 bg-slate-50 border-b border-slate-100 text-sm font-semibold text-slate-600">
             <div>Kode Registrasi</div>
-            <div>Program Beasiswa</div>
-            <div>Waktu direspon</div>
+            <div>Program Pilihan</div>
+            <div>Waktu Direspon</div>
             <div>Waktu Submit</div>
-            <div>Status</div>
+            <div>Status Pendaftaran</div>
         </div>
 
        <div class="flex-1 flex flex-col">
             
             @if($riwayatProfil)
                 <div class="grid grid-cols-5 gap-4 p-6 border-b border-slate-50 items-center text-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                    
                     <div class="font-bold text-slate-800">
                         REG-{{ str_pad($riwayatProfil->id, 5, '0', STR_PAD_LEFT) }}
                     </div>
                     
-                    <div class="capitalize">
+                    <div class="capitalize font-medium">
                         Beasiswa {{ $riwayatProfil->program_beasiswa ?? 'Belum Memilih' }}
                     </div>
                     
-                    <div class="text-slate-500">-</div>
+                    <div>
+                        @if($riwayatProfil->responded_at)
+                            <div class="text-slate-800 font-medium">
+                                {{ $riwayatProfil->responded_at->format('d M Y, H:i') }} WIB
+                            </div>
+                        @else
+                            <div class="text-slate-400 italic text-xs flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Menunggu respon
+                            </div>
+                        @endif
+                    </div>
                     
-                    <div>{{ $riwayatProfil->created_at->format('d M Y, H:i') }} WIB</div>
+                    <div>
+                        @if($riwayatProfil->submitted_at)
+                            <div class="text-slate-800 font-medium">
+                                {{ $riwayatProfil->submitted_at->format('d M Y, H:i') }} WIB
+                            </div>
+                            @if($riwayatProfil->is_pengajuan_ulang)
+                                <span class="block text-[10px] text-orange-500 font-bold mt-0.5">(Revisi / Pengajuan Ulang)</span>
+                            @endif
+                        @else
+                            <div class="text-slate-800 font-medium">
+                                {{ $riwayatProfil->created_at->format('d M Y, H:i') }} WIB
+                            </div>
+                        @endif
+                    </div>
                     
                     <div class="flex flex-col items-start gap-2">
                         @php
                             $statusColor = match($riwayatProfil->status) {
-                                'pending' => 'bg-amber-100 text-amber-700 border-amber-200',
+                                'pending'  => 'bg-amber-100 text-amber-700 border-amber-200',
                                 'diproses' => 'bg-blue-100 text-blue-700 border-blue-200',
                                 'diterima' => 'bg-green-100 text-green-700 border-green-200',
                                 'ditolak'  => 'bg-red-100 text-red-700 border-red-200',
@@ -70,7 +94,7 @@
                         @if($riwayatProfil->status === 'ditolak')
                             <div class="mt-1 text-[11px] text-red-600 bg-red-50 p-2 rounded border border-red-100 w-full max-w-[150px]">
                                 <span class="font-bold block mb-0.5">Alasan Penolakan:</span>
-                                {{ $riwayatProfil->catatan ?? 'Tidak memenuhi syarat' }}
+                                {{ $riwayatProfil->catatan ?? 'Tidak memenuhi kelengkapan berkas.' }}
                             </div>
                             
                             <a href="{{ route('pendaftaran.step1', ['action' => 'revisi']) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 text-white text-xs font-semibold rounded-lg hover:bg-orange-600 transition shadow-sm mt-1">
@@ -86,6 +110,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <p class="text-slate-400 font-medium text-lg">Belum ada riwayat pendaftaran</p>
+                    <a href="{{ route('pendaftaran.index') }}" class="mt-4 px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition">Mulai Pendaftaran</a>
                 </div>
             @endif
 

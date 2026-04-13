@@ -61,7 +61,9 @@ class PendaftaranStep7Controller extends Controller
         $pendaftar->update([
             'status' => 'pending',
             'is_pengajuan_ulang' => $isRevisi ? true : false,
-            'catatan' => null // Hapus catatan karena user sudah merevisi
+            'catatan' => null,
+            'submitted_at' => now(), 
+            'responded_at' => null
         ]);
 
         // Tentukan tipe email notifikasi ke Admin
