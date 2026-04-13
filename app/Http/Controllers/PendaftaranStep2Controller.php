@@ -16,7 +16,7 @@ class PendaftaranStep2Controller extends Controller
         $profilExist = UserProfile::where('user_id', Auth::id())->first();
         
         // Kunci akses jika belum isi Step 1 ATAU sudah Final
-        if (!$profilExist || $profilExist->status !== 'draft') {
+        if (!$profilExist || !in_array($profilExist->status, ['draft', 'ditolak'])) {
             return redirect()->route('pendaftaran.index')->with('error', 'Akses ditolak atau formulir sudah terkunci.');
         }
 

@@ -16,43 +16,39 @@ class PendaftaranController extends Controller
         $profile = UserProfile::where('user_id', Auth::id())->first();
         
         if ($profile) {
-            // Jika data sudah Final (Pending/Diterima/Ditolak)
-            if ($profile->status !== 'draft') {
-                return view('pendaftaran.selesai', ['user' => Auth::user()]);
+            // Izinkan masuk ke form jika statusnya draft ATAU ditolak (untuk revisi)
+            if (in_array($profile->status, ['draft', 'ditolak'])) {
+                return redirect()->route('pendaftaran.step1')->with('info', 'Silakan lanjutkan pengisian atau revisi data Anda.');
             }
             
-            // Jika status masih "draft", arahkan untuk melanjutkan
-            return redirect()->route('pendaftaran.step1')->with('info', 'Anda memiliki draft, silakan lanjutkan pengisian.');
+            // Jika sudah dikirim final (pending/diterima)
+            return view('pendaftaran.selesai', ['user' => Auth::user()]);
         }
 
-        // Jika belum pernah mendaftar sama sekali
         return view('pendaftaran.index');
     }
 
-public function create()
-    {
-        $userProfile = UserProfile::where('user_id', Auth::id())->first();
-        
-        // KUNCI KEAMANAN: Blokir jika sudah dikirim final
-        if ($userProfile && $userProfile->status !== 'draft') {
-            return redirect()->route('pendaftaran.index');
-        }
+    public function create()
+        {
+            $userProfile = UserProfile::where('user_id', Auth::id())->first();
+            
+            // Kunci jika statusnya BUKAN draft dan BUKAN ditolak
+            if ($userProfile && !in_array($userProfile->status, ['draft', 'ditolak'])) {
+                return redirect()->route('pendaftaran.index');
+            }
 
-        $tempat_lahir = '';
-        $tanggal_lahir = '';
-        if ($userProfile && $userProfile->tempat_tglLahir) {
-            $ttl = explode(', ', $userProfile->tempat_tglLahir);
-            $tempat_lahir = $ttl[0] ?? '';
-            $tanggal_lahir = $ttl[1] ?? '';
-        }
+            $tempat_lahir = '';
+            $tanggal_lahir = '';
+            if ($userProfile && $userProfile->tempat_tglLahir) {
+                $ttl = explode(', ', $userProfile->tempat_tglLahir);
+                $tempat_lahir = $ttl[0] ?? '';
+                $tanggal_lahir = $ttl[1] ?? '';
+            }
 
-        return view('pendaftaran.step1', [
-            'step' => 1, 
-            'userProfile' => $userProfile, 
-            'tempat_lahir' => $tempat_lahir, 
-            'tanggal_lahir' => $tanggal_lahir
-        ]);
-    }
+            $step = 1;
+
+            return view('pendaftaran.step1', compact('step', 'userProfile', 'tempat_lahir', 'tanggal_lahir'));
+        }
     public function store(Request $request)
     {
         $profilExist = UserProfile::where('user_id', Auth::id())->first();
@@ -78,16 +74,14 @@ public function create()
             'nik.unique' => 'NIK ini sudah terdaftar di sistem kami.',
         ]);
 
-        // Menggabungkan tempat dan tanggal lahir
         $validated['tempat_tglLahir'] = $validated['tempat_lahir'] . ', ' . $validated['tanggal_lahir'];
         unset($validated['tempat_lahir']);
         unset($validated['tanggal_lahir']);
         
-        // PENTING: Status di set ke 'draft', bukan 'pending'
-        $validated['status'] = 'draft'; 
-        $validated['is_pengajuan_ulang'] = false; 
-
-        // Manajemen file KTP
+        // PENTING: Jika statusnya ditolak, biarkan tetap 'ditolak' sampai Step 7.
+        // Jika data baru, set jadi 'draft'.
+        $validated['status'] = ($profilExist && $profilExist->status === 'ditolak') ? 'ditolak' : 'draft'; 
+        
         if ($request->hasFile('foto_ktp')) {
             if ($profilExist && $profilExist->foto_ktp) {
                 Storage::disk('public')->delete($profilExist->foto_ktp);
@@ -95,13 +89,9 @@ public function create()
             $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'public');
         }
 
-        // Simpan atau perbarui data
-        UserProfile::updateOrCreate(
-            ['user_id' => Auth::id()], 
-            $validated
-        );
+        UserProfile::updateOrCreate(['user_id' => Auth::id()], $validated);
 
-        return redirect()->route('pendaftaran.step2')->with('success', 'Data Profil berhasil disimpan (Draft), silakan lanjut ke Tahap 2.');
+        return redirect()->route('pendaftaran.step2')->with('success', 'Data tersimpan, silakan lanjut ke Tahap 2.');
     }
 
 }

@@ -110,6 +110,11 @@
                     <p class="text-sm font-bold text-slate-800 truncate" title="{{ $name }}">{{ $name }}</p>
                     <p class="text-xs text-orange-500 font-semibold mt-0.5">Pendaftar</p>
                 </div>
+
+                <a href="{{ route('profile.index') }}" class="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-indigo-600 transition bg-slate-50 hover:bg-indigo-50 px-3 py-2 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    Profil Saya
+                </a>
                 
                 <div class="p-2">
                     <form action="{{ route('logout') }}" method="POST">
