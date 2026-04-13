@@ -181,16 +181,54 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('final-form');
         
-        form.addEventListener('submit', function() {
-            // Hapus semua draft LocalStorage milik user agar bersih
-            const userId = '{{ Auth::id() }}';
-            for (let i = 1; i <= 6; i++) {
-                localStorage.removeItem('draft_step_' + i + '_user_' + userId);
-            }
+        form.addEventListener('submit', function(e) {
+            // 1. Hentikan form agar tidak langsung terkirim
+            e.preventDefault(); 
+
+            // 2. Tampilkan Popover Konfirmasi SweetAlert
+            Swal.fire({
+                title: 'Konfirmasi Pengiriman',
+                text: 'Apakah {{ $userProfile?->nama ?? Auth::user()->name }} sudah yakin dengan datanya?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#16a34a', // Warna hijau success
+                cancelButtonColor: '#94a3b8', // Warna abu-abu
+                confirmButtonText: 'Sudah, Kirim Final!',
+                cancelButtonText: 'Belum, Cek Lagi',
+                reverseButtons: true // Memposisikan tombol "Sudah" di sebelah kanan
+            }).then((result) => {
+                
+                // 3. Jika tombol "Sudah" diklik
+                if (result.isConfirmed) {
+                    
+                    // Bersihkan memori draft di LocalStorage
+                    const userId = '{{ Auth::id() }}';
+                    for (let i = 1; i <= 6; i++) {
+                        localStorage.removeItem('draft_step_' + i + '_user_' + userId);
+                    }
+                    
+                    // Munculkan loading agar user tidak menekan berkali-kali
+                    Swal.fire({
+                        title: 'Mengirim Data...',
+                        text: 'Mohon tunggu sebentar.',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // Lanjutkan pengiriman form ke database
+                    form.submit();
+                }
+                // Jika tombol "Belum" diklik, popover akan tertutup secara otomatis
+                // dan tidak melakukan apa-apa (kembali ke halaman form)
+            });
         });
     });
 </script>
