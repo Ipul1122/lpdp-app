@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -20,6 +21,13 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
+        // Cek secara spesifik apakah email terdaftar
+        $userExists = User::where('email', $request->email)->exists();
+        if (!$userExists) {
+            return back()->with('error', 'Email belum terdaftar di sistem kami.');
+        }
+
+        // Cek kecocokan password & login
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
@@ -38,10 +46,13 @@ class LoginController extends Controller
             // ----------------------------
 
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            
+            // Tambahkan pesan sukses di sini untuk ditangkap oleh Dashboard
+            return redirect()->intended('/dashboard')->with('success', 'Telah berhasil login!');
         }
 
-        return back()->with('error', 'Email atau password salah.');
+        // Jika email ada tapi gagal login, berarti password salah
+        return back()->with('error', 'Password yang Anda masukkan salah.');
     }
 
     public function logout(Request $request)
@@ -49,6 +60,8 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        
+        // Tambahkan toast saat berhasil keluar
+        return redirect('/login')->with('success', 'Anda telah berhasil keluar aplikasi.');
     }
 }

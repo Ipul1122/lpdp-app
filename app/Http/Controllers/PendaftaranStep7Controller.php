@@ -21,7 +21,7 @@ class PendaftaranStep7Controller extends Controller
         $profilExist = UserProfile::where('user_id', Auth::id())->first();
         
         // Kunci akses jika belum isi Step 1 ATAU sudah Final
-        if (!$profilExist || $profilExist->status !== 'draft') {
+        if (!$profilExist || !in_array($profilExist->status, ['draft', 'ditolak'])) {
             return redirect()->route('pendaftaran.index')->with('error', 'Akses ditolak atau formulir sudah terkunci.');
         }
 
@@ -50,15 +50,24 @@ class PendaftaranStep7Controller extends Controller
         ]);
     }
 
-    public function store(Request $request)
+   public function store(Request $request)
     {
         $pendaftar = UserProfile::where('user_id', Auth::id())->firstOrFail();
 
-        $pendaftar->update(['status' => 'pending']);
+        // Cek apakah ini pendaftaran baru atau revisi
+        $isRevisi = ($pendaftar->status === 'ditolak');
 
-        // Kirim email notifikasi ke admin
-        Mail::to('msyaifulloh2024@gmail.com')->queue(new NotifikasiPendaftaranAdmin($pendaftar, 'baru'));
+        // Ubah status menjadi pending dan bersihkan catatan penolakan admin
+        $pendaftar->update([
+            'status' => 'pending',
+            'is_pengajuan_ulang' => $isRevisi ? true : false,
+            'catatan' => null // Hapus catatan karena user sudah merevisi
+        ]);
 
-        return redirect()->route('riwayat.index')->with('success', 'Selamat! Seluruh Berkas Pendaftaran Beasiswa Anda Telah Berhasil Dikirim dan Sedang Diproses.');
+        // Tentukan tipe email notifikasi ke Admin
+        $tipe = $isRevisi ? 'pengajuan_ulang' : 'baru';
+        Mail::to('msyaifulloh2024@gmail.com')->queue(new NotifikasiPendaftaranAdmin($pendaftar, $tipe));
+
+        return redirect()->route('riwayat.index')->with('success', 'Selamat! Seluruh Berkas Anda Telah Berhasil Dikirim dan Sedang Diproses.');
     }
 }

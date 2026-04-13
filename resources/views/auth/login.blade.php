@@ -8,10 +8,10 @@
 </head>
 <body class="bg-slate-50 flex items-center justify-center min-h-screen font-sans">
 
-    <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
+    <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md border border-slate-100 relative z-10">
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold text-orange-500">Masuk Akun</h1>
-            <p class="text-slate-500 mt-2 text-sm">Lanjutkan perjalanan Tupel Anda</p>
+            <h1 class="text-3xl font-extrabold text-orange-600">Masuk Akun</h1>
+            <p class="text-slate-500 mt-2 text-sm">Lanjutkan perjalanan TUPEL Anda</p>
         </div>
 
         <form action="{{ route('login.process') }}" method="POST" class="space-y-5">
@@ -31,7 +31,7 @@
                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" required>
             </div>
 
-            <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg shadow-md transition-colors duration-200 mt-4">
+            <button type="submit" class="w-full bg-orange-600 hover:bg-orange-800 text-white font-bold py-3 rounded-lg shadow-md transition-colors duration-200 mt-4">
                 Masuk
             </button>
         </form>
@@ -50,5 +50,35 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+
+            @if(session('success'))
+                Toast.fire({
+                    icon: 'success',
+                    title: "{{ session('success') }}"
+                });
+            @endif
+
+            @if(session('error'))
+                Toast.fire({
+                    icon: 'error',
+                    title: "{{ session('error') }}"
+                });
+            @endif
+        });
+    </script>
 </body>
 </html>

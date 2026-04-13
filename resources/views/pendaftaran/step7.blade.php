@@ -40,7 +40,7 @@
                             @if($userProfile?->foto_ktp) <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span> @else <span class="text-red-500 text-xs">Kosong</span> @endif
                         </div>
                     </div>
-                    <div class="mt-5 text-right"><a href="{{ route('pendaftaran.step1') }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 1</a></div>
+                    <a href="{{ route('pendaftaran.step1', ['edit' => 'step1']) }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 1</a>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
                             @if($industri?->surat_izin) <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span> @else <span class="text-slate-500 text-xs">-</span> @endif
                         </div>
                     </div>
-                    <div class="mt-5 text-right"><a href="{{ route('pendaftaran.step2') }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 2</a></div>
+                    <a href="{{ route('pendaftaran.step2', ['edit' => 'step2']) }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 2</a>
                 </div>
             </div>
 
@@ -95,7 +95,7 @@
                             @if($universitas?->khs_ipk) <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span> @else <span class="text-slate-500 text-xs">-</span> @endif
                         </div>
                     </div>
-                    <div class="mt-5 text-right"><a href="{{ route('pendaftaran.step3') }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 3</a></div>
+                    <a href="{{ route('pendaftaran.step3', ['edit' => 'step3']) }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 3</a>
                 </div>
             </div>
 
@@ -114,7 +114,9 @@
                     <div><span class="block text-slate-400 text-xs mb-1">Prestasi</span><p class="font-medium text-slate-700 text-sm whitespace-pre-wrap">{{ $biodata?->prestasi ?? '-' }}</p></div>
                     <div><span class="block text-slate-400 text-xs mb-1">Keahlian</span><p class="font-medium text-slate-700 text-sm whitespace-pre-wrap">{{ $biodata?->keahlian ?? '-' }}</p></div>
                     <div><span class="block text-slate-400 text-xs mb-1">Bahasa</span><p class="font-medium text-slate-700 text-sm whitespace-pre-wrap">{{ $biodata?->bahasa ?? '-' }}</p></div>
-                    <div class="mt-5 text-right"><a href="{{ route('pendaftaran.step4') }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 4</a></div>
+                    <div class="mt-5 text-right">
+                        <a href="{{ route('pendaftaran.step4', ['edit' => 'step4']) }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 4</a>
+                    </div>
                 </div>
             </div>
 
@@ -135,7 +137,9 @@
                             @if($rekomendasi?->file_rekomendasi) <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span> @else <span class="text-slate-500 text-xs">-</span> @endif
                         </div>
                     </div>
-                    <div class="mt-5 text-right"><a href="{{ route('pendaftaran.step5') }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 5</a></div>
+                        <div class="mt-5 text-right">
+                            <a href="{{ route('pendaftaran.step5', ['edit' => 'step5']) }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 5</a>
+                        </div>
                 </div>
             </div>
 
@@ -150,7 +154,9 @@
                     <div class="bg-slate-50 p-4 rounded-xl text-sm text-slate-700 leading-relaxed whitespace-pre-wrap font-medium">
                         {{ $essay?->essay_kontribusi ?? '- Belum diisi -' }}
                     </div>
-                    <div class="mt-4 text-right"><a href="{{ route('pendaftaran.step6') }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 6</a></div>
+                    <div class="mt-4 text-right">
+                        <a href="{{ route('pendaftaran.step6', ['edit' => 'step6']) }}" class="text-xs font-bold text-blue-600 hover:underline">✏️ Edit Tahap 6</a>
+                    </div>
                 </div>
             </div>
 

@@ -13,6 +13,7 @@ use App\Http\Controllers\PendaftaranStep6Controller;
 use App\Http\Controllers\PendaftaranStep7Controller;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\ProfileController;
 
 // ADMIN
 use App\Http\Controllers\Admin\AuthController;
@@ -67,6 +68,9 @@ Route::middleware(['auth'])->group(function () {
 
    // --- RUTE PENDAFTARAN MULTI-STEP ---
     Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     
     // Redirect rute 'buat' yang lama agar otomatis masuk ke step 1
     Route::get('/pendaftaran/buat', function() {
@@ -99,8 +103,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pendaftaran/step/7', [PendaftaranStep7Controller::class, 'store'])->name('pendaftaran.step7.store');
     
     // Rute Edit & Update (Untuk Revisi Admin) tetap di Controller Utama
-    Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
-    Route::put('/pendaftaran/{id}', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
+    // Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
+    // Route::put('/pendaftaran/{id}', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
     Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
 });
 
