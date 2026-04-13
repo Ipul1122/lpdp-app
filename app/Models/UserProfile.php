@@ -4,6 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\IndustriPendukung;
+use App\Models\UniversitasPendaftaran;
+use App\Models\BiodataPendaftaran;
+use App\Models\RekomendasiPendaftaran;
+use App\Models\EssayPendaftaran;
 
 class UserProfile extends Model
 {
@@ -20,4 +25,11 @@ class UserProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // Relasi untuk menarik data lain berdasarkan user_id yang sama
+    public function industri() { return $this->hasOne(IndustriPendukung::class, 'user_id', 'user_id'); }
+    public function universitas() { return $this->hasOne(UniversitasPendaftaran::class, 'user_id', 'user_id'); }
+    public function biodata() { return $this->hasOne(BiodataPendaftaran::class, 'user_id', 'user_id'); }
+    public function rekomendasi() { return $this->hasOne(RekomendasiPendaftaran::class, 'user_id', 'user_id'); }
+    public function essay() { return $this->hasOne(EssayPendaftaran::class, 'user_id', 'user_id'); }
 }

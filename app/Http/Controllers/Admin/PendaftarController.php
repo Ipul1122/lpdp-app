@@ -10,27 +10,35 @@ class PendaftarController extends Controller
 {
     public function index(Request $request)
     {
-        $query = UserProfile::with('user')->latest();
+        // 1. TAMBAHKAN SEMUA RELASI DI SINI (Eager Loading)
+        $query = UserProfile::with(['user', 'industri', 'universitas', 'biodata', 'rekomendasi', 'essay'])->latest();
+        
         $filterActive = $request->filter ?? 'baru';
 
-        // Filter berdasarkan URL parameter dari email (?filter=baru atau ?filter=pengajuan_ulang)
+        // 2. Filter berdasarkan URL parameter
         switch ($filterActive) {
             case 'pengajuan_ulang':
-                $query->where('is_pengajuan_ulang', true);
+                // Hanya tampilkan yang direvisi DAN statusnya masih pending
+                $query->where('is_pengajuan_ulang', true)
+                      ->where('status', 'pending');
                 break;
+                
             case 'disetujui':
                 $query->where('status', 'diterima');
                 break;
+                
             case 'ditolak':
                 $query->where('status', 'ditolak');
                 break;
+                
             case 'baru':
             default:
-                // Tampilkan pendaftar baru yang belum pernah diajukan ulang
-                $query->where(function($q) {
-                    $q->where('is_pengajuan_ulang', false)
-                      ->orWhereNull('is_pengajuan_ulang');
-                });
+                // Tampilkan pendaftar baru DAN statusnya masih pending
+                $query->where('status', 'pending')
+                      ->where(function($q) {
+                          $q->where('is_pengajuan_ulang', false)
+                            ->orWhereNull('is_pengajuan_ulang');
+                      });
                 break;
         }
 
@@ -38,7 +46,6 @@ class PendaftarController extends Controller
         
         return view('admin.pendaftar.index', compact('pendaftars', 'filterActive'));
     }
-
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
