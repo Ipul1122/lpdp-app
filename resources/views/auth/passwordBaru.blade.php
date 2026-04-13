@@ -11,7 +11,7 @@
 
     <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
         <div class="p-8">
-            <h2 class="text-2xl font-bold text-slate-800 text-center mb-2">Buat Password Baru</h2>
+            <h2 class="text-2xl font-bold text-orange-500 text-center mb-2">Buat Password Baru</h2>
             <p class="text-slate-500 text-sm text-center mb-8">Silakan buat password baru yang kuat untuk akun Anda.</p>
 
             <form action="{{ route('password.update') }}" method="POST">
@@ -20,7 +20,7 @@
                 <input type="hidden" name="email" value="{{ request()->email }}">
 
                 <div class="mb-5">
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Password Baru</label>
+                    <label class="block text-sm font-semibold text-orange-600 mb-2">Password Baru</label>
                     <input type="password" name="password" required
                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition"
                            placeholder="Minimal 8 karakter">
@@ -30,13 +30,13 @@
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Konfirmasi Password Baru</label>
+                    <label class="block text-sm font-semibold text-orange-600 mb-2">Konfirmasi Password Baru</label>
                     <input type="password" name="password_confirmation" required
                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition"
                            placeholder="Ketik ulang password baru">
                 </div>
 
-                <button type="submit" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-xl transition shadow-lg mb-4">
+                <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl transition shadow-lg mb-4">
                     Simpan Password Baru
                 </button>
             </form>

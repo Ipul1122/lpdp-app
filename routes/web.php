@@ -125,7 +125,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
             Route::get('/notifikasi', function () {return view('admin.notifikasi.index');
             })->name('notifikasi.index');
-
-            Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+            
+            // Mengizinkan metode GET dan POST sekaligus
+            Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
         });
 });
