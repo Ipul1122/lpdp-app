@@ -17,6 +17,14 @@ class PendaftaranStep7Controller extends Controller
 {
     public function create()
     {
+
+        $profilExist = UserProfile::where('user_id', Auth::id())->first();
+        
+        // Kunci akses jika belum isi Step 1 ATAU sudah Final
+        if (!$profilExist || $profilExist->status !== 'draft') {
+            return redirect()->route('pendaftaran.index')->with('error', 'Akses ditolak atau formulir sudah terkunci.');
+        }
+
         $userProfile = UserProfile::where('user_id', Auth::id())->first();
         if (!$userProfile) {
             return redirect()->route('pendaftaran.step1')->with('error', 'Selesaikan Tahap 1 terlebih dahulu.');
@@ -28,6 +36,8 @@ class PendaftaranStep7Controller extends Controller
         $biodata = BiodataPendaftaran::where('user_id', Auth::id())->first();
         $rekomendasi = RekomendasiPendaftaran::where('user_id', Auth::id())->first();
         $essay = EssayPendaftaran::where('user_id', Auth::id())->first();
+
+        
 
         return view('pendaftaran.step7', [
             'step' => 7,
@@ -44,8 +54,9 @@ class PendaftaranStep7Controller extends Controller
     {
         $pendaftar = UserProfile::where('user_id', Auth::id())->firstOrFail();
 
-        // Di sini kita akhirnya mengirimkan Notifikasi ke Admin bahwa ada pendaftar baru
-        // (Gunakan queue agar aplikasi tidak lemot saat loading)
+        $pendaftar->update(['status' => 'pending']);
+
+        // Kirim email notifikasi ke admin
         Mail::to('msyaifulloh2024@gmail.com')->queue(new NotifikasiPendaftaranAdmin($pendaftar, 'baru'));
 
         return redirect()->route('riwayat.index')->with('success', 'Selamat! Seluruh Berkas Pendaftaran Beasiswa Anda Telah Berhasil Dikirim dan Sedang Diproses.');
