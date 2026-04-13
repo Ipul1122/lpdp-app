@@ -19,13 +19,17 @@ Route::post('/login', [LoginApiController::class, 'login']);
 // RUTE PRIVAT (Wajib menyertakan Bearer Token)
 // ==========================================
 Route::middleware('auth:sanctum')->group(function () {
-    
-    // Mengecek data user yang sedang login
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/user', function (Request $request) { return $request->user(); });
 
-    // Endpoint untuk Submit/Edit Profil (Tahap 1)
+    // Rute Pendaftaran
     Route::post('/pendaftaran/profil', [PendaftaranApiController::class, 'storeProfil']);
-    
-}); 
+    Route::post('/pendaftaran/industri', [PendaftaranApiController::class, 'storeIndustri']);
+    Route::post('/pendaftaran/universitas', [PendaftaranApiController::class, 'storeUniversitas']);
+    Route::post('/pendaftaran/biodata', [PendaftaranApiController::class, 'storeBiodata']);
+    Route::post('/pendaftaran/rekomendasi', [PendaftaranApiController::class, 'storeRekomendasi']);
+    Route::post('/pendaftaran/essay', [PendaftaranApiController::class, 'storeEssay']);
+    Route::post('/pendaftaran/submit-final', [PendaftaranApiController::class, 'submitFinal']);
+    // Endpoint untuk Mengambil Seluruh Data Pendaftaran (GET)
+    Route::get('/pendaftaran', [PendaftaranApiController::class, 'getPendaftaranData']);
+    Route::get('/pendaftaran/{id}', [PendaftaranApiController::class, 'show']);
+});

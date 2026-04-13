@@ -23,13 +23,21 @@
 
                 <div class="md:col-span-2 mt-4">
                     <label class="block text-sm font-semibold text-slate-700 mb-2">Upload Foto KTP <span class="text-red-500">*</span></label>
-                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative">
-                        <input type="file" name="foto_ktp" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".jpg,.jpeg,.png" {{ $userProfile ? '' : 'required' }}>
-                        <svg class="w-8 h-8 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                        <p class="text-sm text-slate-600 font-medium">Klik untuk mengunggah foto KTP</p>
-                        <p class="text-xs text-slate-400 mt-1">JPG, JPEG, PNG (Maks 5MB)</p>
-                        @if($userProfile && $userProfile->foto_ktp)
-                            <p class="text-xs text-green-600 mt-2 font-semibold">✓ KTP sudah terunggah. (Upload ulang jika ingin mengganti)</p>
+                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative" id="foto-ktp-upload-area">
+                        <input type="file" name="foto_ktp" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".jpg,.jpeg,.png" {{ $userProfile ? '' : 'required' }} id="foto-ktp-input">
+                        @if(!($userProfile && $userProfile->foto_ktp))
+                            <svg class="w-8 h-8 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                            <p class="text-sm text-slate-600 font-medium">Klik untuk mengunggah foto KTP</p>
+                            <p class="text-xs text-slate-400 mt-1">JPG, JPEG, PNG (Maks 5MB)</p>
+                        @else
+                            @php
+                                $fotoPath = $userProfile->foto_ktp;
+                                $fotoNameStart = strrpos($fotoPath, '/') + 1;
+                                $fotoName = substr($fotoPath, $fotoNameStart);
+                            @endphp
+                            <img src="{{ Storage::url($fotoPath) }}" alt="Foto KTP Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200">
+                            <p class="text-sm text-green-600 font-semibold">✓ {{ $fotoName }}</p>
+                            <p class="text-xs text-slate-500 mt-1">Klik untuk mengganti file</p>
                         @endif
                     </div>
                 </div>
@@ -124,4 +132,59 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle file preview untuk Foto KTP
+        const fotoKtpInput = document.getElementById('foto-ktp-input');
+        const uploadArea = document.getElementById('foto-ktp-upload-area');
+        
+        if (fotoKtpInput) {
+            fotoKtpInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    showFilePreview(this.files[0], uploadArea);
+                }
+            });
+
+            // Drag and drop
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('bg-slate-100');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('bg-slate-100');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('bg-slate-100');
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    fotoKtpInput.files = e.dataTransfer.files;
+                    showFilePreview(e.dataTransfer.files[0], uploadArea);
+                }
+            });
+        }
+
+        // Fungsi untuk menampilkan preview file
+        function showFilePreview(file, uploadArea) {
+            const fileName = file.name;
+            const fileExt = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+            const isImage = ['.jpg', '.jpeg', '.png'].includes(fileExt);
+
+            if (isImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewHTML = `
+                        <img src="${e.target.result}" alt="Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200">
+                        <p class="text-sm text-green-600 font-semibold">✓ ${fileName}</p>
+                        <p class="text-xs text-slate-500 mt-1">File siap di-upload</p>
+                    `;
+                    uploadArea.innerHTML = previewHTML;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+</script>
 @endsection
