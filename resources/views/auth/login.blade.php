@@ -10,8 +10,8 @@
 
     <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold text-indigo-900">Masuk Akun</h1>
-            <p class="text-slate-500 mt-2 text-sm">Lanjutkan perjalanan beasiswa Anda</p>
+            <h1 class="text-3xl font-extrabold text-orange-500">Masuk Akun</h1>
+            <p class="text-slate-500 mt-2 text-sm">Lanjutkan perjalanan Tupel Anda</p>
         </div>
 
         <form action="{{ route('login.process') }}" method="POST" class="space-y-5">
@@ -19,7 +19,7 @@
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1">Email</label>
                 <input type="email" name="email" value="{{ old('email') }}" 
-                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" required>
+                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" required>
                 @error('email')
                     <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
                 @enderror
@@ -28,16 +28,16 @@
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1">Password</label>
                 <input type="password" name="password" 
-                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" required>
+                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" required>
             </div>
 
-            <button type="submit" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-lg shadow-md transition-colors duration-200 mt-4">
+            <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg shadow-md transition-colors duration-200 mt-4">
                 Masuk
             </button>
         </form>
 
         <div class="mt-4 text-center">
-            <a href="{{ route('password.request') }}" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+            <a href="{{ route('password.request') }}" class="text-sm text-orange-600 hover:text-orange-800 font-medium">
                 Lupa password?
             </a>
         </div>
@@ -45,7 +45,7 @@
         <div class="mt-6 text-center">
             <p class="text-slate-500 text-sm">
                 Belum punya akun? 
-                <a href="{{ route('register') }}" class="text-indigo-600 hover:text-indigo-800 font-medium">Daftar di sini</a>
+                <a href="{{ route('register') }}" class="text-orange-600 hover:text-orange-800 font-medium">Daftar di sini</a>
             </p>
         </div>
     </div>
