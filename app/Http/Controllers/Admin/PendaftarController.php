@@ -46,40 +46,47 @@ class PendaftarController extends Controller
         
         return view('admin.pendaftar.index', compact('pendaftars', 'filterActive'));
     }
-    public function updateStatus(Request $request, $id)
+   public function updateStatus(Request $request, $id)
     {
+        // 1. Lakukan validasi request terlebih dahulu
         $request->validate([
-            'status' => 'required|in:pending,diproses,diterima,ditolak',
+            'status'  => 'required|in:pending,diproses,diterima,ditolak',
             'catatan' => 'nullable|string|max:255',
-            'filter' => 'nullable|string|in:baru,pengajuan_ulang,disetujui,ditolak'
+            'filter'  => 'nullable|string|in:baru,pengajuan_ulang,disetujui,ditolak',
         ]);
 
+        // 2. Cari pendaftar berdasarkan ID
         $pendaftar = UserProfile::findOrFail($id);
-        $pendaftar->status = $request->status;
 
-        // Jika ditolak, simpan catatan dari admin
+        // 3. Masukkan data status dan rekam waktu respon Admin
+        $pendaftar->status = $request->status;
+        $pendaftar->responded_at = now(); // Taruh di sini, bukan di dalam array validate
+
+        // 4. Kelola Catatan Penolakan
         if ($request->status === 'ditolak') {
+            // Jika ditolak, simpan catatan dari admin
             $pendaftar->catatan = $request->catatan;
         } else {
             // Bersihkan catatan jika diubah menjadi diterima/diproses
             $pendaftar->catatan = null; 
         }
 
-        // Reset is_pengajuan_ulang ke false ketika status berubah (baik diterima atau ditolak)
+        // 5. Reset is_pengajuan_ulang ketika sudah ada keputusan
         if ($request->status === 'diterima' || $request->status === 'ditolak') {
             $pendaftar->is_pengajuan_ulang = false;
         }
 
+        // 6. Simpan perubahan ke database
         $pendaftar->save();
 
-        // Tentukan filter redirect berdasarkan status baru
+        // 7. Tentukan filter redirect berdasarkan status baru
         $filterRedirect = match($request->status) {
             'diterima' => 'disetujui',
-            'ditolak' => 'ditolak',
-            default => 'baru',
+            'ditolak'  => 'ditolak',
+            default    => 'baru',
         };
 
         return redirect()->route('admin.pendaftar.index', ['filter' => $filterRedirect])
-                        ->with('success', 'Status pendaftar ' . $pendaftar->nama . ' berhasil diubah menjadi ' . ucfirst($request->status));
+                         ->with('success', 'Status pendaftar ' . $pendaftar->nama . ' berhasil diubah menjadi ' . ucfirst($request->status));
     }
 }

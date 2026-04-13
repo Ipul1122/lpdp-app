@@ -7,7 +7,7 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
             <h1 class="text-2xl font-bold text-slate-800">Manajemen Data Pendaftar</h1>
-            <p class="text-slate-500 text-sm mt-1">Review berkas dan tentukan status kelulusan pendaftar beasiswa.</p>
+            <p class="text-slate-500 text-sm mt-1">Review berkas dan tentukan status kelulusan pendaftar TUPEL.</p>
         </div>
         
         <div class="flex bg-slate-200 p-1 rounded-xl">
