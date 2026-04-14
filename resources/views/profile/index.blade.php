@@ -8,32 +8,32 @@
         <h2 class="text-xl font-extrabold text-slate-800 mb-6 px-2">Pengaturan</h2>
         
         <nav class="flex flex-col gap-1">
-            <button @click="activeTab = 'profil'" :class="activeTab === 'profil' ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
+            <button @click="activeTab = 'profil'" :class="activeTab === 'profil' ? 'bg-orange-50 text-orange-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg> 
                 Profil Pribadi
             </button>
 
-            <button @click="activeTab = 'industri'" :class="activeTab === 'industri' ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
+            <button @click="activeTab = 'industri'" :class="activeTab === 'industri' ? 'bg-orange-50 text-orange-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> 
                 Industri / Pendukung
             </button>
 
-            <button @click="activeTab = 'universitas'" :class="activeTab === 'universitas' ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
+            <button @click="activeTab = 'universitas'" :class="activeTab === 'universitas' ? 'bg-orange-50 text-orange-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"></path><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path></svg> 
                 Universitas Tujuan
             </button>
 
-            <button @click="activeTab = 'biodata'" :class="activeTab === 'biodata' ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
+            <button @click="activeTab = 'biodata'" :class="activeTab === 'biodata' ? 'bg-orange-50 text-orange-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg> 
                 Biodata & Riwayat
             </button>
 
-            <button @click="activeTab = 'rekomendasi'" :class="activeTab === 'rekomendasi' ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
+            <button @click="activeTab = 'rekomendasi'" :class="activeTab === 'rekomendasi' ? 'bg-orange-50 text-orange-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> 
                 Surat Rekomendasi
             </button>
 
-            <button @click="activeTab = 'essay'" :class="activeTab === 'essay' ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
+            <button @click="activeTab = 'essay'" :class="activeTab === 'essay' ? 'bg-orange-50 text-orange-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> 
                 Essay Kontribusi
             </button>
@@ -65,32 +65,32 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Program Beasiswa yang Diinginkan</label>
-                            <select name="program_beasiswa" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+                            <select name="program_beasiswa" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm">
                                 <option value="">-- Pilih Program --</option>
                                 <option value="sarjana" {{ old('program_beasiswa', $userProfile?->program_beasiswa) == 'sarjana' ? 'selected' : '' }}>Beasiswa Sarjana (S1)</option>
                                 <option value="magister" {{ old('program_beasiswa', $userProfile?->program_beasiswa) == 'magister' ? 'selected' : '' }}>Beasiswa Magister (S2)</option>
                                 <option value="dokter" {{ old('program_beasiswa', $userProfile?->program_beasiswa) == 'dokter' ? 'selected' : '' }}>Beasiswa Dokter Spesialis</option>
                             </select>
                         </div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">NIK</label><input type="text" name="nik" value="{{ $userProfile?->nik }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label><input type="text" name="nama" value="{{ $userProfile?->nama }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Tempat Lahir</label><input type="text" name="tempat_lahir" value="{{ $tempat_lahir }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Lahir</label><input type="date" name="tanggal_lahir" value="{{ $tanggal_lahir }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-semibold text-slate-700 mb-2">No WhatsApp</label><input type="text" name="no_telp" value="{{ $userProfile?->no_telp }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-semibold text-slate-700 mb-2">Alamat Jalan</label><textarea name="alamat" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm">{{ $userProfile?->alamat }}</textarea></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">RT / RW</label><div class="flex gap-2"><input type="text" name="rt" value="{{ $userProfile?->rt }}" placeholder="RT" required class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"><input type="text" name="rw" value="{{ $userProfile?->rw }}" placeholder="RW" required class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></div></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Kelurahan / Kecamatan</label><div class="flex gap-2"><input type="text" name="kelurahan" value="{{ $userProfile?->kelurahan }}" placeholder="Kelurahan" required class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"><input type="text" name="kecamatan" value="{{ $userProfile?->kecamatan }}" placeholder="Kecamatan" required class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></div></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Agama</label><select name="agama" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"><option value="Islam" {{ $userProfile?->agama == 'Islam' ? 'selected' : '' }}>Islam</option><option value="Kristen" {{ $userProfile?->agama == 'Kristen' ? 'selected' : '' }}>Kristen</option><option value="Katolik" {{ $userProfile?->agama == 'Katolik' ? 'selected' : '' }}>Katolik</option><option value="Hindu" {{ $userProfile?->agama == 'Hindu' ? 'selected' : '' }}>Hindu</option><option value="Buddha" {{ $userProfile?->agama == 'Buddha' ? 'selected' : '' }}>Buddha</option><option value="Konghucu" {{ $userProfile?->agama == 'Konghucu' ? 'selected' : '' }}>Konghucu</option></select></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Status Kawin</label><select name="status_perkawinan" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"><option value="Belum Kawin" {{ $userProfile?->status_perkawinan == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option><option value="Kawin" {{ $userProfile?->status_perkawinan == 'Kawin' ? 'selected' : '' }}>Kawin</option></select></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Pekerjaan</label><input type="text" name="pekerjaan" value="{{ $userProfile?->pekerjaan }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Kewarganegaraan</label><input type="text" name="kewarganegaraan" value="{{ $userProfile?->kewarganegaraan ?? 'WNI' }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">NIK</label><input type="text" name="nik" value="{{ $userProfile?->nik }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label><input type="text" name="nama" value="{{ $userProfile?->nama }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Tempat Lahir</label><input type="text" name="tempat_lahir" value="{{ $tempat_lahir }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Lahir</label><input type="date" name="tanggal_lahir" value="{{ $tanggal_lahir }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div>
+                        <div class="md:col-span-2"><label class="block text-sm font-semibold text-slate-700 mb-2">No WhatsApp</label><input type="text" name="no_telp" value="{{ $userProfile?->no_telp }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div>
+                        <div class="md:col-span-2"><label class="block text-sm font-semibold text-slate-700 mb-2">Alamat Jalan</label><textarea name="alamat" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm">{{ $userProfile?->alamat }}</textarea></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">RT / RW</label><div class="flex gap-2"><input type="text" name="rt" value="{{ $userProfile?->rt }}" placeholder="RT" required class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"><input type="text" name="rw" value="{{ $userProfile?->rw }}" placeholder="RW" required class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Kelurahan / Kecamatan</label><div class="flex gap-2"><input type="text" name="kelurahan" value="{{ $userProfile?->kelurahan }}" placeholder="Kelurahan" required class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"><input type="text" name="kecamatan" value="{{ $userProfile?->kecamatan }}" placeholder="Kecamatan" required class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Agama</label><select name="agama" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"><option value="Islam" {{ $userProfile?->agama == 'Islam' ? 'selected' : '' }}>Islam</option><option value="Kristen" {{ $userProfile?->agama == 'Kristen' ? 'selected' : '' }}>Kristen</option><option value="Katolik" {{ $userProfile?->agama == 'Katolik' ? 'selected' : '' }}>Katolik</option><option value="Hindu" {{ $userProfile?->agama == 'Hindu' ? 'selected' : '' }}>Hindu</option><option value="Buddha" {{ $userProfile?->agama == 'Buddha' ? 'selected' : '' }}>Buddha</option><option value="Konghucu" {{ $userProfile?->agama == 'Konghucu' ? 'selected' : '' }}>Konghucu</option></select></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Status Kawin</label><select name="status_perkawinan" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"><option value="Belum Kawin" {{ $userProfile?->status_perkawinan == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option><option value="Kawin" {{ $userProfile?->status_perkawinan == 'Kawin' ? 'selected' : '' }}>Kawin</option></select></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Pekerjaan</label><input type="text" name="pekerjaan" value="{{ $userProfile?->pekerjaan }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Kewarganegaraan</label><input type="text" name="kewarganegaraan" value="{{ $userProfile?->kewarganegaraan ?? 'WNI' }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div>
                         <div class="md:col-span-2 mt-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Foto KTP</label>
                             @if($userProfile?->foto_ktp) <p class="mb-2"><a href="{{ asset('storage/' . $userProfile->foto_ktp) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat KTP Saat Ini</a></p> @endif
                             @if(!$isLocked) <input type="file" name="foto_ktp" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                     </div>
-                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Profil</button></div> @endif
+                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Profil</button></div> @endif
                 </form>
             </div>
 
@@ -110,7 +110,7 @@
                             @if(!$isLocked) <input type="file" name="surat_izin" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                     </div>
-                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Industri</button></div> @endif
+                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Industri</button></div> @endif
                 </form>
             </div>
 
@@ -135,7 +135,7 @@
                             @if(!$isLocked) <input type="file" name="khs_ipk" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                     </div>
-                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Universitas</button></div> @endif
+                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Universitas</button></div> @endif
                 </form>
             </div>
 
@@ -149,7 +149,7 @@
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Pengalaman Organisasi</label><textarea name="pengalaman_organisasi" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm">{{ $biodata?->pengalaman_organisasi }}</textarea></div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Prestasi</label><textarea name="prestasi" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm">{{ $biodata?->prestasi }}</textarea></div>
                     </div>
-                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Biodata</button></div> @endif
+                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Biodata</button></div> @endif
                 </form>
             </div>
 
@@ -166,7 +166,7 @@
                             @if(!$isLocked) <input type="file" name="file_rekomendasi" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                     </div>
-                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Rekomendasi</button></div> @endif
+                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Rekomendasi</button></div> @endif
                 </form>
             </div>
 
@@ -176,9 +176,9 @@
                     @csrf <input type="hidden" name="section" value="essay">
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-2">Rencana Kontribusi untuk Indonesia (1500 - 2000 Kata)</label>
-                        <textarea name="essay_kontribusi" rows="15" required class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm leading-relaxed">{{ $essay?->essay_kontribusi }}</textarea>
+                        <textarea name="essay_kontribusi" rows="15" required class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm leading-relaxed">{{ $essay?->essay_kontribusi }}</textarea>
                     </div>
-                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Essay</button></div> @endif
+                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Essay</button></div> @endif
                 </form>
             </div>
 
