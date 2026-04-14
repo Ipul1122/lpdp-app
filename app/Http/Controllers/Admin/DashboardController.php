@@ -13,7 +13,10 @@ class DashboardController extends Controller
         $totalPendaftar = UserProfile::count();
         $totalPending = UserProfile::where('status', 'pending')->count();
         $totalDiterima = UserProfile::where('status', 'diterima')->count();
+        $totalRevisi = UserProfile::where('status', 'revisi')->count(); 
+        $totalDitolak = UserProfile::where('status', 'ditolak')->count();
 
-        return view('admin.dashboard', compact('totalPendaftar', 'totalPending', 'totalDiterima'));
+
+        return view('admin.dashboard', compact('totalPendaftar', 'totalPending', 'totalDiterima', 'totalRevisi', 'totalDitolak'));
     }
 }

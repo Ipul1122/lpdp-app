@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserProfile;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PendaftarController extends Controller
@@ -43,8 +44,24 @@ class PendaftarController extends Controller
         }
 
         $pendaftars = $query->get();
+
+        $statusMap = [
+            'baru'            => 'pending', 
+            'pengajuan_ulang' => 'revisi', 
+            'disetujui'       => 'diterima',
+            'ditolak'         => 'ditolak',
+        ];
+
+        $dbStatus = $statusMap[$filterActive] ?? 'pending';
+
+        // 3. AMBIL DATA (Ubah ->get() menjadi ->paginate(10))
+        $pendaftars = UserProfile::with(['industri', 'universitas', 'biodata', 'rekomendasi', 'essay']) // Sesuaikan jika memanggil relasi
+                        ->where('status', $dbStatus)
+                        ->latest()
+                        ->paginate(10); 
         
-        return view('admin.pendaftar.index', compact('pendaftars', 'filterActive'));
+        return view('admin.pendaftar.index', compact(
+            'pendaftars', 'filterActive'));
     }
    public function updateStatus(Request $request, $id)
     {
@@ -88,5 +105,43 @@ class PendaftarController extends Controller
 
         return redirect()->route('admin.pendaftar.index', ['filter' => $filterRedirect])
                          ->with('success', 'Status pendaftar ' . $pendaftar->nama . ' berhasil diubah menjadi ' . ucfirst($request->status));
+    }
+
+    public function infoPendaftar(Request $request)
+    {
+        $search = $request->query('search');
+        $filter = $request->query('filter');
+
+        $query = User::leftJoin('user_profiles', 'users.id', '=', 'user_profiles.user_id')
+                    ->select(
+                        'users.id as reg_id', 
+                        'users.email', 
+                        'users.password', 
+                        'users.created_at',
+                        'user_profiles.nama', 
+                        'user_profiles.no_telp'
+                    );
+
+        // Logika FITUR SEARCH (Jika admin mengetik sesuatu)
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('user_profiles.nama', 'like', "%{$search}%")
+                  ->orWhere('users.email', 'like', "%{$search}%")
+                  ->orWhere('user_profiles.no_telp', 'like', "%{$search}%");
+            });
+        }
+
+        // Logika FITUR DROPDOWN FILTER
+        if ($filter === 'lengkap') {
+            $query->whereNotNull('user_profiles.nama');
+        } elseif ($filter === 'belum_lengkap') {
+            $query->whereNull('user_profiles.nama'); // Hanya yang baru daftar Gmail saja
+        }
+
+        // Eksekusi Query dengan Pagination
+        $users = $query->orderBy('users.created_at', 'desc')->paginate(15);
+
+        // Kirim data dan status pencarian ke tampilan
+        return view('admin.pendaftar.infoPendaftar', compact('users', 'search', 'filter'));
     }
 }
