@@ -22,8 +22,8 @@ class NotifikasiPendaftaranAdmin extends Mailable
     public function build()
     {
         $subject = $this->tipe === 'baru' 
-            ? '🔴 Pendaftaran Beasiswa Baru Masuk!' 
-            : '🟡 Pengajuan Ulang Berkas Beasiswa';
+            ? '🔴 Pendaftaran Tupel Baru Masuk!' 
+            : '🟡 Pengajuan Ulang Berkas Tupel';
 
         return $this->view('admin.emails.notifikasi_admin')
                     ->subject($subject);
