@@ -34,19 +34,20 @@ class PendaftaranStep4Controller extends Controller
 
     public function store(Request $request)
     {
+        // Ubah nullable menjadi required untuk semua isian teks
         $validated = $request->validate([
-            'deskripsi_diri' => 'nullable|string',
-            'riwayat_pendidikan' => 'nullable|string',
-            'pengalaman_kerja' => 'nullable|string',
-            'pengalaman_organisasi' => 'nullable|string',
-            'prestasi' => 'nullable|string',
-            'keahlian' => 'nullable|string',
-            'bahasa' => 'nullable|string',
+            'deskripsi_diri' => 'required|string',
+            'riwayat_pendidikan' => 'required|string',
+            'pengalaman_kerja' => 'required|string',
+            'pengalaman_organisasi' => 'required|string',
+            'prestasi' => 'required|string',
+            'keahlian' => 'required|string',
+            'bahasa' => 'required|string',
         ]);
 
         BiodataPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
 
-        // Arahkan ke Riwayat (karena Step 5 belum ada)
+        // Arahkan ke Tahap 5
         return redirect()->route('pendaftaran.step5')->with('success', 'Data Profil & Biodata tersimpan, lanjut ke Tahap 5.');
     }
 }

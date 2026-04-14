@@ -12,7 +12,6 @@ class PendaftaranStep3Controller extends Controller
 {
     public function create()
     {
-
         $profilExist = UserProfile::where('user_id', Auth::id())->first();
         
         // Kunci akses jika belum isi Step 1 ATAU sudah Final
@@ -35,14 +34,15 @@ class PendaftaranStep3Controller extends Controller
 
     public function store(Request $request)
     {
+        // Ubah nullable menjadi required untuk keamanan backend
         $validated = $request->validate([
-            'negara_tujuan' => 'nullable|string|max:255',
-            'provinsi' => 'nullable|string|max:255',
-            'kota' => 'nullable|string|max:255',
-            'nama_universitas' => 'nullable|string|max:255',
-            'program_studi' => 'nullable|string|max:255',
-            'tanggal_mulai_studi' => 'nullable|string',
-            'durasi_studi' => 'nullable|integer',
+            'negara_tujuan' => 'required|string|max:255',
+            'provinsi' => 'required|string|max:255',
+            'kota' => 'required|string|max:255',
+            'nama_universitas' => 'required|string|max:255',
+            'program_studi' => 'required|string|max:255',
+            'tanggal_mulai_studi' => 'required|string',
+            'durasi_studi' => 'required|integer',
             'loa' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'khs_ipk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
@@ -65,7 +65,6 @@ class PendaftaranStep3Controller extends Controller
 
         UniversitasPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
 
-        // Nanti diganti ke step4 jika sudah dibuat
         return redirect()->route('pendaftaran.step4')->with('success', 'Data Universitas tersimpan, lanjut ke Tahap 4.');
     }
 }

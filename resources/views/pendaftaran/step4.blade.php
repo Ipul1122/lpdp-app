@@ -13,38 +13,38 @@
             <div class="flex flex-col gap-6">
                 
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Deskripsi Diri</label>
-                    <textarea name="deskripsi_diri" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan deskripsi diri anda secara singkat dan padat...">{{ old('deskripsi_diri', $biodata?->deskripsi_diri) }}</textarea>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Deskripsi Diri <span class="text-red-500">*</span></label>
+                    <textarea name="deskripsi_diri" rows="4" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan deskripsi diri anda secara singkat dan padat...">{{ old('deskripsi_diri', $biodata?->deskripsi_diri) }}</textarea>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Riwayat Pendidikan</label>
-                    <textarea name="riwayat_pendidikan" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan riwayat pendidikan anda mulai dari S1, nama kampus, jurusan, dan tahun lulus...">{{ old('riwayat_pendidikan', $biodata?->riwayat_pendidikan) }}</textarea>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Riwayat Pendidikan <span class="text-red-500">*</span></label>
+                    <textarea name="riwayat_pendidikan" rows="4" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan riwayat pendidikan anda mulai dari S1, nama kampus, jurusan, dan tahun lulus...">{{ old('riwayat_pendidikan', $biodata?->riwayat_pendidikan) }}</textarea>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Pengalaman Kerja</label>
-                    <textarea name="pengalaman_kerja" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan pengalaman kerja anda (Posisi, Perusahaan, Tahun, Tanggung Jawab)...">{{ old('pengalaman_kerja', $biodata?->pengalaman_kerja) }}</textarea>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Pengalaman Kerja <span class="text-red-500">*</span></label>
+                    <textarea name="pengalaman_kerja" rows="4" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan pengalaman kerja anda (Posisi, Perusahaan, Tahun, Tanggung Jawab)...">{{ old('pengalaman_kerja', $biodata?->pengalaman_kerja) }}</textarea>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Pengalaman Organisasi</label>
-                    <textarea name="pengalaman_organisasi" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan pengalaman organisasi anda (Nama Organisasi, Jabatan, Tahun)...">{{ old('pengalaman_organisasi', $biodata?->pengalaman_organisasi) }}</textarea>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Pengalaman Organisasi <span class="text-red-500">*</span></label>
+                    <textarea name="pengalaman_organisasi" rows="4" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan pengalaman organisasi anda (Nama Organisasi, Jabatan, Tahun)...">{{ old('pengalaman_organisasi', $biodata?->pengalaman_organisasi) }}</textarea>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Prestasi</label>
-                    <textarea name="prestasi" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan prestasi yang pernah anda raih (Nama Prestasi, Tingkat, Tahun)...">{{ old('prestasi', $biodata?->prestasi) }}</textarea>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Prestasi <span class="text-red-500">*</span></label>
+                    <textarea name="prestasi" rows="4" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan prestasi yang pernah anda raih (Nama Prestasi, Tingkat, Tahun)...">{{ old('prestasi', $biodata?->prestasi) }}</textarea>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Keahlian / Skill</label>
-                    <textarea name="keahlian" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan keahlian atau skill teknis/non-teknis yang anda miliki...">{{ old('keahlian', $biodata?->keahlian) }}</textarea>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Keahlian / Skill <span class="text-red-500">*</span></label>
+                    <textarea name="keahlian" rows="4" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan keahlian atau skill teknis/non-teknis yang anda miliki...">{{ old('keahlian', $biodata?->keahlian) }}</textarea>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Bahasa yang Dikuasai</label>
-                    <textarea name="bahasa" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan bahasa yang anda kuasai beserta tingkatannya (misal: Inggris - Aktif/TOEFL 550)...">{{ old('bahasa', $biodata?->bahasa) }}</textarea>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Bahasa yang Dikuasai <span class="text-red-500">*</span></label>
+                    <textarea name="bahasa" rows="3" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm leading-relaxed" placeholder="Sebutkan bahasa yang anda kuasai beserta tingkatannya (misal: Inggris - Aktif/TOEFL 550)...">{{ old('bahasa', $biodata?->bahasa) }}</textarea>
                 </div>
 
             </div>
