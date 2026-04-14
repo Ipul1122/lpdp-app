@@ -22,7 +22,7 @@ class OtpMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Kode Verifikasi Registrasi LPDP',
+            subject: 'Kode Verifikasi Registrasi TUPEL',
         );
     }
 

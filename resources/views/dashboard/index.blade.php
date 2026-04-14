@@ -124,7 +124,7 @@
                     <ul class="space-y-3 mb-8">
                         <li class="flex items-start gap-3 text-sm text-slate-700">
                             <svg class="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span>Beasiswa Dokter Spesialis Kementerian Kesehatan/LPDP</span>
+                            <span>Beasiswa Dokter Spesialis Kementerian Kesehatan/TUPEL</span>
                         </li>
                         <li class="flex items-start gap-3 text-sm text-slate-700">
                             <svg class="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -171,11 +171,11 @@
                 <div class="flex-1 overflow-y-auto relative p-8 md:p-10">
                     
                     <div x-show="step === 1" x-transition.opacity.duration.300ms>
-                        <h2 class="text-3xl font-extrabold text-orange-600 mb-6">Selamat datang di LPDP</h2>
+                        <h2 class="text-3xl font-extrabold text-orange-600 mb-6">Selamat datang di TUPEL</h2>
                         <div class="space-y-4 text-slate-700">
                             <p class="font-medium text-lg text-slate-800">Halo, {{ Auth::user()->name ?? 'User' }}</p>
-                            <p class="font-semibold text-orange-700">Selamat Datang Di Beasiswa LPDP</p>
-                            <p>Program Beasiswa LPDP adalah skema beasiswa terintegrasi lintas kementrian yang dirancang untuk menyiapkan talenta unggul indonesia pada <strong>Bidang STEM Industri Strategis</strong> serta program <strong>SHARE</strong>.</p>
+                            <p class="font-semibold text-orange-700">Selamat Datang Di Beasiswa TUPEL</p>
+                            <p>Program Beasiswa TUPEL adalah skema beasiswa terintegrasi lintas kementrian yang dirancang untuk menyiapkan talenta unggul indonesia pada <strong>Bidang STEM Industri Strategis</strong> serta program <strong>SHARE</strong>.</p>
                             <ul class="list-disc pl-5 space-y-2 mt-4 text-slate-600 marker:text-orange-500">
                                 <li>Jelajahi kurasi program berdasarkan 8 Bidang Prioritas</li>
                                 <li>Pantau status pendaftaran secara terupdate</li>
@@ -190,7 +190,7 @@
                         
                         <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 h-64 md:h-80 overflow-y-scroll text-slate-600 leading-relaxed text-sm pr-4">
                             <h3 class="font-bold text-slate-800 mb-2">1. Pendahuluan</h3>
-                            <p class="mb-4 text-justify">Penerima Beasiswa LPDP wajib mematuhi seluruh ketentuan yang ditetapkan oleh Lembaga Pengelola Dana Pendidikan. Beasiswa ini bertujuan untuk menghasilkan pemimpin masa depan yang berintegritas. Segala bentuk pemalsuan dokumen akan mengakibatkan diskualifikasi permanen dan sanksi hukum.</p>
+                            <p class="mb-4 text-justify">Penerima Beasiswa TUPEL wajib mematuhi seluruh ketentuan yang ditetapkan oleh Lembaga Pengelola Dana Pendidikan. Beasiswa ini bertujuan untuk menghasilkan pemimpin masa depan yang berintegritas. Segala bentuk pemalsuan dokumen akan mengakibatkan diskualifikasi permanen dan sanksi hukum.</p>
                             
                             <h3 class="font-bold text-slate-800 mb-2">2. Kewajiban Penerima</h3>
                             <p class="mb-4 text-justify">Penerima beasiswa wajib menyelesaikan studi tepat waktu sesuai dengan durasi yang ditetapkan dalam Letter of Guarantee (LoG). Setelah menyelesaikan studi, alumni wajib kembali ke Indonesia dan mengabdi di tanah air selama masa (n+1) tahun secara berturut-turut.</p>
@@ -211,7 +211,7 @@
                         </div>
                         <h2 class="text-2xl font-bold text-slate-800 mb-4">Langkah Terakhir</h2>
                         <p class="text-slate-600 max-w-sm mx-auto mb-8">
-                            Lengkapi <strong>Profile & CV</strong> Anda untuk mulai mendaftar Beasiswa LPDP. Pastikan data pendidikan dan pengalaman kerja sudah sesuai dengan dokumen asli.
+                            Lengkapi <strong>Profile & CV</strong> Anda untuk mulai mendaftar Beasiswa TUPEL. Pastikan data pendidikan dan pengalaman kerja sudah sesuai dengan dokumen asli.
                         </p>
                         <div class="bg-gray-200 px-6 py-4 rounded-xl border border-gray-300 w-full max-w-sm">
                             <p class="text-orange-700 text-sm font-medium italic">"Pendidikan adalah senjata paling mematikan di dunia, karena dengan itu Anda bisa mengubah dunia."</p>

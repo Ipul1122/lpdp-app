@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - LPDP</title>
+    <title>Admin Login - TUPEL</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-50 flex items-center justify-center min-h-screen">
@@ -11,7 +11,7 @@
     <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border-t-8 border-orange-500">
         <div class="text-center mb-8">
             <h1 class="text-2xl font-bold text-slate-800">Administrator</h1>
-            <p class="text-slate-500 text-sm">Masuk ke panel manajemen LPDP</p>
+            <p class="text-slate-500 text-sm">Masuk ke panel manajemen TUPEL</p>
         </div>
 
         <form action="{{ route('admin.login.process') }}" method="POST" class="space-y-5">

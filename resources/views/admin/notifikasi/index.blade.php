@@ -31,7 +31,7 @@
                 </div>
                 <div class="flex-1">
                     <h4 class="text-sm font-semibold text-slate-800">Pendaftar Baru</h4>
-                    <p class="text-sm text-slate-600 mt-0.5">Siti Aminah baru saja mengirimkan berkas pendaftaran LPDP.</p>
+                    <p class="text-sm text-slate-600 mt-0.5">Siti Aminah baru saja mengirimkan berkas pendaftaran TUPEL.</p>
                     <span class="text-xs text-slate-400 mt-2 block">1 hari yang lalu</span>
                 </div>
             </li>
