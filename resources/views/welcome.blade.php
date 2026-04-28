@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Pendaftaran Beasiswa TUPEL</title>
+    <title>Portal Pendaftaran Beasiswa TUBEL</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
@@ -16,7 +16,7 @@
                     <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-orange-500/30">
                         L
                     </div>
-                    <span class="font-bold text-xl tracking-tight text-slate-800">TUPEL<span class="text-orange-500">App</span></span>
+                    <span class="font-bold text-xl tracking-tight text-slate-800">TUBEL<span class="text-orange-500">App</span></span>
                 </div>
 
                 <div class="flex items-center gap-4">
@@ -53,7 +53,7 @@
                 </div>
 
                 <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
-                    Wujudkan Mimpimu dengan <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">Beasiswa TUPEL </span>
+                    Wujudkan Mimpimu dengan <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">Beasiswa TUBEL </span>
                 </h1>
                 
                 <p class="text-lg text-slate-500 mb-10 leading-relaxed max-w-2xl mx-auto">
@@ -113,7 +113,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-2">
                 <div class="w-8 h-8 bg-slate-800 rounded-lg flex items-center justify-center text-white font-bold text-sm">L</div>
-                <span class="font-bold text-slate-800">TUPEL App</span>
+                <span class="font-bold text-slate-800">TUBEL App</span>
             </div>
             <p class="text-slate-500 text-sm">
                 &copy; {{ date('Y') }} Sistem Pendaftaran Beasiswa. Seluruh hak cipta dilindungi.

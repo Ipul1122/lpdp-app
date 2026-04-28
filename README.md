@@ -1,4 +1,4 @@
-# Aplikasi Pendaftaran Beasiswa (TUPEL / LPDP App)
+# Aplikasi Pendaftaran Beasiswa (TUBEL / LPDP App)
 
 Aplikasi berbasis web untuk mengelola proses pendaftaran beasiswa secara terpusat. Dilengkapi dengan sistem registrasi berbasis OTP, formulir pendaftaran 7 tahap (*multi-step wizard*), serta panel kontrol Admin untuk verifikasi, filter, dan pengelolaan status pendaftar (Diterima, Ditolak, Revisi).
 

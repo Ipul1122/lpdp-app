@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - TUPEL App</title>
+    <title>Login - TUBEL App</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-50 flex items-center justify-center min-h-screen font-sans">
@@ -11,7 +11,7 @@
     <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md border border-slate-100 relative z-10">
         <div class="text-center mb-8">
             <h1 class="text-3xl font-extrabold text-orange-600">Masuk Akun</h1>
-            <p class="text-slate-500 mt-2 text-sm">Lanjutkan perjalanan TUPEL Anda</p>
+            <p class="text-slate-500 mt-2 text-sm">Lanjutkan perjalanan TUBEL Anda</p>
         </div>
 
         <form action="{{ route('login.process') }}" method="POST" class="space-y-5">
