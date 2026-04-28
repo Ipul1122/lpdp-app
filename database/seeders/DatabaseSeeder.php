@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
         // Membuat akun admin default
         Admin::create([
             'name' => 'Super Admin',
-            'email' => 'msyaifulloh2024@gmail.com',
+            'email' => 'skyfoxmarket@gmail.com',
             'password' => Hash::make('tes12345'),
         ]);
     }

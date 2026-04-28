@@ -20,7 +20,7 @@
 </head>
 <body style="font-family: sans-serif; color: #334155; line-height: 1.6;">
     <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-        <h2 style="color: #1e293b;">Halo Admin TUPEL,</h2>
+        <h2 style="color: #1e293b;">Halo Admin TUBEL,</h2>
         
         <p>Terdapat aktivitas pendaftaran baru pada sistem:</p>
         
@@ -53,7 +53,7 @@
 
         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
         <p style="font-size: 12px; color: #94a3b8; text-align: center;">
-            Email ini dikirim otomatis oleh Sistem Pendaftaran TUPEL App.
+            Email ini dikirim otomatis oleh Sistem Pendaftaran TUBEL App.
         </p>
     </div>
 </body>

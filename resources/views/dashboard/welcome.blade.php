@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selamat Datang - TUPEL App</title>
+    <title>Selamat Datang - TUBEL App</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 font-sans">
@@ -19,21 +19,21 @@
         <div class="p-8 md:p-12 flex flex-col justify-center">
             
             <h1 class="text-3xl font-extrabold text-indigo-900 mb-6">
-                Selamat datang di TUPEL
+                Selamat datang di TUBEL
             </h1>
 
             <div class="space-y-4 text-slate-700 text-base leading-relaxed">
                 <p class="font-medium text-lg text-slate-800">Halo, {{ Auth::user()->name }}</p>
                 
-                <p class="font-semibold text-indigo-700">Selamat Datang Di Beasiswa TUPEL</p>
+                <p class="font-semibold text-indigo-700">Selamat Datang Di Beasiswa TUBEL</p>
                 
                 <p>
-                    Program Beasiswa TUPEL adalah skema beasiswa terintegrasi lintas kementrian yang dirancang untuk menyiapkan talenta unggul indonesia pada <strong>Bidang STEM Industri Strategis</strong> serta program <strong>SHARE (Social, Humanities, Art for People, Religious Studies & Economics)</strong>. Gunakan aplikasi ini untuk memulai perjalan beasiswa mu.
+                    Program Beasiswa TUBEL adalah skema beasiswa terintegrasi lintas kementrian yang dirancang untuk menyiapkan talenta unggul indonesia pada <strong>Bidang STEM Industri Strategis</strong> serta program <strong>SHARE (Social, Humanities, Art for People, Religious Studies & Economics)</strong>. Gunakan aplikasi ini untuk memulai perjalan beasiswa mu.
                 </p>
 
                 <ul class="list-disc pl-5 space-y-2 mt-4 text-slate-600 marker:text-indigo-500">
                     <li>Jelajahi kurasi program berdasarkan 8 Bidang Prioritas</li>
-                    <li>Pantau status pendaftaran Beasiswa TUPEL secara terupdate</li>
+                    <li>Pantau status pendaftaran Beasiswa TUBEL secara terupdate</li>
                     <li>Akses panduan, syarat, dan pembaruan kebijakan tertentu.</li>
                 </ul>
             </div>

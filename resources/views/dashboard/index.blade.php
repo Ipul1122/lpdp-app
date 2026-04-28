@@ -38,7 +38,7 @@
                 <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
                 </svg>
-                <h3 class="text-2xl font-bold text-slate-800">TUPEL yang Sedang Dibuka</h3>
+                <h3 class="text-2xl font-bold text-slate-800">TUBEL yang Sedang Dibuka</h3>
             </div>
             <p class="text-slate-500 mb-6 text-sm ml-10">Pilih program yang sesuai dengan jenjang pendidikan dan rencana studi kamu</p>
 
@@ -51,7 +51,7 @@
                         </div>
                         <div>
                             <h4 class="text-xl font-bold text-slate-800">Sarjana</h4>
-                            <span class="inline-block bg-orange-50 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-orange-100">TUPEL Sarjana</span>
+                            <span class="inline-block bg-orange-50 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-orange-100">TUBEL Sarjana</span>
                         </div>
                     </div>
 
@@ -60,11 +60,11 @@
                     <ul class="space-y-3 mb-8">
                         <li class="flex items-start gap-3 text-sm text-slate-700">
                             <svg class="w-5 h-5 text-orange-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span>TUPEL Garuda Sarjana, TUPEL Talenta Indonesia</span>
+                            <span>TUBEL Garuda Sarjana, TUBEL Talenta Indonesia</span>
                         </li>
                         <li class="flex items-start gap-3 text-sm text-slate-700">
                             <svg class="w-5 h-5 text-orange-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span><strong>Syarat:</strong> TUPEL Garuda Sarjana (Umum : IELTS : 6,5 - iBT : 80, PTE: 58, ITP:500) - (Khusus : IQ : 110, SAT : ≥ 1.170)</span>
+                            <span><strong>Syarat:</strong> TUBEL Garuda Sarjana (Umum : IELTS : 6,5 - iBT : 80, PTE: 58, ITP:500) - (Khusus : IQ : 110, SAT : ≥ 1.170)</span>
                         </li>
                     </ul>
 
@@ -86,7 +86,7 @@
                         </div>
                         <div>
                             <h4 class="text-xl font-bold text-slate-800">Magister (S2)</h4>
-                            <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-blue-100">TUPEL Lanjutan</span>
+                            <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-blue-100">TUBEL Lanjutan</span>
                         </div>
                     </div>
 
@@ -95,7 +95,7 @@
                     <ul class="space-y-3 mb-8">
                         <li class="flex items-start gap-3 text-sm text-slate-700">
                             <svg class="w-5 h-5 text-blue-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span>TUPEL Reguler S2, TUPEL Perguruan Tinggi Utama Dunia (PTUD) S2</span>
+                            <span>TUBEL Reguler S2, TUBEL Perguruan Tinggi Utama Dunia (PTUD) S2</span>
                         </li>
                         <li class="flex items-start gap-3 text-sm text-slate-700">
                             <svg class="w-5 h-5 text-blue-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -115,7 +115,7 @@
                         </div>
                         <div>
                             <h4 class="text-xl font-bold text-slate-800">Dokter Spesialis & Subspesialis</h4>
-                            <span class="inline-block bg-emerald-50 text-emerald-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-emerald-100">TUPEL Target</span>
+                            <span class="inline-block bg-emerald-50 text-emerald-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-emerald-100">TUBEL Target</span>
                         </div>
                     </div>
 
@@ -124,7 +124,7 @@
                     <ul class="space-y-3 mb-8">
                         <li class="flex items-start gap-3 text-sm text-slate-700">
                             <svg class="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span>Beasiswa Dokter Spesialis Kementerian Kesehatan/TUPEL</span>
+                            <span>Beasiswa Dokter Spesialis Kementerian Kesehatan/TUBEL</span>
                         </li>
                         <li class="flex items-start gap-3 text-sm text-slate-700">
                             <svg class="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -171,11 +171,11 @@
                 <div class="flex-1 overflow-y-auto relative p-8 md:p-10">
                     
                     <div x-show="step === 1" x-transition.opacity.duration.300ms>
-                        <h2 class="text-3xl font-extrabold text-orange-600 mb-6">Selamat datang di TUPEL</h2>
+                        <h2 class="text-3xl font-extrabold text-orange-600 mb-6">Selamat datang di TUBEL</h2>
                         <div class="space-y-4 text-slate-700">
                             <p class="font-medium text-lg text-slate-800">Halo, {{ Auth::user()->name ?? 'User' }}</p>
-                            <p class="font-semibold text-orange-700">Selamat Datang Di Beasiswa TUPEL</p>
-                            <p>Program Beasiswa TUPEL adalah skema beasiswa terintegrasi lintas kementrian yang dirancang untuk menyiapkan talenta unggul indonesia pada <strong>Bidang STEM Industri Strategis</strong> serta program <strong>SHARE</strong>.</p>
+                            <p class="font-semibold text-orange-700">Selamat Datang Di Beasiswa TUBEL</p>
+                            <p>Program Beasiswa TUBEL adalah skema beasiswa terintegrasi lintas kementrian yang dirancang untuk menyiapkan talenta unggul indonesia pada <strong>Bidang STEM Industri Strategis</strong> serta program <strong>SHARE</strong>.</p>
                             <ul class="list-disc pl-5 space-y-2 mt-4 text-slate-600 marker:text-orange-500">
                                 <li>Jelajahi kurasi program berdasarkan 8 Bidang Prioritas</li>
                                 <li>Pantau status pendaftaran secara terupdate</li>
@@ -190,7 +190,7 @@
                         
                         <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 h-64 md:h-80 overflow-y-scroll text-slate-600 leading-relaxed text-sm pr-4">
                             <h3 class="font-bold text-slate-800 mb-2">1. Pendahuluan</h3>
-                            <p class="mb-4 text-justify">Penerima Beasiswa TUPEL wajib mematuhi seluruh ketentuan yang ditetapkan oleh Lembaga Pengelola Dana Pendidikan. Beasiswa ini bertujuan untuk menghasilkan pemimpin masa depan yang berintegritas. Segala bentuk pemalsuan dokumen akan mengakibatkan diskualifikasi permanen dan sanksi hukum.</p>
+                            <p class="mb-4 text-justify">Penerima Beasiswa TUBEL wajib mematuhi seluruh ketentuan yang ditetapkan oleh Lembaga Pengelola Dana Pendidikan. Beasiswa ini bertujuan untuk menghasilkan pemimpin masa depan yang berintegritas. Segala bentuk pemalsuan dokumen akan mengakibatkan diskualifikasi permanen dan sanksi hukum.</p>
                             
                             <h3 class="font-bold text-slate-800 mb-2">2. Kewajiban Penerima</h3>
                             <p class="mb-4 text-justify">Penerima beasiswa wajib menyelesaikan studi tepat waktu sesuai dengan durasi yang ditetapkan dalam Letter of Guarantee (LoG). Setelah menyelesaikan studi, alumni wajib kembali ke Indonesia dan mengabdi di tanah air selama masa (n+1) tahun secara berturut-turut.</p>
@@ -211,7 +211,7 @@
                         </div>
                         <h2 class="text-2xl font-bold text-slate-800 mb-4">Langkah Terakhir</h2>
                         <p class="text-slate-600 max-w-sm mx-auto mb-8">
-                            Lengkapi <strong>Profile & CV</strong> Anda untuk mulai mendaftar Beasiswa TUPEL. Pastikan data pendidikan dan pengalaman kerja sudah sesuai dengan dokumen asli.
+                            Lengkapi <strong>Profile & CV</strong> Anda untuk mulai mendaftar Beasiswa TUBEL. Pastikan data pendidikan dan pengalaman kerja sudah sesuai dengan dokumen asli.
                         </p>
                         <div class="bg-gray-200 px-6 py-4 rounded-xl border border-gray-300 w-full max-w-sm">
                             <p class="text-orange-700 text-sm font-medium italic">"Pendidikan adalah senjata paling mematikan di dunia, karena dengan itu Anda bisa mengubah dunia."</p>

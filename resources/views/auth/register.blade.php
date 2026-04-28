@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrasi Akun - Tupel App</title>
+    <title>Registrasi Akun - TUBEL App</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 flex items-center justify-center min-h-screen font-sans">
 
     <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold text-orange-600">Portal TUPEL</h1>
+            <h1 class="text-3xl font-extrabold text-orange-600">Portal TUBEL</h1>
             <p class="text-gray-500 mt-2 text-sm">Registrasi Akun Calon Penerima Beasiswa</p>
         </div>
 
