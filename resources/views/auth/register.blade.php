@@ -6,61 +6,118 @@
     <title>Registrasi Akun - TUBEL App</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen font-sans">
+<body class="bg-slate-50 min-h-screen flex flex-col md:flex-row font-sans">
 
-    <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold text-orange-600">Portal TUBEL</h1>
-            <p class="text-gray-500 mt-2 text-sm">Registrasi Akun Calon Penerima Beasiswa</p>
+    <!-- Left Section: Sentences & Brand -->
+    <div class="hidden md:flex md:w-1/2 lg:w-3/5 bg-gradient-to-tr from-orange-600 via-orange-500 to-amber-500 text-white p-12 lg:p-16 flex-col justify-between relative overflow-hidden">
+        <!-- Background decorative pattern -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        
+        <!-- Logo -->
+        <div class="relative z-10 flex items-center space-x-3">
+            <div class="bg-white/20 p-2.5 rounded-2xl backdrop-blur-md">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+            </div>
+            <span class="text-2xl font-bold tracking-wider">TUBEL App</span>
         </div>
 
-        <form action="{{ route('register.process') }}" method="POST" class="space-y-5">
-            @csrf
+        <!-- Main text/sentences -->
+        <div class="relative z-10 my-auto max-w-xl">
+            <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
+                Mulai Perjalanan Akademis Anda
+            </h1>
+            <p class="text-lg text-orange-50/90 leading-relaxed font-light mb-8">
+                Daftarkan diri Anda sekarang untuk mengajukan beasiswa Tugas Belajar (TUBEL) secara online dengan alur yang mudah, cepat, dan transparan.
+            </p>
+            
+            <div class="flex items-center space-x-4 bg-white/10 p-5 rounded-2xl border border-white/10 backdrop-blur-md">
+                <div class="bg-orange-500/30 text-white rounded-full p-2.5">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-white">Proses Pendaftaran Mandiri</h3>
+                    <p class="text-sm text-orange-100">Ikuti instruksi langkah-demi-langkah hingga selesai</p>
+                </div>
+            </div>
+        </div>
 
-            <div>
-                <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Alamat Email</label>
-                <input type="email" id="email" name="email" value="{{ old('email') }}" 
-                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all duration-200 @error('email') border-red-500 focus:ring-red-500 @else border-gray-300 @enderror" 
-                       placeholder="contoh@kampus.ac.id">
-                @error('email')
-                    <span class="text-red-500 text-xs font-medium mt-1 block">{{ $message }}</span>
-                @enderror
+        <!-- Footer -->
+        <div class="relative z-10 text-sm text-orange-100/70">
+            &copy; {{ date('Y') }} TUBEL App. Hak Cipta Dilindungi.
+        </div>
+    </div>
+
+    <!-- Right Section: Form -->
+    <div class="w-full md:w-1/2 lg:w-2/5 flex items-center justify-center p-8 sm:p-12 md:p-16 bg-white min-h-screen">
+        <div class="w-full max-w-md">
+            
+            <!-- Mobile Header (Hidden on Desktop) -->
+            <div class="flex items-center space-x-2 mb-8 md:hidden justify-center">
+                <div class="bg-orange-600 p-2 rounded-xl text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold text-slate-800">TUBEL App</span>
             </div>
 
-            <div>
-                <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
-                <input type="password" id="password" name="password" 
-                    class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all duration-200 @error('password') border-red-500 focus:ring-red-500 @else border-gray-300 @enderror" 
-                    placeholder="Masukkan password kuat">
-                
-                <div class="mt-2 grid grid-cols-2 gap-1 text-xs">
-                    <p id="char-length" class="text-gray-500">❌ Min. 8 Karakter</p>
-                    <p id="char-upper" class="text-gray-500">❌ Huruf Kapital</p>
-                    <p id="char-number" class="text-gray-500">❌ Angka</p>
-                    <p id="char-symbol" class="text-gray-500">❌ Simbol (!@#$%^&*)</p>
+            <div class="mb-8">
+                <h1 class="text-3xl font-extrabold text-slate-800">Registrasi Akun</h1>
+                <p class="text-slate-500 mt-2 text-sm">Registrasi Akun Calon Penerima Beasiswa</p>
+            </div>
+
+            <form action="{{ route('register.process') }}" method="POST" class="space-y-5">
+                @csrf
+
+                <div>
+                    <label for="email" class="block text-sm font-semibold text-slate-700 mb-1">Alamat Email</label>
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" 
+                           class="w-full px-4 py-3 bg-slate-50 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:outline-none transition-all duration-200 @error('email') border-red-500 focus:ring-red-500 @else border-slate-200 @enderror" 
+                           placeholder="contoh@kampus.ac.id">
+                    @error('email')
+                        <span class="text-red-500 text-xs font-medium mt-1 block">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                @error('password')
-                    <span class="text-red-500 text-xs font-medium mt-1 block">{{ $message }}</span>
-                @enderror
-            </div>
+                <div>
+                    <label for="password" class="block text-sm font-semibold text-slate-700 mb-1">Password</label>
+                    <input type="password" id="password" name="password" 
+                           class="w-full px-4 py-3 bg-slate-50 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:outline-none transition-all duration-200 @error('password') border-red-500 focus:ring-red-500 @else border-slate-200 @enderror" 
+                           placeholder="Masukkan password kuat">
+                    
+                    <div class="mt-3 grid grid-cols-2 gap-2 text-xs bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                        <p id="char-length" class="text-gray-500">❌ Min. 8 Karakter</p>
+                        <p id="char-upper" class="text-gray-500">❌ Huruf Kapital</p>
+                        <p id="char-number" class="text-gray-500">❌ Angka</p>
+                        <p id="char-symbol" class="text-gray-500">❌ Simbol (!@#$%^&*)</p>
+                    </div>
 
-            <div>
-                <label for="password_confirmation" class="block text-sm font-semibold text-gray-700 mb-1">Konfirmasi Password</label>
-                <input type="password" id="password_confirmation" name="password_confirmation" 
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all duration-200" 
-                       placeholder="Ulangi password Anda">
-            </div>
+                    @error('password')
+                        <span class="text-red-500 text-xs font-medium mt-1 block">{{ $message }}</span>
+                    @enderror
+                </div>
 
-            <button type="submit" 
-                    class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg shadow-md transition-colors duration-200 cursor-pointer mt-4">
-                Buat Akun
-            </button>
-        </form>
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-semibold text-slate-700 mb-1">Konfirmasi Password</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation" 
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:outline-none transition-all duration-200" 
+                           placeholder="Ulangi password Anda">
+                </div>
 
-        <p class="text-center text-sm text-gray-600 mt-6">
-            Sudah punya akun? <a href="{{ route('login') }}" class="text-orange-600 hover:underline font-semibold">Masuk di sini</a>
-        </p>
+                <button type="submit" 
+                        class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-orange-100 transition-all duration-200 cursor-pointer mt-4">
+                    Buat Akun
+                </button>
+            </form>
+
+            <p class="text-center text-sm text-slate-500 mt-8">
+                Sudah punya akun? <a href="{{ route('login') }}" class="text-orange-600 hover:text-orange-850 font-bold transition-colors">Masuk di sini</a>
+            </p>
+        </div>
     </div>
 
     <script type="module">
@@ -71,7 +128,7 @@
                     icon: 'success',
                     title: 'Berhasil!',
                     text: '{{ session('success') }}',
-                    confirmButtonColor: '#4338ca', // orange-700
+                    confirmButtonColor: '#ea580c', // orange-600
                 });
             @endif
 

@@ -34,7 +34,7 @@
             <div>Status Pendaftaran</div>
         </div>
 
-       <div class="flex-1 flex flex-col">
+       <div class="flex-1 flex flex-col" x-data="{ detailOpen: false }">
             
             @if($riwayatProfil)
                 <div class="grid grid-cols-5 gap-4 p-6 border-b border-slate-50 items-center text-sm text-slate-700 hover:bg-slate-50 transition-colors">
@@ -90,6 +90,12 @@
                             {{ $riwayatProfil->status }}
                         </span>
 
+                        {{-- Button to toggle detail --}}
+                        <button type="button" @click="detailOpen = !detailOpen" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 text-white text-xs font-semibold rounded-lg hover:bg-slate-900 transition shadow-sm mt-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            Detail Pengisian
+                        </button>
+
                         {{-- Fitur jika ditolak: Tampilkan alasan dan tombol Ajukan Ulang --}}
                         @if($riwayatProfil->status === 'ditolak')
                             <div class="mt-1 text-[11px] text-red-600 bg-red-50 p-2 rounded border border-red-100 w-full max-w-[150px]">
@@ -102,6 +108,101 @@
                                 Ajukan Ulang
                             </a>
                         @endif
+                    </div>
+                </div>
+
+                {{-- Collapsible Detail Panel --}}
+                <div x-show="detailOpen" x-transition style="display: none;" class="p-6 border-t border-slate-200 bg-white space-y-4">
+                    
+                    @if($riwayatProfil->status === 'ditolak' && $riwayatProfil->catatan)
+                        <div class="bg-red-50 border border-red-100 text-red-700 p-4 rounded-xl mb-4 text-sm">
+                            <b>Riwayat Penolakan Admin:</b> {{ $riwayatProfil->catatan }}
+                        </div>
+                    @endif
+
+                    <div x-data="{ tab1: true }" class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button @click="tab1 = !tab1" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
+                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">1</span> Data Pribadi & KTP</span>
+                            <svg :class="{'rotate-180': tab1}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="tab1" class="p-5 border-t border-slate-100 text-sm grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div><span class="block text-slate-400 text-xs mb-1">Kategori Pendaftaran</span><p class="font-bold text-orange-600">{{ $riwayatProfil->kategori ?? '-' }}</p></div>
+                            <div><span class="block text-slate-400 text-xs mb-1">NIK</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->nik }}</p></div>
+                            <div><span class="block text-slate-400 text-xs mb-1">Nama</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->nama }}</p></div>
+                            <div><span class="block text-slate-400 text-xs mb-1">TTL</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->tempat_tglLahir }}</p></div>
+                            <div><span class="block text-slate-400 text-xs mb-1">Telepon/WA</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->no_telp }}</p></div>
+                            <div class="col-span-2"><span class="block text-slate-400 text-xs mb-1">Alamat</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->alamat }}, RT {{ $riwayatProfil->rt }}/RW {{ $riwayatProfil->rw }}, {{ $riwayatProfil->kelurahan }}, {{ $riwayatProfil->kecamatan }}</p></div>
+                            <div>
+                                <span class="block text-slate-400 text-xs mb-1">Dokumen KTP</span>
+                                @if($riwayatProfil->foto_ktp) <a href="{{ asset('storage/' . $riwayatProfil->foto_ktp) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Foto KTP</a> @else <span class="text-red-500">Tidak ada</span> @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div x-data="{ tab2: false }" class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button @click="tab2 = !tab2" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
+                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">2</span> Unit Kerja</span>
+                            <svg :class="{'rotate-180': tab2}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="tab2" style="display:none;" class="p-5 border-t border-slate-100 text-sm grid grid-cols-1 md:grid-cols-3 gap-4">
+                            @if($riwayatProfil->industri)
+                                <div><span class="block text-slate-400 text-xs mb-1">Unit Kerja</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->industri->unit_kerja ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Jabatan</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->industri->jabatan ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Golongan</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->industri->golongan ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Tanggal Pensiun</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->industri->tanggal_pensiun ?? '-' }}</p></div>
+                            @else <p class="text-slate-500 italic col-span-3">Data belum diisi.</p> @endif
+                        </div>
+                    </div>
+
+                    <div x-data="{ tab3: false }" class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button @click="tab3 = !tab3" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
+                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">3</span> Universitas Tujuan</span>
+                            <svg :class="{'rotate-180': tab3}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="tab3" style="display:none;" class="p-5 border-t border-slate-100 text-sm grid grid-cols-1 md:grid-cols-2 gap-4">
+                            @if($riwayatProfil->universitas)
+                                <div><span class="block text-slate-400 text-xs mb-1">Universitas</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->universitas->nama_universitas ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Program Studi</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->universitas->program_studi ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Lokasi Kampus (Kota)</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->universitas->kota ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Rencana Studi</span><p class="font-semibold text-slate-800">Mulai: {{ $riwayatProfil->universitas->tanggal_mulai_studi ?? '-' }} ({{ $riwayatProfil->universitas->durasi_studi ?? '-' }} Bulan)</p></div>
+                                <div>
+                                    <span class="block text-slate-400 text-xs mb-1">LoA / Bukti Lulus</span>
+                                    @if($riwayatProfil->universitas->loa) <a href="{{ asset('storage/' . $riwayatProfil->universitas->loa) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Dokumen LoA</a> @else <span class="text-slate-500">-</span> @endif
+                                </div>
+                                <div>
+                                    <span class="block text-slate-400 text-xs mb-1">KHS / Bukti IPK</span>
+                                    @if($riwayatProfil->universitas->khs_ipk) <a href="{{ asset('storage/' . $riwayatProfil->universitas->khs_ipk) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat KHS/IPK</a> @else <span class="text-slate-500">-</span> @endif
+                                </div>
+                            @else <p class="text-slate-500 italic col-span-2">Data belum diisi.</p> @endif
+                        </div>
+                    </div>
+
+                    <div x-data="{ tab4: false }" class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button @click="tab4 = !tab4" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
+                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">4</span> Surat Rekomendasi</span>
+                            <svg :class="{'rotate-180': tab4}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="tab4" style="display:none;" class="p-5 border-t border-slate-100 text-sm">
+                            @if($riwayatProfil->rekomendasi && $riwayatProfil->rekomendasi->file_rekomendasi)
+                                <p class="mb-2"><b>Kategori Rekomendasi:</b> {{ $riwayatProfil->rekomendasi->kategori ?? '-' }}</p>
+                                <p class="mb-2"><b>Perekomendasi:</b> {{ $riwayatProfil->rekomendasi->nama_perekomendasi ?? '-' }} ({{ $riwayatProfil->rekomendasi->jabatan_perekomendasi ?? '-' }} - {{ $riwayatProfil->rekomendasi->instansi_perekomendasi ?? '-' }})</p>
+                                <a href="{{ asset('storage/' . $riwayatProfil->rekomendasi->file_rekomendasi) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Rekomendasi</a>
+                            @else
+                                <p class="text-red-500 font-bold italic">(TIDAK DAPAT REKOMENDASI)</p>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div x-data="{ tab5: false }" class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button @click="tab5 = !tab5" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
+                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">5</span> Essay Kontribusi</span>
+                            <svg :class="{'rotate-180': tab5}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="tab5" style="display:none;" class="p-5 border-t border-slate-100 text-sm">
+                            @if($riwayatProfil->essay)
+                                <div class="bg-slate-50 p-4 rounded-xl leading-relaxed whitespace-pre-wrap font-medium text-slate-700 max-h-60 overflow-y-auto">{{ $riwayatProfil->essay->essay_kontribusi }}</div>
+                            @else <p class="text-slate-500 italic">Data belum diisi.</p> @endif
+                        </div>
                     </div>
                 </div>
             @else

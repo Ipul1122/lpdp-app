@@ -11,11 +11,56 @@
         </div>
         
         <div class="flex bg-slate-200 p-1 rounded-xl">
-            <a href="?filter=baru" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'baru' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Baru</a>
-            <a href="?filter=pengajuan_ulang" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'pengajuan_ulang' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Revisi</a>
-            <a href="?filter=disetujui" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'disetujui' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Diterima</a>
-            <a href="?filter=ditolak" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'ditolak' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Ditolak</a>
+            <a href="{{ request()->fullUrlWithQuery(['filter' => 'baru', 'page' => 1]) }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'baru' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Baru</a>
+            <a href="{{ request()->fullUrlWithQuery(['filter' => 'pengajuan_ulang', 'page' => 1]) }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'pengajuan_ulang' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Revisi</a>
+            <a href="{{ request()->fullUrlWithQuery(['filter' => 'disetujui', 'page' => 1]) }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'disetujui' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Diterima</a>
+            <a href="{{ request()->fullUrlWithQuery(['filter' => 'ditolak', 'page' => 1]) }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'ditolak' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Ditolak</a>
         </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-6">
+        <form action="{{ route('admin.pendaftar.index') }}" method="GET" class="flex flex-col md:flex-row items-end gap-4">
+            <!-- Menjaga filter status yang aktif -->
+            <input type="hidden" name="filter" value="{{ $filterActive }}">
+            
+            <div class="w-full md:w-1/2">
+                <label for="program_beasiswa" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Program Beasiswa</label>
+                <div class="relative">
+                    <select name="program_beasiswa" id="program_beasiswa" onchange="this.form.submit()" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent appearance-none">
+                        <option value="">Semua Program</option>
+                        <option value="magister" {{ request('program_beasiswa') == 'magister' ? 'selected' : '' }}>Beasiswa Magister S2</option>
+                        <option value="dokter" {{ request('program_beasiswa') == 'dokter' ? 'selected' : '' }}>Beasiswa Dokter S3</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/2">
+                <label for="kategori" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Kategori Pendaftaran</label>
+                <div class="relative">
+                    <select name="kategori" id="kategori" onchange="this.form.submit()" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent appearance-none">
+                        <option value="">Semua Kategori</option>
+                        <option value="Usulan Unit" {{ request('kategori') == 'Usulan Unit' ? 'selected' : '' }}>Usulan Unit</option>
+                        <option value="Manajemen Talenta" {{ request('kategori') == 'Manajemen Talenta' ? 'selected' : '' }}>Manajemen Talenta</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+            </div>
+
+            @if(request('program_beasiswa') || request('kategori'))
+                <div class="w-full md:w-auto shrink-0">
+                    <a href="{{ route('admin.pendaftar.index', ['filter' => $filterActive]) }}" class="w-full md:w-auto px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm rounded-xl transition flex items-center justify-center gap-2 border border-slate-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        Reset
+                    </a>
+                </div>
+            @endif
+        </form>
     </div>
 
     <div class="space-y-6">
@@ -38,6 +83,9 @@
                             <h3 class="font-bold text-lg text-slate-800">{{ $p->nama }}</h3>
                             <div class="flex items-center gap-2 mt-1 text-xs font-medium">
                                 <span class="text-orange-600 bg-orange-100 px-2 py-0.5 rounded capitalize">{{ $p->program_beasiswa }}</span>
+                                @if($p->kategori)
+                                    <span class="text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded text-xs font-semibold">{{ $p->kategori }}</span>
+                                @endif
                                 <span class="text-slate-500">ID: REG-{{ str_pad($p->user_id, 5, '0', STR_PAD_LEFT) }}</span>
                                 @if($p->is_pengajuan_ulang) <span class="text-blue-600 bg-blue-100 px-2 py-0.5 rounded">🔄 Revisi Berkas</span> @endif
                             </div>
@@ -77,12 +125,13 @@
                             <svg :class="{'rotate-180': tab1}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="tab1" class="p-5 border-t border-slate-100 text-sm grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div><span class="block text-slate-400 text-xs mb-1">Kategori Pendaftaran</span><p class="font-bold text-orange-600">{{ $p->kategori ?? '-' }}</p></div>
                             <div><span class="block text-slate-400 text-xs mb-1">NIK</span><p class="font-semibold text-slate-800">{{ $p->nik }}</p></div>
                             <div><span class="block text-slate-400 text-xs mb-1">Nama</span><p class="font-semibold text-slate-800">{{ $p->nama }}</p></div>
                             <div><span class="block text-slate-400 text-xs mb-1">TTL</span><p class="font-semibold text-slate-800">{{ $p->tempat_tglLahir }}</p></div>
                             <div><span class="block text-slate-400 text-xs mb-1">Telepon/WA</span><p class="font-semibold text-slate-800">{{ $p->no_telp }}</p></div>
                             <div class="col-span-2"><span class="block text-slate-400 text-xs mb-1">Alamat</span><p class="font-semibold text-slate-800">{{ $p->alamat }}, RT {{ $p->rt }}/RW {{ $p->rw }}, {{ $p->kelurahan }}, {{ $p->kecamatan }}</p></div>
-                            <div class="col-span-2">
+                            <div>
                                 <span class="block text-slate-400 text-xs mb-1">Dokumen KTP</span>
                                 @if($p->foto_ktp) <a href="{{ asset('storage/' . $p->foto_ktp) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Foto KTP</a> @else <span class="text-red-500">Tidak ada</span> @endif
                             </div>
@@ -99,13 +148,7 @@
                                 <div><span class="block text-slate-400 text-xs mb-1">Unit Kerja</span><p class="font-semibold text-slate-800">{{ $p->industri->unit_kerja ?? '-' }}</p></div>
                                 <div><span class="block text-slate-400 text-xs mb-1">Jabatan</span><p class="font-semibold text-slate-800">{{ $p->industri->jabatan ?? '-' }}</p></div>
                                 <div><span class="block text-slate-400 text-xs mb-1">Golongan</span><p class="font-semibold text-slate-800">{{ $p->industri->golongan ?? '-' }}</p></div>
-                                <div class="col-span-2"><span class="block text-slate-400 text-xs mb-1">Nama Instansi</span><p class="font-semibold text-slate-800">{{ $p->industri->nama_instansi ?? '-' }}</p></div>
-                                <div><span class="block text-slate-400 text-xs mb-1">Tanggal Mulai Kerja</span><p class="font-semibold text-slate-800">{{ $p->industri->tanggal_mulai_kerja ?? '-' }}</p></div>
                                 <div><span class="block text-slate-400 text-xs mb-1">Tanggal Pensiun</span><p class="font-semibold text-slate-800">{{ $p->industri->tanggal_pensiun ?? '-' }}</p></div>
-                                <div class="col-span-3">
-                                    <span class="block text-slate-400 text-xs mb-1">Surat Izin Instansi</span>
-                                    @if($p->industri->surat_izin) <a href="{{ asset('storage/' . $p->industri->surat_izin) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Buka Surat Izin</a> @else <span class="text-slate-500">Tidak dilampirkan</span> @endif
-                                </div>
                             @else <p class="text-slate-500 italic col-span-3">Data belum diisi.</p> @endif
                         </div>
                     </div>
@@ -139,11 +182,13 @@
                             <svg :class="{'rotate-180': tab4}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="tab4" style="display:none;" class="p-5 border-t border-slate-100 text-sm">
-                            @if($p->rekomendasi)
+                            @if($p->rekomendasi && $p->rekomendasi->file_rekomendasi)
                                 <p class="mb-2"><b>Kategori Rekomendasi:</b> {{ $p->rekomendasi->kategori ?? '-' }}</p>
                                 <p class="mb-2"><b>Perekomendasi:</b> {{ $p->rekomendasi->nama_perekomendasi ?? '-' }} ({{ $p->rekomendasi->jabatan_perekomendasi ?? '-' }} - {{ $p->rekomendasi->instansi_perekomendasi ?? '-' }})</p>
-                                @if($p->rekomendasi->file_rekomendasi) <a href="{{ asset('storage/' . $p->rekomendasi->file_rekomendasi) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Rekomendasi</a> @endif
-                            @else <p class="text-slate-500 italic">Data belum diisi.</p> @endif
+                                <a href="{{ asset('storage/' . $p->rekomendasi->file_rekomendasi) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Rekomendasi</a>
+                            @else
+                                <p class="text-red-500 font-bold italic">(TIDAK DAPAT REKOMENDASI)</p>
+                            @endif
                         </div>
                     </div>
 
