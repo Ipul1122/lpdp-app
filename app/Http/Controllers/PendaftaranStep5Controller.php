@@ -42,6 +42,6 @@ class PendaftaranStep5Controller extends Controller
 
         EssayPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
 
-        return redirect()->route('pendaftaran.step6')->with('success', 'Essay tersimpan. Silakan periksa kembali ringkasan pendaftaran Anda.');
+        return redirect()->route('pendaftaran.step6')->with('success', 'Essay tersimpan, lanjut ke Tahap 6.');
     }
 }

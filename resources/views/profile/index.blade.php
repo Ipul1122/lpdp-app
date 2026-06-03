@@ -124,8 +124,117 @@
                 <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf <input type="hidden" name="section" value="universitas">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="md:col-span-2"><label class="block text-sm font-semibold text-slate-700 mb-2">Nama Universitas</label><input type="text" name="nama_universitas" value="{{ $universitas?->nama_universitas }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-semibold text-slate-700 mb-2">Program Studi</label><input type="text" name="program_studi" value="{{ $universitas?->program_studi }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Universitas</label>
+                            <select name="nama_universitas" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm focus:ring-2 focus:ring-orange-500 transition">
+                                <option value="">-- Pilih Universitas Tujuan --</option>
+                                @php
+                                    $options = [
+                                        'Universitas Esa Unggul (Unggul)',
+                                        'Binus University (Unggul)',
+                                        'Universitas Pelita Harapan (Unggul)',
+                                        'Universitas Padjadjaran (Unggul)',
+                                        'Universitas Al Azhar Indonesia (Unggul)',
+                                        'Politeknik STIA LAN Jakarta (Baik Sekali)',
+                                        'Universitas Paramadina (Baik Sekali)',
+                                        'Universitas Indonesia (Unggul)',
+                                        'Universitas Jayabaya (Unggul)',
+                                        'Perbanas Institute Jakarta (Unggul)',
+                                        'Universitas Gadjah Mada (Unggul)',
+                                        'Politeknik STIA LAN (B)',
+                                        'Universitas Trisakti (Unggul)',
+                                        'Universitas Brawijaya (Unggul)',
+                                        'Universitas Bina Nusantara (Unggul)',
+                                        'Universitas Diponegoro (Unggul)',
+                                    ];
+                                    $currentVal = old('nama_universitas', $universitas?->nama_universitas);
+                                    $matched = false;
+                                    if ($currentVal) {
+                                        foreach ($options as $option) {
+                                            if (strcasecmp($currentVal, $option) === 0) {
+                                                $matched = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                @endphp
+                                @foreach($options as $option)
+                                    <option value="{{ $option }}" {{ strcasecmp($currentVal, $option) === 0 ? 'selected' : '' }}>{{ $option }}</option>
+                                @endforeach
+                                @if($currentVal && !$matched)
+                                    <option value="{{ $currentVal }}" selected>{{ $currentVal }}</option>
+                                @endif
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Program Studi</label>
+                            <select name="program_studi" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm focus:ring-2 focus:ring-orange-500 transition">
+                                <option value="">-- Pilih Program Studi --</option>
+                                @php
+                                    $options = [
+                                        'Magister Komunikasi',
+                                        'Administrasi Publik (Unggul)',
+                                        'Teknik Informatika',
+                                        'Magister Manajemen Konsentrasi Pengembangan Organisasi & Sumber Daya Manusia (Unggul)',
+                                        'Ilmu Jurnalistik (Unggul)',
+                                        'Komunikasi (Baik Sekali)',
+                                        'Magister Administrasi Pembangunan Negara (Unggul)',
+                                        'Ilmu Komunikasi (Baik Sekali)',
+                                        'Kebijakan Publik dan Governansi (Unggul)',
+                                        'Ilmu Komunikasi (Unggul)',
+                                        'Ilmu Hukum',
+                                        'Magister Ilmu Komunikasi',
+                                        'Magister Ilmu Hukum (Unggul)',
+                                        'Magister Akuntansi (Baik Sekali)',
+                                        'Program Magister Ilmu Hukum (Unggul)',
+                                        'Magister Manajemen dan Kebijakan Publik (Unggul)',
+                                        'Magister Teknologi Informasi (Unggul)',
+                                        'Arkeologi (A)',
+                                        'Magister Ilmu Administrasi (Unggul)',
+                                        'Perencanaan Ekonomi dan Kebijakan Pembangunan (A)',
+                                        'Ilmu Hukum (Unggul)',
+                                        'Administrasi Pembangunan Negara (Unggul)',
+                                        'Master of Digital Communication (A)',
+                                        'Magister Ilmu Hukum dengan konsentrasi Hukum Internasional (Unggul)',
+                                        'Komunikasi Publik',
+                                        'Operations and Supply Chain Management (Unggul)',
+                                        'Ilmu Administrasi (Unggul)',
+                                        'Master of Management Strategy and Execution (Unggul)',
+                                        'Konsentrasi Human Capital Management (Unggul)',
+                                        'Magister Kebijakan Publik dan Governansi (Unggul)',
+                                        'Magister Ilmu Komunikasi (Unggul)',
+                                        'Manajemen Perencanaan Ekonomi dan Kebijakan Pembangunan (A)',
+                                        'Magister Perencanaan Ekonomi dan Kebijakan Pembangunan (A)',
+                                        'Manajemen SDM (Unggul)',
+                                        'Manajemen (Unggul)',
+                                        'Konsentrasi Manajemen Sumber Daya Manusia (A)',
+                                        'Akuntansi (Unggul)',
+                                        'Administrasi dan Kebijakan Publik (Unggul)',
+                                        'Magister Manajemen (Unggul)',
+                                        'Master’s in Public Policy and Governance (MPPG) (Unggul)',
+                                        'Magister Teknik dan Manajemen Industri (Unggul)',
+                                        'Ilmu Linguistik (Unggul)',
+                                        'Magister Kebijakan Publik',
+                                    ];
+                                    $currentVal = old('program_studi', $universitas?->program_studi);
+                                    $matched = false;
+                                    if ($currentVal) {
+                                        foreach ($options as $option) {
+                                            if (strcasecmp($currentVal, $option) === 0) {
+                                                $matched = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                @endphp
+                                @foreach($options as $option)
+                                    <option value="{{ $option }}" {{ strcasecmp($currentVal, $option) === 0 ? 'selected' : '' }}>{{ $option }}</option>
+                                @endforeach
+                                @if($currentVal && !$matched)
+                                    <option value="{{ $currentVal }}" selected>{{ $currentVal }}</option>
+                                @endif
+                            </select>
+                        </div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Tgl Mulai Studi</label><input type="month" name="tanggal_mulai_studi" value="{{ $universitas?->tanggal_mulai_studi }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Durasi (Bulan)</label><input type="number" name="durasi_studi" value="{{ $universitas?->durasi_studi }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
                         

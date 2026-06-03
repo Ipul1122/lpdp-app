@@ -15,7 +15,7 @@ class UserProfile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'kategori', 'foto_ktp', 'nik', 'nama', 'no_telp', 'tempat_tglLahir', 
+        'user_id', 'kategori', 'foto_ktp', 'surat_komitmen', 'nik', 'nama', 'no_telp', 'tempat_tglLahir', 
         'alamat', 'rt', 'rw', 'kelurahan', 'kecamatan', 
         'agama', 'status_perkawinan', 'pekerjaan', 'kewarganegaraan',
         'program_beasiswa', 'status', 'catatan', 'is_pengajuan_ulang',

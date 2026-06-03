@@ -62,7 +62,7 @@ class PendaftaranStep3Controller extends Controller
         }
 
         // Format fields to Title Case
-        $capitalFields = ['kota', 'nama_universitas', 'program_studi'];
+        $capitalFields = ['kota'];
         foreach ($capitalFields as $field) {
             if (isset($validated[$field])) {
                 $validated[$field] = ucwords(strtolower($validated[$field]));

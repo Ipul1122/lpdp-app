@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotifikasiPendaftaranAdmin;
+use App\Models\Notification;
 use App\Models\UserProfile;
 use App\Models\IndustriPendukung;
 use App\Models\UniversitasPendaftaran;
@@ -22,6 +25,38 @@ class PendaftaranApiController extends Controller
     }
 
     // ==============================================
+    // STEP 0: KATEGORI
+    // ==============================================
+    public function storeCategory(Request $request)
+    {
+        try {
+            $user = $request->user();
+            if ($this->checkLockStatus($user->id)) {
+                return response()->json(['success' => false, 'message' => 'Profil terkunci.'], 403);
+            }
+
+            $validated = $request->validate([
+                'kategori' => 'required|in:Usulan Unit,Manajemen Talenta'
+            ]);
+
+            $userProfile = UserProfile::where('user_id', $user->id)->first();
+            $status = ($userProfile && $userProfile->status === 'ditolak') ? 'ditolak' : 'draft';
+
+            $data = UserProfile::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'kategori' => $validated['kategori'],
+                    'status' => $status
+                ]
+            );
+
+            return response()->json(['success' => true, 'message' => 'Kategori pendaftaran berhasil dipilih.', 'data' => $data], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        }
+    }
+
+    // ==============================================
     // STEP 1: PROFIL
     // ==============================================
     public function storeProfil(Request $request)
@@ -34,8 +69,13 @@ class PendaftaranApiController extends Controller
 
             $profilExist = UserProfile::where('user_id', $user->id)->first();
 
+            // Cek apakah kategori sudah dipilih terlebih dahulu
+            if (!$profilExist || !$profilExist->kategori) {
+                return response()->json(['success' => false, 'message' => 'Silakan pilih kategori pendaftaran terlebih dahulu.'], 400);
+            }
+
             $validated = $request->validate([
-                'foto_ktp'          => $profilExist ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
+                'foto_ktp'          => ($profilExist && $profilExist->foto_ktp) ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
                 'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . $user->id . ',user_id',
                 'nama'              => 'required|string|max:255',
                 'no_telp'           => 'required|numeric|digits_between:10,15',
@@ -51,6 +91,8 @@ class PendaftaranApiController extends Controller
                 'pekerjaan'         => 'required|string|max:100',
                 'kewarganegaraan'   => 'required|string|max:50',
                 'program_beasiswa'  => 'required|in:magister,dokter',
+            ], [
+                'nik.unique' => 'NIK ini sudah terdaftar di sistem kami.',
             ]);
 
             $validated['tempat_tglLahir'] = $validated['tempat_lahir'] . ', ' . $validated['tanggal_lahir'];
@@ -63,6 +105,17 @@ class PendaftaranApiController extends Controller
                     Storage::disk('public')->delete($profilExist->foto_ktp);
                 }
                 $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'public');
+            }
+
+            // Format fields to Title Case / Sentence Case
+            $capitalFields = ['nama', 'tempat_lahir', 'kelurahan', 'kecamatan', 'pekerjaan', 'kewarganegaraan'];
+            foreach ($capitalFields as $field) {
+                if (isset($validated[$field])) {
+                    $validated[$field] = ucwords(strtolower($validated[$field]));
+                }
+            }
+            if (isset($validated['alamat'])) {
+                $validated['alamat'] = ucfirst($validated['alamat']);
             }
 
             $data = UserProfile::updateOrCreate(['user_id' => $user->id], $validated);
@@ -84,13 +137,18 @@ class PendaftaranApiController extends Controller
                 return response()->json(['success' => false, 'message' => 'Profil terkunci.'], 403);
             }
 
+            // Kunci akses jika Step 1 belum diisi
+            $profilExist = UserProfile::where('user_id', $user->id)->first();
+            if (!$profilExist || !$profilExist->nik) {
+                return response()->json(['success' => false, 'message' => 'Silakan selesaikan Tahap 1 terlebih dahulu.'], 400);
+            }
+
             $validated = $request->validate([
-                'unit_kerja' => 'nullable|string', 
-                'jabatan' => 'nullable|string',
-                'golongan' => 'nullable|string', 
-                'nama_instansi' => 'nullable|string',
-                'tanggal_mulai_kerja' => 'nullable|string', 
-                'tanggal_pensiun' => 'nullable|string',
+                'unit_kerja' => 'required|string|max:255',
+                'jabatan' => 'required|string|max:255',
+                'golongan' => 'required|string|max:255',
+                'tanggal_mulai_kerja' => 'nullable|string',
+                'tanggal_pensiun' => 'required|string',
                 'surat_izin' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             ]);
 
@@ -98,6 +156,14 @@ class PendaftaranApiController extends Controller
             if ($request->hasFile('surat_izin')) {
                 if ($industri && $industri->surat_izin) Storage::disk('public')->delete($industri->surat_izin);
                 $validated['surat_izin'] = $request->file('surat_izin')->store('dokumen_industri', 'public');
+            }
+
+            // Format fields to Title Case
+            $capitalFields = ['nama_instansi', 'unit_kerja', 'jabatan'];
+            foreach ($capitalFields as $field) {
+                if (isset($validated[$field])) {
+                    $validated[$field] = ucwords(strtolower($validated[$field]));
+                }
             }
 
             $data = IndustriPendukung::updateOrCreate(['user_id' => $user->id], $validated);
@@ -116,21 +182,38 @@ class PendaftaranApiController extends Controller
             $user = $request->user();
             if ($this->checkLockStatus($user->id)) return response()->json(['success' => false, 'message' => 'Profil terkunci.'], 403);
 
+            // Kunci akses jika Step 1 belum diisi
+            $profilExist = UserProfile::where('user_id', $user->id)->first();
+            if (!$profilExist || !$profilExist->nik) {
+                return response()->json(['success' => false, 'message' => 'Silakan selesaikan Tahap 1 terlebih dahulu.'], 400);
+            }
+
+            $univExist = UniversitasPendaftaran::where('user_id', $user->id)->first();
             $validated = $request->validate([
-                'kota' => 'nullable|string',
-                'nama_universitas' => 'nullable|string', 'program_studi' => 'nullable|string',
-                'tanggal_mulai_studi' => 'nullable|string', 'durasi_studi' => 'nullable|integer',
-                'loa' => 'nullable|file|mimes:pdf,jpg,png|max:5120', 'khs_ipk' => 'nullable|file|mimes:pdf,jpg,png|max:5120',
+                'kota' => 'required|string|max:255',
+                'nama_universitas' => 'required|string|max:255',
+                'program_studi' => 'required|string|max:255',
+                'tanggal_mulai_studi' => 'required|string',
+                'durasi_studi' => 'required|integer',
+                'loa' => ($univExist && $univExist->loa) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+                'khs_ipk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             ]);
 
-            $univ = UniversitasPendaftaran::where('user_id', $user->id)->first();
             if ($request->hasFile('loa')) {
-                if ($univ && $univ->loa) Storage::disk('public')->delete($univ->loa);
+                if ($univExist && $univExist->loa) Storage::disk('public')->delete($univExist->loa);
                 $validated['loa'] = $request->file('loa')->store('dokumen_universitas', 'public');
             }
             if ($request->hasFile('khs_ipk')) {
-                if ($univ && $univ->khs_ipk) Storage::disk('public')->delete($univ->khs_ipk);
+                if ($univExist && $univExist->khs_ipk) Storage::disk('public')->delete($univExist->khs_ipk);
                 $validated['khs_ipk'] = $request->file('khs_ipk')->store('dokumen_universitas', 'public');
+            }
+
+            // Format fields to Title Case
+            $capitalFields = ['kota'];
+            foreach ($capitalFields as $field) {
+                if (isset($validated[$field])) {
+                    $validated[$field] = ucwords(strtolower($validated[$field]));
+                }
             }
 
             $data = UniversitasPendaftaran::updateOrCreate(['user_id' => $user->id], $validated);
@@ -149,16 +232,32 @@ class PendaftaranApiController extends Controller
             $user = $request->user();
             if ($this->checkLockStatus($user->id)) return response()->json(['success' => false, 'message' => 'Profil terkunci.'], 403);
 
+            // Kunci akses jika Step 1 belum diisi
+            $profilExist = UserProfile::where('user_id', $user->id)->first();
+            if (!$profilExist || !$profilExist->nik) {
+                return response()->json(['success' => false, 'message' => 'Silakan selesaikan Tahap 1 terlebih dahulu.'], 400);
+            }
+
             $validated = $request->validate([
-                'kategori' => 'nullable|string',
-                'nama_perekomendasi' => 'nullable|string', 'instansi_perekomendasi' => 'nullable|string', 
-                'jabatan_perekomendasi' => 'nullable|string', 'file_rekomendasi' => 'nullable|file|mimes:pdf,jpg,png|max:5120',
+                'kategori' => 'nullable|string|max:255',
+                'nama_perekomendasi' => 'nullable|string|max:255',
+                'instansi_perekomendasi' => 'nullable|string|max:255',
+                'jabatan_perekomendasi' => 'nullable|string|max:255',
+                'file_rekomendasi' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             ]);
 
             $rek = RekomendasiPendaftaran::where('user_id', $user->id)->first();
             if ($request->hasFile('file_rekomendasi')) {
                 if ($rek && $rek->file_rekomendasi) Storage::disk('public')->delete($rek->file_rekomendasi);
                 $validated['file_rekomendasi'] = $request->file('file_rekomendasi')->store('dokumen_rekomendasi', 'public');
+            }
+
+            // Format fields to Title Case
+            $capitalFields = ['kategori', 'nama_perekomendasi', 'instansi_perekomendasi', 'jabatan_perekomendasi'];
+            foreach ($capitalFields as $field) {
+                if (isset($validated[$field]) && $validated[$field] !== null) {
+                    $validated[$field] = ucwords(strtolower($validated[$field]));
+                }
             }
 
             $data = RekomendasiPendaftaran::updateOrCreate(['user_id' => $user->id], $validated);
@@ -177,7 +276,17 @@ class PendaftaranApiController extends Controller
             $user = $request->user();
             if ($this->checkLockStatus($user->id)) return response()->json(['success' => false, 'message' => 'Profil terkunci.'], 403);
 
+            // Kunci akses jika Step 1 belum diisi
+            $profilExist = UserProfile::where('user_id', $user->id)->first();
+            if (!$profilExist || !$profilExist->nik) {
+                return response()->json(['success' => false, 'message' => 'Silakan selesaikan Tahap 1 terlebih dahulu.'], 400);
+            }
+
             $validated = $request->validate(['essay_kontribusi' => 'required|string|min:10']);
+
+            if (isset($validated['essay_kontribusi'])) {
+                $validated['essay_kontribusi'] = ucfirst($validated['essay_kontribusi']);
+            }
 
             $data = EssayPendaftaran::updateOrCreate(['user_id' => $user->id], $validated);
             return response()->json(['success' => true, 'message' => 'Tahap 5 (Essay) disimpan.', 'data' => $data], 200);
@@ -194,7 +303,7 @@ class PendaftaranApiController extends Controller
         $user = $request->user();
         $pendaftar = UserProfile::where('user_id', $user->id)->first();
 
-        if (!$pendaftar) return response()->json(['success' => false, 'message' => 'Anda belum mengisi Profil Tahap 1.'], 404);
+        if (!$pendaftar || !$pendaftar->nik) return response()->json(['success' => false, 'message' => 'Anda belum mengisi Profil Tahap 1.'], 404);
 
         $isRevisi = ($pendaftar->status === 'ditolak');
 
@@ -205,6 +314,21 @@ class PendaftaranApiController extends Controller
             'submitted_at' => now(),
             'responded_at' => null
         ]);
+
+        // Catat Notifikasi untuk Admin
+        Notification::create([
+            'user_id' => null, // null = Admin
+            'title' => $isRevisi ? 'Pengajuan Ulang (Revisi)' : 'Pendaftar Baru',
+            'message' => $isRevisi 
+                ? $pendaftar->nama . ' telah memperbaiki form pendaftaran dan mengajukan ulang.'
+                : $pendaftar->nama . ' baru saja mengirimkan berkas pendaftaran.',
+            'type' => $isRevisi ? 're_submission' : 'new_registration',
+            'is_read' => false,
+        ]);
+
+        // Tentukan tipe email notifikasi ke Admin
+        $tipe = $isRevisi ? 'pengajuan_ulang' : 'baru';
+        Mail::to('msyaifulloh2024@gmail.com')->queue(new NotifikasiPendaftaranAdmin($pendaftar, $tipe));
 
         return response()->json(['success' => true, 'message' => 'Pendaftaran Final Berhasil Dikirim dan Sedang Diproses.'], 200);
     }
@@ -223,8 +347,8 @@ class PendaftaranApiController extends Controller
         $rekomendasi = RekomendasiPendaftaran::where('user_id', $userId)->first();
         $essay       = EssayPendaftaran::where('user_id', $userId)->first();
 
-        // Cek apakah semua tahap sudah terisi (rekomendasi bersifat opsional sehingga tetap valid jika belum terisi, tapi draf modelnya tetap dicek)
-        $isReadyToSubmit = ($profil && $industri && $universitas && $essay);
+        // Cek apakah semua tahap sudah terisi
+        $isReadyToSubmit = ($profil && $profil->nik && $industri && $universitas && $essay);
 
         return response()->json([
             'success' => true,

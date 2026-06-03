@@ -11,7 +11,7 @@
         </div>
         <div>
             <h2 class="text-2xl font-bold text-slate-800">Form Pendaftaran Beasiswa</h2>
-            <p class="text-slate-500 text-sm">Lengkapi 6 tahap di bawah ini untuk mengajukan beasiswa.</p>
+            <p class="text-slate-500 text-sm">Lengkapi 7 tahap di bawah ini untuk mengajukan beasiswa.</p>
         </div>
     </div>
     @if($userProfile && $userProfile->kategori)
@@ -33,8 +33,8 @@
 
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6 overflow-x-auto">
     <div class="flex items-center justify-between min-w-[800px]">
-        @for($i = 1; $i <= 6; $i++)
-            <div class="flex items-center {{ $i == 6 ? '' : 'w-full' }}">
+        @for($i = 1; $i <= 7; $i++)
+            <div class="flex items-center {{ $i == 7 ? '' : 'w-full' }}">
                 
                 @if($i < $step)
                     <a href="{{ route('pendaftaran.step' . $i) }}" 
@@ -52,7 +52,7 @@
                     </div>
                 @endif
 
-                @if($i < 6)
+                @if($i < 7)
                     <div class="w-full h-1 mx-2 rounded {{ $step > $i ? 'bg-green-500' : 'bg-slate-100' }}"></div>
                 @endif
             </div>
@@ -66,7 +66,8 @@
             @elseif($step == 3) Tahap 3: Universitas
             @elseif($step == 4) Tahap 4: Rekomendasi
             @elseif($step == 5) Tahap 5: Essay
-            @elseif($step == 6) Tahap 6: Ringkasan & Kirim
+            @elseif($step == 6) Tahap 6: Surat Komitmen
+            @elseif($step == 7) Tahap 7: Ringkasan & Kirim
             @endif
         </span>
 
