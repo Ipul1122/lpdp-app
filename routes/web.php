@@ -13,11 +13,13 @@ use App\Http\Controllers\PendaftaranStep6Controller;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\NotifikasiController;
 
 // ADMIN
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PendaftarController;
+use App\Http\Controllers\Admin\NotifikasiController as AdminNotifikasiController;
 
 Route::get('/', function () {
     return view('welcome'); 
@@ -112,6 +114,8 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
     // Route::put('/pendaftaran/{id}', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
     Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
+    Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
+    Route::post('/notifikasi/mark-all-read', [NotifikasiController::class, 'markAllAsRead'])->name('notifikasi.markAllRead');
 });
 
 // --- RUTE ADMIN ---
@@ -133,8 +137,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
             Route::post('/pendaftar/{id}/status', [PendaftarController::class, 'updateStatus'])->name('pendaftar.updateStatus');
 
-            Route::get('/notifikasi', function () {return view('admin.notifikasi.index');
-            })->name('notifikasi.index');
+            Route::get('/notifikasi', [AdminNotifikasiController::class, 'index'])->name('notifikasi.index');
+            Route::post('/notifikasi/mark-all-read', [AdminNotifikasiController::class, 'markAllAsRead'])->name('notifikasi.markAllRead');
 
             Route::get('/pendaftar/infoPendaftar', [PendaftarController::class, 'infoPendaftar'])->name('pendaftar.infoPendaftar');
             

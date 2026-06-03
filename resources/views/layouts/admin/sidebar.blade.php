@@ -42,5 +42,26 @@
                 Info Akun
             </span>
         </a>
+
+        <a href="{{ route('admin.notifikasi.index') }}" 
+        class="w-full aspect-square rounded-xl flex items-center justify-center transition-all group relative {{ request()->routeIs('admin.notifikasi*') ? 'bg-slate-800 text-orange-500' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+            
+            <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+            </svg>
+            
+            @php
+                $adminUnreadCount = \App\Models\Notification::whereNull('user_id')->where('is_read', false)->count();
+            @endphp
+            @if($adminUnreadCount > 0)
+                <span class="absolute top-2 right-2 flex h-4 w-4 items-center justify-center text-[9px] font-bold text-white bg-orange-500 rounded-full border border-slate-900 shadow">
+                    {{ $adminUnreadCount }}
+                </span>
+            @endif
+            
+            <span class="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap z-50 shadow-md">
+                Notifikasi
+            </span>
+        </a>
     </nav>
 </aside>
