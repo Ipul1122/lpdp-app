@@ -57,7 +57,7 @@
                 </h1>
                 
                 <p class="text-lg text-slate-500 mb-10 leading-relaxed max-w-2xl mx-auto">
-                    Platform pendaftaran terintegrasi yang memudahkan langkahmu menggapai pendidikan tinggi. Proses transparan, mudah, dan terstruktur dalam 7 tahapan yang jelas.
+                    Platform pendaftaran terintegrasi yang memudahkan langkahmu menggapai pendidikan tinggi. Proses transparan, mudah, dan terstruktur dalam 6 tahapan yang jelas.
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -78,11 +78,11 @@
 
             <div class="mt-24 md:mt-32">
                 <div class="text-center mb-12">
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Proses Pendaftaran 7 Langkah</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Proses Pendaftaran 6 Langkah</h2>
                     <p class="text-slate-500 mt-2">Sistem kami dirancang agar Anda bisa melengkapi dokumen secara bertahap tanpa takut kehilangan data (Auto-Save).</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Langkah 1 -->
                     <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md hover:border-orange-100 transition duration-300 flex flex-col justify-between">
                         <div>
@@ -91,7 +91,7 @@
                                 <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 014 0m-6 8a2 2 0 100-4 2 2 0 000 4zm5.334-1.334a3.334 3.334 0 00-3.334 3.334h6.668a3.334 3.334 0 00-3.334-3.334z"></path></svg>
                             </div>
                             <h3 class="font-bold text-slate-800 mb-2">Registrasi Data</h3>
-                            <p class="text-sm text-slate-500 leading-relaxed">Pengisian data diri dasar, NIK, pemilihan jenjang beasiswa (S1/S2/Spesialis), serta unggah foto KTP.</p>
+                            <p class="text-sm text-slate-500 leading-relaxed">Pengisian data diri dasar, NIK, pemilihan jenjang beasiswa (S2/Spesialis), serta unggah foto KTP.</p>
                         </div>
                     </div>
 
@@ -102,8 +102,8 @@
                                 <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center font-extrabold text-xl shadow-inner">2</div>
                                 <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                             </div>
-                            <h3 class="font-bold text-slate-800 mb-2">Data Industri</h3>
-                            <p class="text-sm text-slate-500 leading-relaxed">Rincian instansi asal, jabatan, status kepegawaian, dan unggah surat rekomendasi/izin kerja dari instansi.</p>
+                            <h3 class="font-bold text-slate-800 mb-2">Unit Kerja</h3>
+                            <p class="text-sm text-slate-500 leading-relaxed">Rincian unit kerja asal, jabatan, golongan kepegawaian, tanggal pensiun, serta unggah surat izin atasan.</p>
                         </div>
                     </div>
 
@@ -115,7 +115,7 @@
                                 <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                             </div>
                             <h3 class="font-bold text-slate-800 mb-2">Universitas</h3>
-                            <p class="text-sm text-slate-500 leading-relaxed">Pemilihan negara, kota, nama kampus, program studi tujuan, serta unggah berkas kelulusan (LoA) & KHS/IPK.</p>
+                            <p class="text-sm text-slate-500 leading-relaxed">Pemilihan kota, nama kampus, program studi tujuan, rencana mulai & durasi studi, serta unggah berkas LoA & KHS/IPK (opsional).</p>
                         </div>
                     </div>
 
@@ -126,8 +126,8 @@
                                 <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center font-extrabold text-xl shadow-inner">4</div>
                                 <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                             </div>
-                            <h3 class="font-bold text-slate-800 mb-2">Profil & Biodata</h3>
-                            <p class="text-sm text-slate-500 leading-relaxed">Kelengkapan deskripsi diri, riwayat pendidikan, riwayat kerja/organisasi, list prestasi, keahlian, dan bahasa.</p>
+                            <h3 class="font-bold text-slate-800 mb-2">Surat Rekomendasi</h3>
+                            <p class="text-sm text-slate-500 leading-relaxed">Pengisian kategori rekomendasi, identitas pemberi rekomendasi, dan berkas rekomendasi resmi (semua opsional).</p>
                         </div>
                     </div>
 
@@ -136,18 +136,6 @@
                         <div>
                             <div class="flex items-center justify-between mb-4">
                                 <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center font-extrabold text-xl shadow-inner">5</div>
-                                <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                            </div>
-                            <h3 class="font-bold text-slate-800 mb-2">Surat Rekomendasi</h3>
-                            <p class="text-sm text-slate-500 leading-relaxed">Pengisian identitas pemberi rekomendasi (akademisi/pimpinan) dan unggah berkas surat rekomendasi resmi.</p>
-                        </div>
-                    </div>
-
-                    <!-- Langkah 6 -->
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md hover:border-orange-100 transition duration-300 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center font-extrabold text-xl shadow-inner">6</div>
                                 <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             </div>
                             <h3 class="font-bold text-slate-800 mb-2">Esai Kontribusi</h3>
@@ -155,15 +143,15 @@
                         </div>
                     </div>
 
-                    <!-- Langkah 7 (Highlighted) -->
-                    <div class="bg-gradient-to-br from-orange-500 to-amber-500 text-white p-6 rounded-3xl shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 transition duration-300 flex flex-col justify-between col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-2">
+                    <!-- Langkah 6 (Highlighted) -->
+                    <div class="bg-gradient-to-br from-orange-500 to-amber-500 text-white p-6 rounded-3xl shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 transition duration-300 flex flex-col justify-between">
                         <div>
                             <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 bg-white/20 text-white rounded-2xl flex items-center justify-center font-extrabold text-xl shadow-inner">7</div>
+                                <div class="w-12 h-12 bg-white/20 text-white rounded-2xl flex items-center justify-center font-extrabold text-xl shadow-inner">6</div>
                                 <svg class="w-6 h-6 text-orange-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
                             </div>
                             <h3 class="font-bold text-white mb-2 text-lg">Ringkasan & Kirim Final</h3>
-                            <p class="text-sm text-orange-50 leading-relaxed">Melakukan peninjauan akhir (review) menyeluruh terhadap semua berkas dan data dari Tahap 1 sampai 6, menyetujui pernyataan kebenaran data, lalu mengirimkan pendaftaran secara final dan aman.</p>
+                            <p class="text-sm text-orange-50 leading-relaxed">Melakukan peninjauan akhir (review) menyeluruh terhadap semua berkas dan data dari Tahap 1 sampai 5, menyetujui pernyataan kebenaran data, lalu mengirimkan pendaftaran secara final dan aman.</p>
                         </div>
                     </div>
                 </div>

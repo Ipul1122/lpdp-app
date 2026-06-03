@@ -279,7 +279,6 @@
                                 'border-slate-300 focus:ring-orange-500' => !$errors->has('program_beasiswa'),
                             ])>
                         <option value="" disabled {{ !old('program_beasiswa') && !request('program') ? 'selected' : '' }}>-- Silakan Pilih Program --</option>
-                        <option value="sarjana" {{ old('program_beasiswa', request('program')) == 'sarjana' ? 'selected' : '' }}>Beasiswa Sarjana (S1)</option>
                         <option value="magister" {{ old('program_beasiswa', request('program')) == 'magister' ? 'selected' : '' }}>Beasiswa Magister (S2)</option>
                         <option value="dokter" {{ old('program_beasiswa', request('program')) == 'dokter' ? 'selected' : '' }}>Beasiswa Dokter Spesialis</option>
                     </select>

@@ -33,7 +33,6 @@
         <div class="mb-6">
             <label class="block text-sm font-medium text-slate-700 mb-1">Pilih Program <span class="text-red-500">*</span></label>
             <select name="program_beasiswa" class="w-full rounded-xl border-slate-300 focus:ring-orange-500 focus:border-orange-500" required>
-                <option value="sarjana" {{ (old('program_beasiswa', $profil->program_beasiswa) == 'sarjana') ? 'selected' : '' }}>Sarjana (S1)</option>
                 <option value="magister" {{ (old('program_beasiswa', $profil->program_beasiswa) == 'magister') ? 'selected' : '' }}>Magister (S2)</option>
                 <option value="dokter" {{ (old('program_beasiswa', $profil->program_beasiswa) == 'dokter') ? 'selected' : '' }}>Dokter (Spesialis)</option>
             </select>

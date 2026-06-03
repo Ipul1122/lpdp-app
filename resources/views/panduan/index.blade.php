@@ -32,15 +32,14 @@
             <div class="relative z-10">
                 <div class="flex items-center gap-4 mb-6 pb-4 border-b border-slate-100">
                     <span class="w-10 h-10 bg-orange-500 text-white rounded-xl flex items-center justify-center font-bold text-lg shadow-md shadow-orange-200">2</span>
-                    <h3 class="text-xl font-bold text-slate-800">Pengisian 7 Tahap (Auto-Save)</h3>
+                    <h3 class="text-xl font-bold text-slate-800">Pengisian 6 Tahap (Auto-Save)</h3>
                 </div>
-                <p class="text-slate-600 mb-3">Setelah login, klik menu <b>Pendaftaran</b>. Anda diwajibkan mengisi 7 tahapan berkas:</p>
+                <p class="text-slate-600 mb-3">Setelah login, klik menu <b>Pendaftaran</b>. Anda diwajibkan mengisi 6 tahapan berkas:</p>
                 <ul class="space-y-2 text-sm text-slate-600 list-decimal pl-5 font-medium mb-4">
                     <li>Data Pribadi & Upload KTP</li>
-                    <li>Data Industri / Instansi Pendukung</li>
-                    <li>Universitas Tujuan & Upload LoA</li>
-                    <li>Profil & Biodata Diri (Esai Singkat)</li>
-                    <li>Surat Rekomendasi Tokoh</li>
+                    <li>Data Unit Kerja</li>
+                    <li>Universitas Tujuan & Upload LoA (IPK/KHS Opsional)</li>
+                    <li>Surat Rekomendasi (Opsional & ada Kategori)</li>
                     <li>Esai Kontribusi (1500 - 2000 Kata)</li>
                     <li>Ringkasan Keseluruhan Data</li>
                 </ul>
@@ -57,7 +56,7 @@
                 <h3 class="text-xl font-bold text-slate-800">Finalisasi & Kirim Berkas</h3>
             </div>
             <ul class="space-y-3 text-slate-600 list-disc pl-5 leading-relaxed">
-                <li>Pada <strong class="text-slate-800">Tahap 7</strong>, Anda dapat melihat seluruh ringkasan data yang telah diinput dari Tahap 1 sampai 6.</li>
+                <li>Pada <strong class="text-slate-800">Tahap 6</strong>, Anda dapat melihat seluruh ringkasan data yang telah diinput dari Tahap 1 sampai 5.</li>
                 <li>Periksa kembali data Anda dengan teliti. Jika ada kesalahan, Anda bisa menekan tombol "Edit" di bagian yang bersangkutan.</li>
                 <li>Jika sudah yakin, setujui <b>Pernyataan Kebenaran Data</b> dan klik tombol hijau <strong class="text-slate-800">Kirim Pendaftaran Final</strong>.</li>
                 <li><span class="text-red-500 font-semibold">Penting:</span> Setelah dikirim, data akan terkunci dan langsung masuk ke meja evaluasi Admin.</li>
@@ -72,7 +71,7 @@
             <ul class="space-y-4 text-slate-600 list-disc pl-5 leading-relaxed">
                 <li>Pantau status kelulusan Anda melalui menu <strong class="text-slate-800">Riwayat Pendaftaran</strong>.</li>
                 <li>Jika berkas ditolak karena kurang lengkap, status akan berubah menjadi <span class="bg-red-100 text-red-600 px-2 py-0.5 rounded text-xs font-bold">Ditolak</span> beserta <b>Catatan Revisi</b> dari Admin.</li>
-                <li>Anda dapat menekan tombol <strong class="text-slate-800">Revisi Berkas</strong> untuk memperbaiki data yang salah (melalui alur Tahap 1-7 kembali) dan mengirimkannya ulang.</li>
+                <li>Anda dapat menekan tombol <strong class="text-slate-800">Revisi Berkas</strong> untuk memperbaiki data yang salah (melalui alur Tahap 1-6 kembali) dan mengirimkannya ulang.</li>
                 <li>Pemberitahuan kelulusan atau penolakan juga akan dikirimkan otomatis ke nomor <b>WhatsApp</b> yang Anda daftarkan.</li>
             </ul>
         </div>

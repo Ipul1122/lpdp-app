@@ -29,7 +29,8 @@ class PendaftaranStep2Controller extends Controller
 
         return view('pendaftaran.step2', [
             'step' => 2,
-            'industri' => $industri
+            'industri' => $industri,
+            'userProfile' => $profilExist
         ]);
     }
 
@@ -38,19 +39,11 @@ class PendaftaranStep2Controller extends Controller
         $industriExist = IndustriPendukung::where('user_id', Auth::id())->first();
 
         $validated = $request->validate([
-            'instansi' => 'required|string|max:255',
-            'sektor' => 'required|string|max:255',
-            'jenis_instansi' => 'required|string|max:255',
-            'nama_instansi' => 'required|string|max:255',
-            'telepon_instansi' => 'required|string|max:20',
-            'provinsi' => 'required|string|max:255',
-            'kab_kota' => 'required|string|max:255',
-            'alamat_instansi' => 'required|string',
-            'status_kepegawaian' => 'required|string|max:255',
+            'unit_kerja' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'golongan' => 'required|string|max:255',
             'tanggal_mulai_kerja' => 'required|string',
-            'pekerjaan' => 'required|string|max:255',
-            'penghasilan' => 'required|string|max:255',
-            'deskripsi_pekerjaan' => 'required|string',
+            'tanggal_pensiun' => 'required|string',
             'surat_izin' => $industriExist && $industriExist->surat_izin ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
@@ -61,22 +54,16 @@ class PendaftaranStep2Controller extends Controller
             $validated['surat_izin'] = $request->file('surat_izin')->store('dokumen_industri', 'public');
         }
 
-        // Format fields to Title Case / Sentence Case
-        $capitalFields = ['nama_instansi', 'provinsi', 'kab_kota', 'pekerjaan'];
+        // Format fields to Title Case
+        $capitalFields = ['nama_instansi', 'unit_kerja', 'jabatan'];
         foreach ($capitalFields as $field) {
             if (isset($validated[$field])) {
                 $validated[$field] = ucwords(strtolower($validated[$field]));
             }
         }
-        if (isset($validated['alamat_instansi'])) {
-            $validated['alamat_instansi'] = ucfirst($validated['alamat_instansi']);
-        }
-        if (isset($validated['deskripsi_pekerjaan'])) {
-            $validated['deskripsi_pekerjaan'] = ucfirst($validated['deskripsi_pekerjaan']);
-        }
 
         IndustriPendukung::updateOrCreate(['user_id' => Auth::id()], $validated);
 
-        return redirect()->route('pendaftaran.step3')->with('success', 'Data Industri tersimpan, lanjut ke Tahap 3.');
+        return redirect()->route('pendaftaran.step3')->with('success', 'Data Unit Kerja tersimpan, lanjut ke Tahap 3.');
     }
 }

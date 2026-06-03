@@ -36,17 +36,15 @@ class PendaftaranStep3Controller extends Controller
     {
         $univExist = UniversitasPendaftaran::where('user_id', Auth::id())->first();
 
-        // Ubah nullable menjadi required untuk keamanan backend
+        // Ubah nullable menjadi required untuk keamanan backend, khs_ipk tetap nullable (optional)
         $validated = $request->validate([
-            'negara_tujuan' => 'required|string|max:255',
-            'provinsi' => 'required|string|max:255',
             'kota' => 'required|string|max:255',
             'nama_universitas' => 'required|string|max:255',
             'program_studi' => 'required|string|max:255',
             'tanggal_mulai_studi' => 'required|string',
             'durasi_studi' => 'required|integer',
             'loa' => $univExist && $univExist->loa ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'khs_ipk' => $univExist && $univExist->khs_ipk ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'khs_ipk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
         if ($request->hasFile('loa')) {
@@ -64,7 +62,7 @@ class PendaftaranStep3Controller extends Controller
         }
 
         // Format fields to Title Case
-        $capitalFields = ['provinsi', 'kota', 'nama_universitas', 'program_studi'];
+        $capitalFields = ['kota', 'nama_universitas', 'program_studi'];
         foreach ($capitalFields as $field) {
             if (isset($validated[$field])) {
                 $validated[$field] = ucwords(strtolower($validated[$field]));

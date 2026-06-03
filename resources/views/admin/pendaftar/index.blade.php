@@ -91,14 +91,17 @@
 
                     <div x-data="{ tab2: false }" class="border border-slate-200 rounded-xl overflow-hidden">
                         <button @click="tab2 = !tab2" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
-                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">2</span> Industri / Pendukung</span>
+                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">2</span> Unit Kerja</span>
                             <svg :class="{'rotate-180': tab2}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="tab2" style="display:none;" class="p-5 border-t border-slate-100 text-sm grid grid-cols-1 md:grid-cols-3 gap-4">
                             @if($p->industri)
-                                <div><span class="block text-slate-400 text-xs mb-1">Nama Instansi</span><p class="font-semibold text-slate-800">{{ $p->industri->nama_instansi ?? '-' }}</p></div>
-                                <div><span class="block text-slate-400 text-xs mb-1">Pekerjaan</span><p class="font-semibold text-slate-800">{{ $p->industri->pekerjaan ?? '-' }}</p></div>
-                                <div><span class="block text-slate-400 text-xs mb-1">Status Pegawai</span><p class="font-semibold text-slate-800">{{ $p->industri->status_kepegawaian ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Unit Kerja</span><p class="font-semibold text-slate-800">{{ $p->industri->unit_kerja ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Jabatan</span><p class="font-semibold text-slate-800">{{ $p->industri->jabatan ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Golongan</span><p class="font-semibold text-slate-800">{{ $p->industri->golongan ?? '-' }}</p></div>
+                                <div class="col-span-2"><span class="block text-slate-400 text-xs mb-1">Nama Instansi</span><p class="font-semibold text-slate-800">{{ $p->industri->nama_instansi ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Tanggal Mulai Kerja</span><p class="font-semibold text-slate-800">{{ $p->industri->tanggal_mulai_kerja ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Tanggal Pensiun</span><p class="font-semibold text-slate-800">{{ $p->industri->tanggal_pensiun ?? '-' }}</p></div>
                                 <div class="col-span-3">
                                     <span class="block text-slate-400 text-xs mb-1">Surat Izin Instansi</span>
                                     @if($p->industri->surat_izin) <a href="{{ asset('storage/' . $p->industri->surat_izin) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Buka Surat Izin</a> @else <span class="text-slate-500">Tidak dilampirkan</span> @endif
@@ -116,6 +119,8 @@
                             @if($p->universitas)
                                 <div><span class="block text-slate-400 text-xs mb-1">Universitas</span><p class="font-semibold text-slate-800">{{ $p->universitas->nama_universitas ?? '-' }}</p></div>
                                 <div><span class="block text-slate-400 text-xs mb-1">Program Studi</span><p class="font-semibold text-slate-800">{{ $p->universitas->program_studi ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Lokasi Kampus (Kota)</span><p class="font-semibold text-slate-800">{{ $p->universitas->kota ?? '-' }}</p></div>
+                                <div><span class="block text-slate-400 text-xs mb-1">Rencana Studi</span><p class="font-semibold text-slate-800">Mulai: {{ $p->universitas->tanggal_mulai_studi ?? '-' }} ({{ $p->universitas->durasi_studi ?? '-' }} Bulan)</p></div>
                                 <div>
                                     <span class="block text-slate-400 text-xs mb-1">LoA / Bukti Lulus</span>
                                     @if($p->universitas->loa) <a href="{{ asset('storage/' . $p->universitas->loa) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Dokumen LoA</a> @else <span class="text-slate-500">-</span> @endif
@@ -130,36 +135,24 @@
 
                     <div x-data="{ tab4: false }" class="border border-slate-200 rounded-xl overflow-hidden">
                         <button @click="tab4 = !tab4" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
-                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">4</span> Profil / Biodata</span>
+                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">4</span> Surat Rekomendasi</span>
                             <svg :class="{'rotate-180': tab4}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <div x-show="tab4" style="display:none;" class="p-5 border-t border-slate-100 text-sm space-y-4">
-                            @if($p->biodata)
-                                <div><span class="block text-slate-400 text-xs mb-1">Deskripsi Diri</span><p class="font-medium text-slate-700 whitespace-pre-wrap">{{ $p->biodata->deskripsi_diri ?? '-' }}</p></div>
-                                <div><span class="block text-slate-400 text-xs mb-1">Prestasi</span><p class="font-medium text-slate-700 whitespace-pre-wrap">{{ $p->biodata->prestasi ?? '-' }}</p></div>
-                            @else <p class="text-slate-500 italic">Data belum diisi.</p> @endif
-                        </div>
-                    </div>
-
-                    <div x-data="{ tab5: false }" class="border border-slate-200 rounded-xl overflow-hidden">
-                        <button @click="tab5 = !tab5" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
-                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">5</span> Surat Rekomendasi</span>
-                            <svg :class="{'rotate-180': tab5}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div x-show="tab5" style="display:none;" class="p-5 border-t border-slate-100 text-sm">
+                        <div x-show="tab4" style="display:none;" class="p-5 border-t border-slate-100 text-sm">
                             @if($p->rekomendasi)
+                                <p class="mb-2"><b>Kategori Rekomendasi:</b> {{ $p->rekomendasi->kategori ?? '-' }}</p>
                                 <p class="mb-2"><b>Perekomendasi:</b> {{ $p->rekomendasi->nama_perekomendasi ?? '-' }} ({{ $p->rekomendasi->jabatan_perekomendasi ?? '-' }} - {{ $p->rekomendasi->instansi_perekomendasi ?? '-' }})</p>
                                 @if($p->rekomendasi->file_rekomendasi) <a href="{{ asset('storage/' . $p->rekomendasi->file_rekomendasi) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Rekomendasi</a> @endif
                             @else <p class="text-slate-500 italic">Data belum diisi.</p> @endif
                         </div>
                     </div>
 
-                    <div x-data="{ tab6: false }" class="border border-slate-200 rounded-xl overflow-hidden">
-                        <button @click="tab6 = !tab6" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
-                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">6</span> Essay Kontribusi</span>
-                            <svg :class="{'rotate-180': tab6}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <div x-data="{ tab5: false }" class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button @click="tab5 = !tab5" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
+                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">5</span> Essay Kontribusi</span>
+                            <svg :class="{'rotate-180': tab5}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <div x-show="tab6" style="display:none;" class="p-5 border-t border-slate-100 text-sm">
+                        <div x-show="tab5" style="display:none;" class="p-5 border-t border-slate-100 text-sm">
                             @if($p->essay)
                                 <div class="bg-slate-50 p-4 rounded-xl leading-relaxed whitespace-pre-wrap font-medium text-slate-700 max-h-60 overflow-y-auto">{{ $p->essay->essay_kontribusi }}</div>
                             @else <p class="text-slate-500 italic">Data belum diisi.</p> @endif
