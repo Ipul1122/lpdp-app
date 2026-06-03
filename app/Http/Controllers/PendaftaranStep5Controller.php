@@ -4,15 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Models\UserProfile;
-use App\Models\RekomendasiPendaftaran;
+use App\Models\EssayPendaftaran;
 
 class PendaftaranStep5Controller extends Controller
 {
     public function create()
     {
-
         $profilExist = UserProfile::where('user_id', Auth::id())->first();
         
         // Kunci akses jika belum isi Step 1 ATAU sudah Final
@@ -20,47 +18,30 @@ class PendaftaranStep5Controller extends Controller
             return redirect()->route('pendaftaran.index')->with('error', 'Akses ditolak atau formulir sudah terkunci.');
         }
 
-        // Kunci akses jika Step 1 belum diisi
         if (!UserProfile::where('user_id', Auth::id())->exists()) {
-            return redirect()->route('pendaftaran.step1')->with('error', 'Silakan selesaikan Tahap 1 terlebih dahulu.');
+            return redirect()->route('pendaftaran.step1')->with('error', 'Selesaikan Tahap 1 terlebih dahulu.');
         }
 
-        $rekomendasi = RekomendasiPendaftaran::where('user_id', Auth::id())->first();
+        $essay = EssayPendaftaran::where('user_id', Auth::id())->first();
 
         return view('pendaftaran.step5', [
             'step' => 5,
-            'rekomendasi' => $rekomendasi
+            'essay' => $essay
         ]);
     }
 
     public function store(Request $request)
     {
-        $rekExist = RekomendasiPendaftaran::where('user_id', Auth::id())->first();
-
         $validated = $request->validate([
-            'nama_perekomendasi' => 'required|string|max:255',
-            'instansi_perekomendasi' => 'required|string|max:255',
-            'jabatan_perekomendasi' => 'required|string|max:255',
-            'file_rekomendasi' => $rekExist && $rekExist->file_rekomendasi ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'essay_kontribusi' => 'required|string|min:10',
         ]);
 
-        if ($request->hasFile('file_rekomendasi')) {
-            if ($rekExist && $rekExist->file_rekomendasi) {
-                Storage::disk('public')->delete($rekExist->file_rekomendasi);
-            }
-            $validated['file_rekomendasi'] = $request->file('file_rekomendasi')->store('dokumen_rekomendasi', 'public');
+        if (isset($validated['essay_kontribusi'])) {
+            $validated['essay_kontribusi'] = ucfirst($validated['essay_kontribusi']);
         }
 
-        // Format fields to Title Case
-        $capitalFields = ['nama_perekomendasi', 'instansi_perekomendasi', 'jabatan_perekomendasi'];
-        foreach ($capitalFields as $field) {
-            if (isset($validated[$field])) {
-                $validated[$field] = ucwords(strtolower($validated[$field]));
-            }
-        }
+        EssayPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
 
-        RekomendasiPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
-
-        return redirect()->route('pendaftaran.step6')->with('success', 'Rekomendasi tersimpan, lanjut ke Essay.');
+        return redirect()->route('pendaftaran.step6')->with('success', 'Essay tersimpan. Silakan periksa kembali ringkasan pendaftaran Anda.');
     }
 }

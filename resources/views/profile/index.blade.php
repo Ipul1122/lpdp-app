@@ -15,7 +15,7 @@
 
             <button @click="activeTab = 'industri'" :class="activeTab === 'industri' ? 'bg-orange-50 text-orange-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> 
-                Industri / Pendukung
+                Unit Kerja
             </button>
 
             <button @click="activeTab = 'universitas'" :class="activeTab === 'universitas' ? 'bg-orange-50 text-orange-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
@@ -23,10 +23,7 @@
                 Universitas Tujuan
             </button>
 
-            <button @click="activeTab = 'biodata'" :class="activeTab === 'biodata' ? 'bg-orange-50 text-orange-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
-                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg> 
-                Biodata & Riwayat
-            </button>
+
 
             <button @click="activeTab = 'rekomendasi'" :class="activeTab === 'rekomendasi' ? 'bg-orange-50 text-orange-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-50 font-medium'" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> 
@@ -67,7 +64,6 @@
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Program Beasiswa yang Diinginkan</label>
                             <select name="program_beasiswa" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm">
                                 <option value="">-- Pilih Program --</option>
-                                <option value="sarjana" {{ old('program_beasiswa', $userProfile?->program_beasiswa) == 'sarjana' ? 'selected' : '' }}>Beasiswa Sarjana (S1)</option>
                                 <option value="magister" {{ old('program_beasiswa', $userProfile?->program_beasiswa) == 'magister' ? 'selected' : '' }}>Beasiswa Magister (S2)</option>
                                 <option value="dokter" {{ old('program_beasiswa', $userProfile?->program_beasiswa) == 'dokter' ? 'selected' : '' }}>Beasiswa Dokter Spesialis</option>
                             </select>
@@ -95,22 +91,31 @@
             </div>
 
             <div x-show="activeTab === 'industri'" x-transition.opacity style="display: none;">
-                <div class="mb-8 border-b border-slate-100 pb-4"><h3 class="text-2xl font-extrabold text-slate-800">Industri & Pekerjaan</h3></div>
+                <div class="mb-8 border-b border-slate-100 pb-4"><h3 class="text-2xl font-extrabold text-slate-800">Unit Kerja & Instansi</h3></div>
                 <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf <input type="hidden" name="section" value="industri">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Unit Kerja</label><input type="text" name="unit_kerja" value="{{ $industri?->unit_kerja }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Jabatan</label><input type="text" name="jabatan" value="{{ $industri?->jabatan }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Golongan</label>
+                            <select name="golongan" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm">
+                                <option value="">Pilih Golongan</option>
+                                @foreach(['I/a', 'I/b', 'I/c', 'I/d', 'II/a', 'II/b', 'II/c', 'II/d', 'III/a', 'III/b', 'III/c', 'III/d', 'IV/a', 'IV/b', 'IV/c', 'IV/d', 'IV/e', 'Non-PNS'] as $gol)
+                                    <option value="{{ $gol }}" {{ ($industri?->golongan == $gol) ? 'selected' : '' }}>{{ $gol }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Nama Instansi</label><input type="text" name="nama_instansi" value="{{ $industri?->nama_instansi }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Pekerjaan</label><input type="text" name="pekerjaan" value="{{ $industri?->pekerjaan }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Status Kepegawaian</label><select name="status_kepegawaian" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"><option value="Tetap" {{ $industri?->status_kepegawaian == 'Tetap' ? 'selected' : '' }}>Tetap</option><option value="Kontrak" {{ $industri?->status_kepegawaian == 'Kontrak' ? 'selected' : '' }}>Kontrak</option></select></div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Tgl Mulai Kerja</label><input type="month" name="tanggal_mulai_kerja" value="{{ $industri?->tanggal_mulai_kerja }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-semibold text-slate-700 mb-2">Deskripsi Pekerjaan</label><textarea name="deskripsi_pekerjaan" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm">{{ $industri?->deskripsi_pekerjaan }}</textarea></div>
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Pensiun</label><input type="month" name="tanggal_pensiun" value="{{ $industri?->tanggal_pensiun }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Surat Izin Instansi</label>
                             @if($industri?->surat_izin) <p class="mb-2"><a href="{{ asset('storage/' . $industri->surat_izin) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat Dokumen Izin</a></p> @endif
                             @if(!$isLocked) <input type="file" name="surat_izin" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                     </div>
-                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Industri</button></div> @endif
+                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Unit Kerja</button></div> @endif
                 </form>
             </div>
 
@@ -139,25 +144,14 @@
                 </form>
             </div>
 
-            <div x-show="activeTab === 'biodata'" x-transition.opacity style="display: none;">
-                <div class="mb-8 border-b border-slate-100 pb-4"><h3 class="text-2xl font-extrabold text-slate-800">Biodata & Riwayat</h3></div>
-                <form action="{{ route('profile.update') }}" method="POST">
-                    @csrf <input type="hidden" name="section" value="biodata">
-                    <div class="space-y-6">
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Deskripsi Diri</label><textarea name="deskripsi_diri" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm">{{ $biodata?->deskripsi_diri }}</textarea></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Riwayat Pendidikan</label><textarea name="riwayat_pendidikan" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm">{{ $biodata?->riwayat_pendidikan }}</textarea></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Pengalaman Organisasi</label><textarea name="pengalaman_organisasi" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm">{{ $biodata?->pengalaman_organisasi }}</textarea></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Prestasi</label><textarea name="prestasi" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm">{{ $biodata?->prestasi }}</textarea></div>
-                    </div>
-                    @if(!$isLocked) <div class="mt-8 text-right"><button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl transition">Simpan Biodata</button></div> @endif
-                </form>
-            </div>
+
 
             <div x-show="activeTab === 'rekomendasi'" x-transition.opacity style="display: none;">
                 <div class="mb-8 border-b border-slate-100 pb-4"><h3 class="text-2xl font-extrabold text-slate-800">Surat Rekomendasi</h3></div>
                 <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf <input type="hidden" name="section" value="rekomendasi">
                     <div class="grid grid-cols-1 gap-6">
+                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Judul (Kategori) Rekomendasi</label><input type="text" name="kategori" value="{{ $rekomendasi?->kategori }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm" placeholder="Contoh: Rekomendasi Akademik / Atasan"></div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Nama Tokoh/Akademisi</label><input type="text" name="nama_perekomendasi" value="{{ $rekomendasi?->nama_perekomendasi }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Instansi & Jabatan</label><div class="flex gap-2"><input type="text" name="instansi_perekomendasi" value="{{ $rekomendasi?->instansi_perekomendasi }}" placeholder="Instansi" class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"><input type="text" name="jabatan_perekomendasi" value="{{ $rekomendasi?->jabatan_perekomendasi }}" placeholder="Jabatan" class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div></div>
                         <div>

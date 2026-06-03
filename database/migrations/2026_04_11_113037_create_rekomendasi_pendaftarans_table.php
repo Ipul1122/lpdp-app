@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('rekomendasi_pendaftarans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('kategori')->nullable();
             $table->string('nama_perekomendasi')->nullable();
             $table->string('instansi_perekomendasi')->nullable();
             $table->string('jabatan_perekomendasi')->nullable();

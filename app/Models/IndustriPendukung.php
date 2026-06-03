@@ -10,10 +10,8 @@ class IndustriPendukung extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'instansi', 'sektor', 'jenis_instansi', 'nama_instansi', 
-        'telepon_instansi', 'provinsi', 'kab_kota', 'alamat_instansi', 
-        'status_kepegawaian', 'tanggal_mulai_kerja', 'pekerjaan', 
-        'penghasilan', 'deskripsi_pekerjaan', 'surat_izin'
+        'user_id', 'unit_kerja', 'jabatan', 'golongan', 'nama_instansi', 
+        'tanggal_mulai_kerja', 'tanggal_pensiun', 'surat_izin'
     ];
 
     public function user()

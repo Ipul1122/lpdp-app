@@ -10,7 +10,7 @@ class RekomendasiPendaftaran extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'nama_perekomendasi', 'instansi_perekomendasi', 
+        'user_id', 'kategori', 'nama_perekomendasi', 'instansi_perekomendasi', 
         'jabatan_perekomendasi', 'file_rekomendasi'
     ];
 

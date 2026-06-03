@@ -10,7 +10,6 @@ use App\Http\Controllers\PendaftaranStep3Controller;
 use App\Http\Controllers\PendaftaranStep4Controller;
 use App\Http\Controllers\PendaftaranStep5Controller;
 use App\Http\Controllers\PendaftaranStep6Controller;
-use App\Http\Controllers\PendaftaranStep7Controller;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\ProfileController;
@@ -93,18 +92,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pendaftaran/step/3', [PendaftaranStep3Controller::class, 'create'])->name('pendaftaran.step3');
     Route::post('/pendaftaran/step/3', [PendaftaranStep3Controller::class, 'store'])->name('pendaftaran.step3.store');
 
-    // TAHAP 4 (Profil & Biodata)
+    // TAHAP 4 (Surat Rekomendasi)
     Route::get('/pendaftaran/step/4', [PendaftaranStep4Controller::class, 'create'])->name('pendaftaran.step4');
     Route::post('/pendaftaran/step/4', [PendaftaranStep4Controller::class, 'store'])->name('pendaftaran.step4.store');
 
+    // TAHAP 5 (Essay Kontribusi)
     Route::get('/pendaftaran/step/5', [PendaftaranStep5Controller::class, 'create'])->name('pendaftaran.step5');
     Route::post('/pendaftaran/step/5', [PendaftaranStep5Controller::class, 'store'])->name('pendaftaran.step5.store');
 
+    // TAHAP 6 (Ringkasan & Kirim)
     Route::get('/pendaftaran/step/6', [PendaftaranStep6Controller::class, 'create'])->name('pendaftaran.step6');
     Route::post('/pendaftaran/step/6', [PendaftaranStep6Controller::class, 'store'])->name('pendaftaran.step6.store');
-
-    Route::get('/pendaftaran/step/7', [PendaftaranStep7Controller::class, 'create'])->name('pendaftaran.step7');
-    Route::post('/pendaftaran/step/7', [PendaftaranStep7Controller::class, 'store'])->name('pendaftaran.step7.store');
     
     // Rute Edit & Update (Untuk Revisi Admin) tetap di Controller Utama
     // Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');

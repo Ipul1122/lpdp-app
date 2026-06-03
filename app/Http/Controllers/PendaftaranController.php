@@ -69,7 +69,7 @@ class PendaftaranController extends Controller
             'status_perkawinan' => 'required|string|max:50',
             'pekerjaan'         => 'required|string|max:100',
             'kewarganegaraan'   => 'required|string|max:50',
-            'program_beasiswa'  => 'required|in:sarjana,magister,dokter', 
+            'program_beasiswa'  => 'required|in:magister,dokter', 
         ], [
             'nik.unique' => 'NIK ini sudah terdaftar di sistem kami.',
         ]);

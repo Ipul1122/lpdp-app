@@ -11,12 +11,11 @@ class PendaftarController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. TAMBAHKAN SEMUA RELASI DI SINI (Eager Loading)
-        $query = UserProfile::with(['user', 'industri', 'universitas', 'biodata', 'rekomendasi', 'essay'])->latest();
+        $query = UserProfile::with(['user', 'industri', 'universitas', 'rekomendasi', 'essay'])->latest();
         
         $filterActive = $request->filter ?? 'baru';
 
-        // 2. Filter berdasarkan URL parameter
+        // Filter berdasarkan URL parameter
         switch ($filterActive) {
             case 'pengajuan_ulang':
                 // Hanya tampilkan yang direvisi DAN statusnya masih pending
@@ -43,22 +42,7 @@ class PendaftarController extends Controller
                 break;
         }
 
-        $pendaftars = $query->get();
-
-        $statusMap = [
-            'baru'            => 'pending', 
-            'pengajuan_ulang' => 'revisi', 
-            'disetujui'       => 'diterima',
-            'ditolak'         => 'ditolak',
-        ];
-
-        $dbStatus = $statusMap[$filterActive] ?? 'pending';
-
-        // 3. AMBIL DATA (Ubah ->get() menjadi ->paginate(10))
-        $pendaftars = UserProfile::with(['industri', 'universitas', 'biodata', 'rekomendasi', 'essay']) // Sesuaikan jika memanggil relasi
-                        ->where('status', $dbStatus)
-                        ->latest()
-                        ->paginate(10); 
+        $pendaftars = $query->paginate(10); 
         
         return view('admin.pendaftar.index', compact(
             'pendaftars', 'filterActive'));

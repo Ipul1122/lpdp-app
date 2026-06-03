@@ -47,9 +47,9 @@
 
                 {{-- Upload KHS/IPK --}}
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Upload Kartu Hasil Studi (KHS) / IPK Terakhir <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Upload Kartu Hasil Studi (KHS) / IPK Terakhir <span class="text-xs text-slate-400 font-normal">(Opsional)</span></label>
                     <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative" id="khs-upload-area">
-                        <input type="file" name="khs_ipk" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept=".pdf,.jpg,.jpeg,.png" id="khs-input" {{ $universitas?->khs_ipk ? '' : 'required' }}>
+                        <input type="file" name="khs_ipk" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept=".pdf,.jpg,.jpeg,.png" id="khs-input">
                         
                         <div id="khs-preview-container">
                             @if(!($universitas?->khs_ipk))
@@ -78,19 +78,6 @@
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Negara Tujuan <span class="text-red-500">*</span></label>
-                    <select name="negara_tujuan" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm">
-                        <option value="">Pilih Negara</option>
-                        <option value="Indonesia" {{ old('negara_tujuan', $universitas?->negara_tujuan) == 'Indonesia' ? 'selected' : '' }}>Indonesia</option>
-                        <option value="Luar Negeri" {{ old('negara_tujuan', $universitas?->negara_tujuan) == 'Luar Negeri' ? 'selected' : '' }}>Luar Negeri</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Provinsi <span class="text-red-500">*</span></label>
-                    <input type="text" name="provinsi" value="{{ old('provinsi', $universitas?->provinsi) }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: DKI Jakarta">
-                </div>
-                
                 <div class="md:col-span-2">
                     <label class="block text-sm font-semibold text-slate-700 mb-2">Kota <span class="text-red-500">*</span></label>
                     <input type="text" name="kota" value="{{ old('kota', $universitas?->kota) }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: Jakarta Selatan">
@@ -103,7 +90,7 @@
                 
                 <div class="md:col-span-2">
                     <label class="block text-sm font-semibold text-slate-700 mb-2">Program Studi <span class="text-red-500">*</span></label>
-                    <input type="text" name="program_studi" value="{{ old('program_studi', $universitas?->program_studi) }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: S1 Teknik Informatika">
+                    <input type="text" name="program_studi" value="{{ old('program_studi', $universitas?->program_studi) }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: S2 Teknik Informatika">
                 </div>
 
                 <div>

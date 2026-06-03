@@ -10,7 +10,7 @@ class UniversitasPendaftaran extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'negara_tujuan', 'provinsi', 'kota', 
+        'user_id', 'kota', 
         'nama_universitas', 'program_studi', 'tanggal_mulai_studi', 
         'durasi_studi', 'loa', 'khs_ipk'
     ];

@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\UserProfile;
-use App\Models\BiodataPendaftaran;
+use App\Models\RekomendasiPendaftaran;
 
 class PendaftaranStep4Controller extends Controller
 {
     public function create()
     {
-
         $profilExist = UserProfile::where('user_id', Auth::id())->first();
         
         // Kunci akses jika belum isi Step 1 ATAU sudah Final
-       if (!$profilExist || !in_array($profilExist->status, ['draft', 'ditolak'])) {
+        if (!$profilExist || !in_array($profilExist->status, ['draft', 'ditolak'])) {
             return redirect()->route('pendaftaran.index')->with('error', 'Akses ditolak atau formulir sudah terkunci.');
         }
 
@@ -24,38 +24,44 @@ class PendaftaranStep4Controller extends Controller
             return redirect()->route('pendaftaran.step1')->with('error', 'Silakan selesaikan Tahap 1 terlebih dahulu.');
         }
 
-        $biodata = BiodataPendaftaran::where('user_id', Auth::id())->first();
+        $rekomendasi = RekomendasiPendaftaran::where('user_id', Auth::id())->first();
 
         return view('pendaftaran.step4', [
             'step' => 4,
-            'biodata' => $biodata
+            'rekomendasi' => $rekomendasi
         ]);
     }
 
     public function store(Request $request)
     {
-        // Ubah nullable menjadi required untuk semua isian teks
+        $rekExist = RekomendasiPendaftaran::where('user_id', Auth::id())->first();
+
+        // Semua form bersifat opsional
         $validated = $request->validate([
-            'deskripsi_diri' => 'required|string',
-            'riwayat_pendidikan' => 'required|string',
-            'pengalaman_kerja' => 'required|string',
-            'pengalaman_organisasi' => 'required|string',
-            'prestasi' => 'required|string',
-            'keahlian' => 'required|string',
-            'bahasa' => 'required|string',
+            'kategori' => 'nullable|string|max:255',
+            'nama_perekomendasi' => 'nullable|string|max:255',
+            'instansi_perekomendasi' => 'nullable|string|max:255',
+            'jabatan_perekomendasi' => 'nullable|string|max:255',
+            'file_rekomendasi' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
-        // Format textareas to start with capital letter
-        $textareaFields = ['deskripsi_diri', 'riwayat_pendidikan', 'pengalaman_kerja', 'pengalaman_organisasi', 'prestasi', 'keahlian', 'bahasa'];
-        foreach ($textareaFields as $field) {
-            if (isset($validated[$field])) {
-                $validated[$field] = ucfirst($validated[$field]);
+        if ($request->hasFile('file_rekomendasi')) {
+            if ($rekExist && $rekExist->file_rekomendasi) {
+                Storage::disk('public')->delete($rekExist->file_rekomendasi);
+            }
+            $validated['file_rekomendasi'] = $request->file('file_rekomendasi')->store('dokumen_rekomendasi', 'public');
+        }
+
+        // Format fields to Title Case
+        $capitalFields = ['kategori', 'nama_perekomendasi', 'instansi_perekomendasi', 'jabatan_perekomendasi'];
+        foreach ($capitalFields as $field) {
+            if (isset($validated[$field]) && $validated[$field] !== null) {
+                $validated[$field] = ucwords(strtolower($validated[$field]));
             }
         }
 
-        BiodataPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
+        RekomendasiPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
 
-        // Arahkan ke Tahap 5
-        return redirect()->route('pendaftaran.step5')->with('success', 'Data Profil & Biodata tersimpan, lanjut ke Tahap 5.');
+        return redirect()->route('pendaftaran.step5')->with('success', 'Surat Rekomendasi tersimpan, lanjut ke Tahap 5.');
     }
 }

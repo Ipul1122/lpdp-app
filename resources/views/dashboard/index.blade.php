@@ -46,41 +46,6 @@
                 
                 <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition duration-300">
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-200 shrink-0">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
-                        </div>
-                        <div>
-                            <h4 class="text-xl font-bold text-slate-800">Sarjana</h4>
-                            <span class="inline-block bg-orange-50 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mt-1 border border-orange-100">TUBEL Sarjana</span>
-                        </div>
-                    </div>
-
-                    <p class="text-slate-600 text-sm mb-5">Sarjana program satu gelar (single degree/joint degree) atau dua gelar (double degree) selama masa studi.</p>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-start gap-3 text-sm text-slate-700">
-                            <svg class="w-5 h-5 text-orange-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span>TUBEL Garuda Sarjana, TUBEL Talenta Indonesia</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-sm text-slate-700">
-                            <svg class="w-5 h-5 text-orange-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span><strong>Syarat:</strong> TUBEL Garuda Sarjana (Umum : IELTS : 6,5 - iBT : 80, PTE: 58, ITP:500) - (Khusus : IQ : 110, SAT : ≥ 1.170)</span>
-                        </li>
-                    </ul>
-
-                    @if($sudahDaftar)
-                        <a href="{{ route('riwayat.index') }}" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-600 font-bold py-3.5 rounded-2xl transition flex items-center justify-center gap-2 cursor-pointer">
-                            Lihat Status Pendaftaran &rarr;
-                        </a>
-                    @else
-                        <a href="{{ route('pendaftaran.create', ['program' => 'sarjana']) }}" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl transition shadow-lg shadow-orange-200 flex items-center justify-center gap-2 cursor-pointer">
-                            Daftar Sekarang &rarr;
-                        </a>
-                    @endif
-                </div>
-
-                <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition duration-300">
-                    <div class="flex items-center gap-4 mb-4">
                         <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200 shrink-0">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2"></path></svg>
                         </div>

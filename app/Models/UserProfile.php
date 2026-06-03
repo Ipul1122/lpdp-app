@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\IndustriPendukung;
 use App\Models\UniversitasPendaftaran;
-use App\Models\BiodataPendaftaran;
+
 use App\Models\RekomendasiPendaftaran;
 use App\Models\EssayPendaftaran;
 
@@ -37,8 +37,7 @@ class UserProfile extends Model
         return $this->hasOne(IndustriPendukung::class, 'user_id', 'user_id'); }
     public function universitas() { 
         return $this->hasOne(UniversitasPendaftaran::class, 'user_id', 'user_id'); }
-    public function biodata() {
-        return $this->hasOne(BiodataPendaftaran::class, 'user_id', 'user_id'); }
+
     public function rekomendasi() { 
         return $this->hasOne(RekomendasiPendaftaran::class, 'user_id', 'user_id'); }
     public function essay() { 

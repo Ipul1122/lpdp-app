@@ -124,7 +124,6 @@
                             </svg>
                             <span>IPK minimal dari jenjang pendidikan sebelumnya:
                                 <ul class="mt-2 space-y-1 pl-4 list-disc text-sm text-slate-500">
-                                    <li>Pendaftaran S1: Rata-rata Nilai Rapor/Ijazah &ge; 80.00</li>
                                     <li>Pendaftaran S2: IPK &ge; 3.00 pada skala 4.00</li>
                                     <li>Pendaftaran Spesialis: IPK &ge; 3.25 pada skala 4.00</li>
                                 </ul>

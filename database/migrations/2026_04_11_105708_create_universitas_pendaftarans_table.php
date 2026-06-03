@@ -11,8 +11,6 @@ return new class extends Migration
         Schema::create('universitas_pendaftarans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('negara_tujuan')->nullable();
-            $table->string('provinsi')->nullable();
             $table->string('kota')->nullable();
             $table->string('nama_universitas')->nullable();
             $table->string('program_studi')->nullable();
