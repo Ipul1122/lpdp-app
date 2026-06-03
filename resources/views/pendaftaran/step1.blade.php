@@ -7,7 +7,7 @@
     @include('pendaftaran.components.stepper', ['step' => 1])
 
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-        <form action="{{ route('pendaftaran.step1.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="step-form" action="{{ route('pendaftaran.step1.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -142,6 +142,40 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('step-form');
+        const storageKey = 'draft_step_{{ $step }}_user_{{ Auth::id() }}';
+
+        // 1. KEMBALIKAN DATA DARI LOCALSTORAGE
+        const savedData = localStorage.getItem(storageKey);
+        if (savedData) {
+            const dataObj = JSON.parse(savedData);
+            for (const key in dataObj) {
+                const input = form.elements[key];
+                if (input && input.type !== 'file' && dataObj[key] !== undefined && dataObj[key] !== null) {
+                    input.value = dataObj[key];
+                }
+            }
+        }
+
+        // 2. SIMPAN DRAFT SAAT MENGETIK
+        form.addEventListener('input', function(e) {
+            if(e.target.type !== 'file' && e.target.name) {
+                const formData = new FormData(form);
+                const obj = {};
+                formData.forEach((value, key) => {
+                    if (key !== '_token' && typeof value === 'string') {
+                        obj[key] = value;
+                    }
+                });
+                localStorage.setItem(storageKey, JSON.stringify(obj));
+            }
+        });
+
+        // 3. BERSIHKAN LOCALSTORAGE SAAT SUBMIT
+        form.addEventListener('submit', function() {
+            localStorage.removeItem(storageKey);
+        });
+
         // Handle file preview untuk Foto KTP
         const fotoKtpInput = document.getElementById('foto-ktp-input');
         const uploadArea = document.getElementById('foto-ktp-upload-area');

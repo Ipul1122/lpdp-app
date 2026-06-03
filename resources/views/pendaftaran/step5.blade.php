@@ -18,22 +18,22 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Perekomendasi (Tokoh/Akademisi)</label>
-                    <input type="text" name="nama_perekomendasi" value="{{ old('nama_perekomendasi', $rekomendasi?->nama_perekomendasi) }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: Prof. Dr. Budi Santoso, M.Si.">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Perekomendasi (Tokoh/Akademisi) <span class="text-red-500">*</span></label>
+                    <input type="text" name="nama_perekomendasi" required value="{{ old('nama_perekomendasi', $rekomendasi?->nama_perekomendasi) }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: Prof. Dr. Budi Santoso, M.Si.">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Instansi / Asal Perekomendasi</label>
-                    <input type="text" name="instansi_perekomendasi" value="{{ old('instansi_perekomendasi', $rekomendasi?->instansi_perekomendasi) }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: Universitas Indonesia">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Instansi / Asal Perekomendasi <span class="text-red-500">*</span></label>
+                    <input type="text" name="instansi_perekomendasi" required value="{{ old('instansi_perekomendasi', $rekomendasi?->instansi_perekomendasi) }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: Universitas Indonesia">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Jabatan</label>
-                    <input type="text" name="jabatan_perekomendasi" value="{{ old('jabatan_perekomendasi', $rekomendasi?->jabatan_perekomendasi) }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: Dekan Fakultas Ilmu Komputer">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Jabatan <span class="text-red-500">*</span></label>
+                    <input type="text" name="jabatan_perekomendasi" required value="{{ old('jabatan_perekomendasi', $rekomendasi?->jabatan_perekomendasi) }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: Dekan Fakultas Ilmu Komputer">
                 </div>
 
                 <div class="md:col-span-2 mt-4">
-    <label class="block text-sm font-semibold text-slate-700 mb-2">Upload Surat Rekomendasi</label>
+    <label class="block text-sm font-semibold text-slate-700 mb-2">Upload Surat Rekomendasi <span class="text-red-500">*</span></label>
     
     @if($rekomendasi?->file_rekomendasi)
         <div class="mb-3 p-4 bg-indigo-50 border border-indigo-100 rounded-xl flex items-center justify-between shadow-sm">
@@ -97,7 +97,7 @@
             const dataObj = JSON.parse(savedData);
             for (const key in dataObj) {
                 const input = form.elements[key];
-                if (input && input.type !== 'file' && !input.value) {
+                if (input && input.type !== 'file' && dataObj[key] !== undefined && dataObj[key] !== null) {
                     input.value = dataObj[key];
                 }
             }

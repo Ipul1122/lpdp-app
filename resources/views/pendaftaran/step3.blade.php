@@ -141,7 +141,7 @@
             const dataObj = JSON.parse(savedData);
             for (const key in dataObj) {
                 const input = form.elements[key];
-                if (input && input.type !== 'file' && !input.value) {
+                if (input && input.type !== 'file' && dataObj[key] !== undefined && dataObj[key] !== null) {
                     input.value = dataObj[key];
                 }
             }

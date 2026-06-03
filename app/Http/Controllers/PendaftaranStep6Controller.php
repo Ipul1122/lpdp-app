@@ -37,6 +37,10 @@ class PendaftaranStep6Controller extends Controller
             'essay_kontribusi' => 'required|string|min:10', // Minimal ada isinya
         ]);
 
+        if (isset($validated['essay_kontribusi'])) {
+            $validated['essay_kontribusi'] = ucfirst($validated['essay_kontribusi']);
+        }
+
         EssayPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
 
         // Arahkan ke Riwayat karena Step 7 belum ada

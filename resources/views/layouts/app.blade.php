@@ -35,7 +35,45 @@
 
     <script type="module">
         document.addEventListener('DOMContentLoaded', function () {
-            
+            // Automatic Capitalization for text fields (Title Case) and textareas (Sentence Case)
+            const capitalizeTextInputs = () => {
+                const excludeNames = ['nik', 'no_telp', 'rt', 'rw', 'telepon_instansi', 'email', 'password', 'search', 'username'];
+                
+                const titleCase = (val) => {
+                    return val.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                };
+                
+                const sentenceCase = (val) => {
+                    if (!val) return '';
+                    return val.replace(/^[ \t\r\n]*([a-z])/i, function(match, char) {
+                        return match.replace(char, char.toUpperCase());
+                    });
+                };
+
+                document.querySelectorAll('input[type="text"]').forEach(input => {
+                    if (!excludeNames.includes(input.name)) {
+                        input.addEventListener('blur', function() {
+                            this.value = titleCase(this.value);
+                        });
+                        input.form?.addEventListener('submit', function() {
+                            input.value = titleCase(input.value);
+                        });
+                    }
+                });
+
+                document.querySelectorAll('textarea').forEach(textarea => {
+                    if (!excludeNames.includes(textarea.name)) {
+                        textarea.addEventListener('blur', function() {
+                            this.value = sentenceCase(this.value);
+                        });
+                        textarea.form?.addEventListener('submit', function() {
+                            textarea.value = sentenceCase(textarea.value);
+                        });
+                    }
+                });
+            };
+            capitalizeTextInputs();
+
             // Konfigurasi bawaan untuk Toast
             const Toast = window.Swal.mixin({
                 toast: true,
