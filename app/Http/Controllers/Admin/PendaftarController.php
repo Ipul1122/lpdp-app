@@ -90,6 +90,23 @@ class PendaftarController extends Controller
         // 6. Simpan perubahan ke database
         $pendaftar->save();
 
+        // 6a. Catat Notifikasi untuk User jika disetujui / ditolak
+        if ($request->status === 'diterima' || $request->status === 'ditolak') {
+            $title = $request->status === 'diterima' ? 'Pendaftaran Disetujui' : 'Pendaftaran Ditolak';
+            $message = $request->status === 'diterima' 
+                ? 'Selamat! Berkas pendaftaran Anda telah disetujui oleh Admin.'
+                : 'Maaf, berkas pendaftaran Anda ditolak. Catatan: ' . ($request->catatan ?? 'Tidak ada catatan khusus.');
+            $type = $request->status === 'diterima' ? 'approved' : 'rejected';
+
+            \App\Models\Notification::create([
+                'user_id' => $pendaftar->user_id,
+                'title' => $title,
+                'message' => $message,
+                'type' => $type,
+                'is_read' => false,
+            ]);
+        }
+
         // 7. Tentukan filter redirect berdasarkan status baru
         $filterRedirect = match($request->status) {
             'diterima' => 'disetujui',

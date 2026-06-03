@@ -60,6 +60,17 @@ class PendaftaranStep6Controller extends Controller
             'responded_at' => null
         ]);
 
+        // Catat Notifikasi untuk Admin
+        \App\Models\Notification::create([
+            'user_id' => null, // null = Admin
+            'title' => $isRevisi ? 'Pengajuan Ulang (Revisi)' : 'Pendaftar Baru',
+            'message' => $isRevisi 
+                ? $pendaftar->nama . ' telah memperbaiki form pendaftaran dan mengajukan ulang.'
+                : $pendaftar->nama . ' baru saja mengirimkan berkas pendaftaran.',
+            'type' => $isRevisi ? 're_submission' : 'new_registration',
+            'is_read' => false,
+        ]);
+
         // Tentukan tipe email notifikasi ke Admin
         $tipe = $isRevisi ? 'pengajuan_ulang' : 'baru';
         Mail::to('msyaifulloh2024@gmail.com')->queue(new NotifikasiPendaftaranAdmin($pendaftar, $tipe));
