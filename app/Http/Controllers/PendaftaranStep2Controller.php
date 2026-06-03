@@ -42,9 +42,9 @@ class PendaftaranStep2Controller extends Controller
             'unit_kerja' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
             'golongan' => 'required|string|max:255',
-            'tanggal_mulai_kerja' => 'required|string',
+            'tanggal_mulai_kerja' => 'nullable|string',
             'tanggal_pensiun' => 'required|string',
-            'surat_izin' => $industriExist && $industriExist->surat_izin ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'surat_izin' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
         if ($request->hasFile('surat_izin')) {

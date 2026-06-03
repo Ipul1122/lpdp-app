@@ -75,10 +75,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     
-    // Redirect rute 'buat' yang lama agar otomatis masuk ke step 1
+    // Redirect rute 'buat' yang lama agar otomatis masuk ke kategori selection
     Route::get('/pendaftaran/buat', function() {
-        return redirect()->route('pendaftaran.step1');
+        return redirect()->route('pendaftaran.kategori');
     })->name('pendaftaran.create');
+
+    // Pemilihan Kategori Pendaftaran
+    Route::get('/pendaftaran/kategori', [PendaftaranController::class, 'chooseCategory'])->name('pendaftaran.kategori');
+    Route::post('/pendaftaran/kategori', [PendaftaranController::class, 'storeCategory'])->name('pendaftaran.kategori.store');
 
     // TAHAP 1 (Profil & KTP)
     Route::get('/pendaftaran/step/1', [PendaftaranController::class, 'create'])->name('pendaftaran.step1');

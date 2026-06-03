@@ -12,39 +12,6 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                {{-- Upload Surat Izin / Rekomendasi --}}
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Surat Izin / Rekomendasi <span class="text-red-500">*</span></label>
-                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative" id="surat-izin-upload-area">
-                        
-                        <input type="file" name="surat_izin" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept=".pdf,.jpg,.jpeg,.png" id="surat-izin-input" {{ $industri?->surat_izin ? '' : 'required' }}>
-                        
-                        <div id="preview-container">
-                            @if(!($industri?->surat_izin))
-                                <svg class="w-8 h-8 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                                <p class="text-sm text-slate-600 font-medium">Klik untuk mengunggah atau seret file ke sini</p>
-                                <p class="text-xs text-slate-400 mt-1">PDF, JPG, PNG (Maks 5MB)</p>
-                            @else
-                                @php
-                                    $suratPath = $industri->surat_izin;
-                                    $suratNameStart = strrpos($suratPath, '/') + 1;
-                                    $suratName = substr($suratPath, $suratNameStart);
-                                    $suratExt = strtolower(pathinfo($suratName, PATHINFO_EXTENSION));
-                                    $suratIsImage = in_array($suratExt, ['jpg', 'jpeg', 'png']);
-                                @endphp
-                                @if($suratIsImage)
-                                    <img src="{{ Storage::url($suratPath) }}" alt="Surat Izin Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 relative z-0">
-                                @else
-                                    <div class="w-16 h-16 mx-auto mb-3 bg-slate-100 rounded-lg flex items-center justify-center relative z-0">
-                                        <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                    </div>
-                                @endif
-                                <p class="text-sm text-green-600 font-semibold">✓ {{ $suratName }}</p>
-                                <p class="text-xs text-slate-500 mt-1">Klik untuk mengganti file</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
 
                 {{-- Unit Kerja --}}
                 @if(isset($userProfile) && in_array($userProfile->program_beasiswa, ['magister', 'dokter']))
@@ -360,11 +327,7 @@
 
 
 
-                {{-- Tanggal Mulai Kerja --}}
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Mulai Kerja (Bulan & Tahun) <span class="text-red-500">*</span></label>
-                    <input type="month" name="tanggal_mulai_kerja" value="{{ old('tanggal_mulai_kerja', $industri?->tanggal_mulai_kerja) }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm">
-                </div>
+
 
                 {{-- Tanggal Pensiun --}}
                 <div>
@@ -421,70 +384,6 @@
             localStorage.removeItem(storageKey);
         });
 
-        // Handle file preview untuk Surat Izin
-        const suratIzinInput = document.getElementById('surat-izin-input');
-        const uploadArea = document.getElementById('surat-izin-upload-area');
-        const previewContainer = document.getElementById('preview-container'); // Target spesifik
-        
-        if (suratIzinInput) {
-            suratIzinInput.addEventListener('change', function() {
-                if (this.files && this.files[0]) {
-                    showFilePreview(this.files[0]);
-                }
-            });
-
-            // Drag and drop
-            uploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadArea.classList.add('bg-slate-100');
-            });
-
-            uploadArea.addEventListener('dragleave', () => {
-                uploadArea.classList.remove('bg-slate-100');
-            });
-
-            uploadArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                uploadArea.classList.remove('bg-slate-100');
-                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                    suratIzinInput.files = e.dataTransfer.files;
-                    showFilePreview(e.dataTransfer.files[0]);
-                }
-            });
-        }
-
-        // Fungsi untuk menampilkan preview file (Telah diperbaiki)
-        function showFilePreview(file) {
-            const fileName = file.name;
-            const fileExt = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
-            const isImage = ['.jpg', '.jpeg', '.png'].includes(fileExt);
-
-            let previewHTML = '';
-            
-            if (isImage) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewHTML = `
-                        <img src="${e.target.result}" alt="Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 relative z-0">
-                        <p class="text-sm text-green-600 font-semibold">✓ ${fileName}</p>
-                        <p class="text-xs text-slate-500 mt-1">File siap di-upload</p>
-                    `;
-                    // Hanya timpa div container preview, input aman
-                    if(previewContainer) previewContainer.innerHTML = previewHTML;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                previewHTML = `
-                    <div class="w-16 h-16 mx-auto mb-3 bg-slate-100 rounded-lg flex items-center justify-center relative z-0">
-                        <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <p class="text-sm text-green-600 font-semibold">✓ ${fileName}</p>
-                    <p class="text-xs text-slate-500 mt-1">File siap di-upload</p>
-                `;
-                // Hanya timpa div container preview, input aman
-                if(previewContainer) previewContainer.innerHTML = previewHTML;
-            }
-        }
     });
 </script>
 @endsection

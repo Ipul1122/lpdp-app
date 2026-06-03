@@ -16,6 +16,11 @@ class PendaftaranController extends Controller
         $profile = UserProfile::where('user_id', Auth::id())->first();
         
         if ($profile) {
+            // JIKA kategori belum dipilih, maka arahkan ke kategori
+            if (!$profile->kategori) {
+                return redirect()->route('pendaftaran.kategori')->with('info', 'Silakan pilih kategori pendaftaran terlebih dahulu.');
+            }
+
             // Izinkan masuk ke form jika statusnya draft ATAU ditolak (untuk revisi)
             if (in_array($profile->status, ['draft', 'ditolak'])) {
                 return redirect()->route('pendaftaran.step1')->with('info', 'Silakan lanjutkan pengisian atau revisi data Anda.');
@@ -28,33 +33,74 @@ class PendaftaranController extends Controller
         return view('pendaftaran.index');
     }
 
-    public function create()
-        {
-            $userProfile = UserProfile::where('user_id', Auth::id())->first();
-            
-            // Kunci jika statusnya BUKAN draft dan BUKAN ditolak
-            if ($userProfile && !in_array($userProfile->status, ['draft', 'ditolak'])) {
-                return redirect()->route('pendaftaran.index');
-            }
+    public function chooseCategory()
+    {
+        $userProfile = UserProfile::where('user_id', Auth::id())->first();
 
-            $tempat_lahir = '';
-            $tanggal_lahir = '';
-            if ($userProfile && $userProfile->tempat_tglLahir) {
-                $ttl = explode(', ', $userProfile->tempat_tglLahir);
-                $tempat_lahir = $ttl[0] ?? '';
-                $tanggal_lahir = $ttl[1] ?? '';
-            }
-
-            $step = 1;
-
-            return view('pendaftaran.step1', compact('step', 'userProfile', 'tempat_lahir', 'tanggal_lahir'));
+        // Kunci jika statusnya BUKAN draft dan BUKAN ditolak
+        if ($userProfile && !in_array($userProfile->status, ['draft', 'ditolak'])) {
+            return redirect()->route('pendaftaran.index');
         }
+
+        return view('pendaftaran.kategori', compact('userProfile'));
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'kategori' => 'required|in:Usulan Unit,Manajemen Talenta'
+        ]);
+
+        $userProfile = UserProfile::where('user_id', Auth::id())->first();
+
+        // PENTING: Jika statusnya ditolak, biarkan tetap 'ditolak'.
+        // Jika data baru, set jadi 'draft'.
+        $status = ($userProfile && $userProfile->status === 'ditolak') ? 'ditolak' : 'draft';
+
+        UserProfile::updateOrCreate(
+            ['user_id' => Auth::id()],
+            [
+                'kategori' => $request->kategori,
+                'status' => $status
+            ]
+        );
+
+        return redirect()->route('pendaftaran.step1')->with('success', 'Kategori pendaftaran berhasil dipilih.');
+    }
+
+    public function create()
+    {
+        $userProfile = UserProfile::where('user_id', Auth::id())->first();
+        
+        // Kunci jika statusnya BUKAN draft dan BUKAN ditolak
+        if ($userProfile && !in_array($userProfile->status, ['draft', 'ditolak'])) {
+            return redirect()->route('pendaftaran.index');
+        }
+
+        // Validasi kategori harus dipilih terlebih dahulu
+        if (!$userProfile || !$userProfile->kategori) {
+            return redirect()->route('pendaftaran.kategori')->with('info', 'Silakan pilih kategori pendaftaran terlebih dahulu.');
+        }
+
+        $tempat_lahir = '';
+        $tanggal_lahir = '';
+        if ($userProfile && $userProfile->tempat_tglLahir) {
+            $ttl = explode(', ', $userProfile->tempat_tglLahir);
+            $tempat_lahir = $ttl[0] ?? '';
+            $tanggal_lahir = $ttl[1] ?? '';
+        }
+
+        $step = 1;
+
+        return view('pendaftaran.step1', compact('step', 'userProfile', 'tempat_lahir', 'tanggal_lahir'));
+    }
+
     public function store(Request $request)
     {
         $profilExist = UserProfile::where('user_id', Auth::id())->first();
 
         $validated = $request->validate([
-            'foto_ktp'          => $profilExist ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
+            'foto_ktp'          => ($profilExist && $profilExist->foto_ktp) ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
             'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . Auth::id() . ',user_id',
             'nama'              => 'required|string|max:255',
             'no_telp'           => 'required|numeric|digits_between:10,15',

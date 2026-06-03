@@ -26,7 +26,20 @@
                 </button>
                 <div x-show="open" x-transition class="p-6 border-t border-slate-200">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-y-5 gap-x-6 text-sm">
-                        <div class="md:col-span-3 pb-2 border-b border-slate-100"><span class="block text-slate-400 text-xs mb-1">Program Beasiswa</span><p class="font-bold text-orange-600 capitalize">{{ $userProfile?->program_beasiswa ?? '-' }}</p></div>
+                        <div class="md:col-span-3 pb-2 border-b border-slate-100 flex flex-wrap gap-4 items-center justify-between">
+                            <div>
+                                <span class="block text-slate-400 text-xs mb-1">Program Beasiswa</span>
+                                <p class="font-bold text-orange-600 capitalize">{{ $userProfile?->program_beasiswa ?? '-' }}</p>
+                            </div>
+                            @if($userProfile?->kategori)
+                                <div>
+                                    <span class="block text-slate-400 text-xs mb-1 text-right">Kategori Pendaftaran</span>
+                                    <span class="inline-flex items-center gap-1 bg-orange-50 text-orange-600 px-2.5 py-1 rounded-lg text-xs font-bold border border-orange-100">
+                                        {{ $userProfile->kategori }}
+                                    </span>
+                                </div>
+                            @endif
+                        </div>
                         <div><span class="block text-slate-400 text-xs mb-1">NIK</span><p class="font-semibold text-slate-800">{{ $userProfile?->nik ?? '-' }}</p></div>
                         <div><span class="block text-slate-400 text-xs mb-1">Nama Lengkap</span><p class="font-semibold text-slate-800">{{ $userProfile?->nama ?? '-' }}</p></div>
                         <div><span class="block text-slate-400 text-xs mb-1">Tempat, Tanggal Lahir</span><p class="font-semibold text-slate-800">{{ $userProfile?->tempat_tglLahir ?? '-' }}</p></div>

@@ -10,8 +10,10 @@ class RiwayatController extends Controller
 {
     public function index()
     {
-        // Ambil data profil user saat ini (jika ada)
-        $riwayatProfil = UserProfile::where('user_id', Auth::id())->first();
+        // Ambil data profil user saat ini beserta relasi lengkap
+        $riwayatProfil = UserProfile::with(['user', 'industri', 'universitas', 'rekomendasi', 'essay'])
+            ->where('user_id', Auth::id())
+            ->first();
 
         // Kirim data ke view
         return view('riwayat.index', compact('riwayatProfil'));

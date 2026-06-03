@@ -42,6 +42,16 @@ class PendaftarController extends Controller
                 break;
         }
 
+        // Filter berdasarkan Program Beasiswa (magister atau dokter)
+        if ($request->filled('program_beasiswa')) {
+            $query->where('program_beasiswa', $request->program_beasiswa);
+        }
+
+        // Filter berdasarkan Kategori (Usulan Unit atau Manajemen Talenta)
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
         $pendaftars = $query->paginate(10); 
         
         return view('admin.pendaftar.index', compact(
