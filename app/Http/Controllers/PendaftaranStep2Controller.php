@@ -35,30 +35,44 @@ class PendaftaranStep2Controller extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'instansi' => 'nullable|string|max:255',
-            'sektor' => 'nullable|string|max:255',
-            'jenis_instansi' => 'nullable|string|max:255',
-            'nama_instansi' => 'nullable|string|max:255',
-            'telepon_instansi' => 'nullable|string|max:20',
-            'provinsi' => 'nullable|string|max:255',
-            'kab_kota' => 'nullable|string|max:255',
-            'alamat_instansi' => 'nullable|string',
-            'status_kepegawaian' => 'nullable|string|max:255',
-            'tanggal_mulai_kerja' => 'nullable|string',
-            'pekerjaan' => 'nullable|string|max:255',
-            'penghasilan' => 'nullable|string|max:255',
-            'deskripsi_pekerjaan' => 'nullable|string',
-            'surat_izin' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        ]);
-
         $industriExist = IndustriPendukung::where('user_id', Auth::id())->first();
+
+        $validated = $request->validate([
+            'instansi' => 'required|string|max:255',
+            'sektor' => 'required|string|max:255',
+            'jenis_instansi' => 'required|string|max:255',
+            'nama_instansi' => 'required|string|max:255',
+            'telepon_instansi' => 'required|string|max:20',
+            'provinsi' => 'required|string|max:255',
+            'kab_kota' => 'required|string|max:255',
+            'alamat_instansi' => 'required|string',
+            'status_kepegawaian' => 'required|string|max:255',
+            'tanggal_mulai_kerja' => 'required|string',
+            'pekerjaan' => 'required|string|max:255',
+            'penghasilan' => 'required|string|max:255',
+            'deskripsi_pekerjaan' => 'required|string',
+            'surat_izin' => $industriExist && $industriExist->surat_izin ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        ]);
 
         if ($request->hasFile('surat_izin')) {
             if ($industriExist && $industriExist->surat_izin) {
                 Storage::disk('public')->delete($industriExist->surat_izin);
             }
             $validated['surat_izin'] = $request->file('surat_izin')->store('dokumen_industri', 'public');
+        }
+
+        // Format fields to Title Case / Sentence Case
+        $capitalFields = ['nama_instansi', 'provinsi', 'kab_kota', 'pekerjaan'];
+        foreach ($capitalFields as $field) {
+            if (isset($validated[$field])) {
+                $validated[$field] = ucwords(strtolower($validated[$field]));
+            }
+        }
+        if (isset($validated['alamat_instansi'])) {
+            $validated['alamat_instansi'] = ucfirst($validated['alamat_instansi']);
+        }
+        if (isset($validated['deskripsi_pekerjaan'])) {
+            $validated['deskripsi_pekerjaan'] = ucfirst($validated['deskripsi_pekerjaan']);
         }
 
         IndustriPendukung::updateOrCreate(['user_id' => Auth::id()], $validated);

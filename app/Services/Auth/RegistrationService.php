@@ -34,7 +34,7 @@ class RegistrationService
             ]);
 
             // 3. Kirim Email langsung ke Gmail
-            Mail::to($user->email)->send(new OtpMail((string) $otp));
+            Mail::to($user->email)->send(new OtpMail($user->name, (string) $otp));
 
             return $user;
         } catch (\Exception $e) {
@@ -68,7 +68,7 @@ class RegistrationService
         ]);
 
         // 3. Kirim Email OTP Baru
-        Mail::to($user->email)->send(new OtpMail((string) $otp));
+        Mail::to($user->email)->send(new OtpMail($user->name, (string) $otp));
 
         return ['status' => true, 'message' => 'Kode OTP baru berhasil dikirim ke email Anda!'];
     }

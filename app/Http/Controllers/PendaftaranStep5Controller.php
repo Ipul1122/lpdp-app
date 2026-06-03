@@ -35,14 +35,14 @@ class PendaftaranStep5Controller extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama_perekomendasi' => 'nullable|string|max:255',
-            'instansi_perekomendasi' => 'nullable|string|max:255',
-            'jabatan_perekomendasi' => 'nullable|string|max:255',
-            'file_rekomendasi' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        ]);
-
         $rekExist = RekomendasiPendaftaran::where('user_id', Auth::id())->first();
+
+        $validated = $request->validate([
+            'nama_perekomendasi' => 'required|string|max:255',
+            'instansi_perekomendasi' => 'required|string|max:255',
+            'jabatan_perekomendasi' => 'required|string|max:255',
+            'file_rekomendasi' => $rekExist && $rekExist->file_rekomendasi ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        ]);
 
         if ($request->hasFile('file_rekomendasi')) {
             if ($rekExist && $rekExist->file_rekomendasi) {
@@ -51,8 +51,16 @@ class PendaftaranStep5Controller extends Controller
             $validated['file_rekomendasi'] = $request->file('file_rekomendasi')->store('dokumen_rekomendasi', 'public');
         }
 
+        // Format fields to Title Case
+        $capitalFields = ['nama_perekomendasi', 'instansi_perekomendasi', 'jabatan_perekomendasi'];
+        foreach ($capitalFields as $field) {
+            if (isset($validated[$field])) {
+                $validated[$field] = ucwords(strtolower($validated[$field]));
+            }
+        }
+
         RekomendasiPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
 
-       return redirect()->route('pendaftaran.step6')->with('success', 'Rekomendasi tersimpan, lanjut ke Essay.');
+        return redirect()->route('pendaftaran.step6')->with('success', 'Rekomendasi tersimpan, lanjut ke Essay.');
     }
 }

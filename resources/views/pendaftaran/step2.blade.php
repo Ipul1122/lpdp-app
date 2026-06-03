@@ -167,6 +167,40 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('step-form');
+        const storageKey = 'draft_step_{{ $step }}_user_{{ Auth::id() }}';
+
+        // 1. KEMBALIKAN DATA DARI LOCALSTORAGE
+        const savedData = localStorage.getItem(storageKey);
+        if (savedData) {
+            const dataObj = JSON.parse(savedData);
+            for (const key in dataObj) {
+                const input = form.elements[key];
+                if (input && input.type !== 'file' && dataObj[key] !== undefined && dataObj[key] !== null) {
+                    input.value = dataObj[key];
+                }
+            }
+        }
+
+        // 2. SIMPAN DRAFT SAAT MENGETIK
+        form.addEventListener('input', function(e) {
+            if(e.target.type !== 'file' && e.target.name) {
+                const formData = new FormData(form);
+                const obj = {};
+                formData.forEach((value, key) => {
+                    if (key !== '_token' && typeof value === 'string') {
+                        obj[key] = value;
+                    }
+                });
+                localStorage.setItem(storageKey, JSON.stringify(obj));
+            }
+        });
+
+        // 3. BERSIHKAN LOCALSTORAGE SAAT SUBMIT
+        form.addEventListener('submit', function() {
+            localStorage.removeItem(storageKey);
+        });
+
         // Handle file preview untuk Surat Izin
         const suratIzinInput = document.getElementById('surat-izin-input');
         const uploadArea = document.getElementById('surat-izin-upload-area');

@@ -89,6 +89,17 @@ class PendaftaranController extends Controller
             $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'public');
         }
 
+        // Format fields to Title Case / Sentence Case
+        $capitalFields = ['nama', 'tempat_lahir', 'kelurahan', 'kecamatan', 'pekerjaan', 'kewarganegaraan'];
+        foreach ($capitalFields as $field) {
+            if (isset($validated[$field])) {
+                $validated[$field] = ucwords(strtolower($validated[$field]));
+            }
+        }
+        if (isset($validated['alamat'])) {
+            $validated['alamat'] = ucfirst($validated['alamat']);
+        }
+
         UserProfile::updateOrCreate(['user_id' => Auth::id()], $validated);
 
         return redirect()->route('pendaftaran.step2')->with('success', 'Data tersimpan, silakan lanjut ke Tahap 2.');

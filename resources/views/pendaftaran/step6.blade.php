@@ -84,7 +84,7 @@
         const savedData = localStorage.getItem(storageKey);
         if (savedData) {
             const dataObj = JSON.parse(savedData);
-            if (dataObj.essay_kontribusi && !essayInput.value) {
+            if (dataObj.essay_kontribusi !== undefined && dataObj.essay_kontribusi !== null) {
                 essayInput.value = dataObj.essay_kontribusi;
             }
         }

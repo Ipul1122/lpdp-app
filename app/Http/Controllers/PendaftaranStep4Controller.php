@@ -45,6 +45,14 @@ class PendaftaranStep4Controller extends Controller
             'bahasa' => 'required|string',
         ]);
 
+        // Format textareas to start with capital letter
+        $textareaFields = ['deskripsi_diri', 'riwayat_pendidikan', 'pengalaman_kerja', 'pengalaman_organisasi', 'prestasi', 'keahlian', 'bahasa'];
+        foreach ($textareaFields as $field) {
+            if (isset($validated[$field])) {
+                $validated[$field] = ucfirst($validated[$field]);
+            }
+        }
+
         BiodataPendaftaran::updateOrCreate(['user_id' => Auth::id()], $validated);
 
         // Arahkan ke Tahap 5

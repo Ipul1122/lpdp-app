@@ -28,6 +28,10 @@ Route::get('/buku-panduan', function () {
     return view('panduan.index');
 })->name('panduan');
 
+Route::get('/syarat-pendaftaran', function () {
+    return view('syaratPendaftaran');
+})->name('syarat.pendaftaran');
+
 // --------------------------------------------------------
 // 1. Rute untuk Tamu (Belum Login)
 // --------------------------------------------------------
