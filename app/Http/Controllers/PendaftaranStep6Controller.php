@@ -4,13 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\NotifikasiPendaftaranAdmin;
+use Illuminate\Support\Facades\Storage;
 use App\Models\UserProfile;
-use App\Models\IndustriPendukung;
-use App\Models\UniversitasPendaftaran;
-use App\Models\RekomendasiPendaftaran;
-use App\Models\EssayPendaftaran;
 
 class PendaftaranStep6Controller extends Controller
 {
@@ -23,58 +18,33 @@ class PendaftaranStep6Controller extends Controller
             return redirect()->route('pendaftaran.index')->with('error', 'Akses ditolak atau formulir sudah terkunci.');
         }
 
-        $userProfile = UserProfile::where('user_id', Auth::id())->first();
-        if (!$userProfile) {
-            return redirect()->route('pendaftaran.step1')->with('error', 'Selesaikan Tahap 1 terlebih dahulu.');
-        }
-
-        // Ambil semua data draf dari tahap 1 sampai 5
-        $industri = IndustriPendukung::where('user_id', Auth::id())->first();
-        $universitas = UniversitasPendaftaran::where('user_id', Auth::id())->first();
-        $rekomendasi = RekomendasiPendaftaran::where('user_id', Auth::id())->first();
-        $essay = EssayPendaftaran::where('user_id', Auth::id())->first();
-
         return view('pendaftaran.step6', [
             'step' => 6,
-            'userProfile' => $userProfile,
-            'industri' => $industri,
-            'universitas' => $universitas,
-            'rekomendasi' => $rekomendasi,
-            'essay' => $essay
+            'userProfile' => $profilExist
         ]);
     }
 
     public function store(Request $request)
     {
-        $pendaftar = UserProfile::where('user_id', Auth::id())->firstOrFail();
+        $profil = UserProfile::where('user_id', Auth::id())->firstOrFail();
 
-        // Cek apakah ini pendaftaran baru atau revisi
-        $isRevisi = ($pendaftar->status === 'ditolak');
-
-        // Ubah status menjadi pending dan bersihkan catatan penolakan admin
-        $pendaftar->update([
-            'status' => 'pending',
-            'is_pengajuan_ulang' => $isRevisi ? true : false,
-            'catatan' => null,
-            'submitted_at' => now(), 
-            'responded_at' => null
+        // Validasi file PDF Surat Komitmen
+        // Jika sudah ada file sebelumnya, file baru bersifat optional (nullable). Jika baru pertama kali, required.
+        $validated = $request->validate([
+            'surat_komitmen' => $profil->surat_komitmen ? 'nullable|file|mimes:pdf|max:5120' : 'required|file|mimes:pdf|max:5120',
         ]);
 
-        // Catat Notifikasi untuk Admin
-        \App\Models\Notification::create([
-            'user_id' => null, // null = Admin
-            'title' => $isRevisi ? 'Pengajuan Ulang (Revisi)' : 'Pendaftar Baru',
-            'message' => $isRevisi 
-                ? $pendaftar->nama . ' telah memperbaiki form pendaftaran dan mengajukan ulang.'
-                : $pendaftar->nama . ' baru saja mengirimkan berkas pendaftaran.',
-            'type' => $isRevisi ? 're_submission' : 'new_registration',
-            'is_read' => false,
-        ]);
+        if ($request->hasFile('surat_komitmen')) {
+            if ($profil->surat_komitmen) {
+                Storage::disk('public')->delete($profil->surat_komitmen);
+            }
+            $path = $request->file('surat_komitmen')->store('dokumen_komitmen', 'public');
+            
+            $profil->update([
+                'surat_komitmen' => $path
+            ]);
+        }
 
-        // Tentukan tipe email notifikasi ke Admin
-        $tipe = $isRevisi ? 'pengajuan_ulang' : 'baru';
-        Mail::to('msyaifulloh2024@gmail.com')->queue(new NotifikasiPendaftaranAdmin($pendaftar, $tipe));
-
-        return redirect()->route('riwayat.index')->with('success', 'Selamat! Seluruh Berkas Anda Telah Berhasil Dikirim dan Sedang Diproses.');
+        return redirect()->route('pendaftaran.step7')->with('success', 'Surat Komitmen berhasil diunggah, lanjut ke Tahap 7.');
     }
 }

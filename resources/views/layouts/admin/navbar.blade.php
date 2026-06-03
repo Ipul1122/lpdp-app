@@ -17,6 +17,84 @@
     </div>
     
     <div class="flex items-center gap-4 md:gap-6">
+        @php
+            $adminNotifications = \App\Models\Notification::whereNull('user_id')
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get();
+            $adminUnreadCount = \App\Models\Notification::whereNull('user_id')
+                ->where('is_read', false)
+                ->count();
+        @endphp
+
+        <div class="relative flex items-center justify-center h-full" x-data="{ notifOpen: false }">
+            <button @click="notifOpen = !notifOpen" @click.away="notifOpen = false" class="relative p-2 rounded-full text-slate-400 hover:bg-slate-50 hover:text-orange-500 transition focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                </svg>
+                
+                @if($adminUnreadCount > 0)
+                    <span class="absolute top-1 right-1 flex h-4 w-4 items-center justify-center text-[10px] font-bold text-white bg-orange-500 rounded-full border border-white">
+                        {{ $adminUnreadCount }}
+                    </span>
+                @endif
+            </button>
+
+            <div x-show="notifOpen" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 translate-y-1"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-1"
+                 style="display: none;"
+                 class="absolute right-[-60px] sm:right-0 top-full mt-3 w-72 sm:w-80 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 overflow-hidden">
+                 
+                <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+                    <span class="font-bold text-slate-700 text-sm">Notifikasi</span>
+                    @if($adminUnreadCount > 0)
+                        <form action="{{ route('admin.notifikasi.markAllRead') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="text-xs text-orange-500 hover:text-orange-600 font-semibold cursor-pointer">Tandai Dibaca</button>
+                        </form>
+                    @endif
+                </div>
+                
+                <div class="max-h-96 overflow-y-auto divide-y divide-slate-50">
+                    @if($adminNotifications->isNotEmpty())
+                        @foreach($adminNotifications as $notif)
+                            <div class="p-4 hover:bg-slate-50 transition cursor-default flex gap-3 {{ !$notif->is_read ? 'bg-orange-50/20' : '' }}">
+                                <div class="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center 
+                                    {{ $notif->type === 're_submission' ? 'bg-blue-100 text-blue-600' : 'bg-emerald-100 text-emerald-600' }}">
+                                    @if($notif->type === 're_submission')
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H18.5"></path></svg>
+                                    @else
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                    @endif
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-xs font-bold text-slate-800">{{ $notif->title }}</p>
+                                    <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">{{ $notif->message }}</p>
+                                    <span class="text-[10px] text-slate-400 mt-1 block">{{ $notif->created_at->diffForHumans() }}</span>
+                                </div>
+                            </div>
+                        @endforeach
+                        
+                        <div class="p-3 bg-slate-50 border-t border-slate-100 text-center">
+                            <a href="{{ route('admin.notifikasi.index') }}" class="text-xs font-bold text-slate-600 hover:text-orange-500 transition block">
+                                Lihat Semua Notifikasi
+                            </a>
+                        </div>
+                    @else
+                        <div class="px-4 py-8 flex flex-col items-center justify-center text-center">
+                            <svg class="w-12 h-12 text-slate-200 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                            <p class="text-sm font-medium text-slate-500">Belum ada notifikasi</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
         <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
 
         <div class="flex items-center gap-4">

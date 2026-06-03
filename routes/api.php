@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\Auth\OtpVerificationApiController;
 use App\Http\Controllers\Api\Auth\LoginApiController;
 use App\Http\Controllers\Api\PendaftaranApiController;
 
+use App\Http\Controllers\Api\NotifikasiApiController;
+
 // ==========================================
 // RUTE PUBLIK (Bisa diakses tanpa login/token)
 // ==========================================
@@ -21,6 +23,7 @@ Route::post('/login', [LoginApiController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) { return $request->user(); });
 
+    Route::post('/pendaftaran/kategori', [PendaftaranApiController::class, 'storeCategory']);
     Route::post('/pendaftaran/profil', [PendaftaranApiController::class, 'storeProfil']);
     Route::post('/pendaftaran/industri', [PendaftaranApiController::class, 'storeIndustri']);
     Route::post('/pendaftaran/universitas', [PendaftaranApiController::class, 'storeUniversitas']);
@@ -30,4 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Endpoint untuk Mengambil Seluruh Data Pendaftaran (GET)
     Route::get('/pendaftaran', [PendaftaranApiController::class, 'getPendaftaranData']);
     Route::get('/pendaftaran/{id}', [PendaftaranApiController::class, 'show']);
+
+    // Endpoint Notifikasi
+    Route::get('/notifikasi', [NotifikasiApiController::class, 'index']);
+    Route::post('/notifikasi/mark-all-read', [NotifikasiApiController::class, 'markAllAsRead']);
 });

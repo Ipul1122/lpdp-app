@@ -204,6 +204,20 @@
                         </div>
                     </div>
 
+                    <div x-data="{ tab6: false }" class="border border-slate-200 rounded-xl overflow-hidden">
+                        <button @click="tab6 = !tab6" class="w-full px-5 py-3 bg-slate-50 flex justify-between items-center outline-none">
+                            <span class="font-bold text-sm text-slate-700"><span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-xs mr-2">6</span> Surat Komitmen</span>
+                            <svg :class="{'rotate-180': tab6}" class="w-4 h-4 text-slate-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="tab6" style="display:none;" class="p-5 border-t border-slate-100 text-sm">
+                            @if($p->surat_komitmen)
+                                <a href="{{ asset('storage/' . $p->surat_komitmen) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Komitmen</a>
+                            @else
+                                <p class="text-slate-500 italic">Belum diunggah.</p>
+                            @endif
+                        </div>
+                    </div>
+
                     <div class="mt-6 pt-6 border-t border-slate-200 flex flex-col md:flex-row justify-end items-center gap-4 bg-slate-50 p-4 rounded-xl">
                         <span class="text-sm font-semibold text-slate-600">Tentukan Status Pendaftar:</span>
                         

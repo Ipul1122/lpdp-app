@@ -83,14 +83,131 @@
                     <input type="text" name="kota" value="{{ old('kota', $universitas?->kota) }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: Jakarta Selatan">
                 </div>
 
-                <div class="md:col-span-2">
+                @php
+                    $univOptions = [
+                        'Universitas Esa Unggul (Unggul)',
+                        'Binus University (Unggul)',
+                        'Universitas Pelita Harapan (Unggul)',
+                        'Universitas Padjadjaran (Unggul)',
+                        'Universitas Al Azhar Indonesia (Unggul)',
+                        'Politeknik STIA LAN Jakarta (Baik Sekali)',
+                        'Universitas Paramadina (Baik Sekali)',
+                        'Universitas Indonesia (Unggul)',
+                        'Universitas Jayabaya (Unggul)',
+                        'Perbanas Institute Jakarta (Unggul)',
+                        'Universitas Gadjah Mada (Unggul)',
+                        'Politeknik STIA LAN (B)',
+                        'Universitas Trisakti (Unggul)',
+                        'Universitas Brawijaya (Unggul)',
+                        'Universitas Bina Nusantara (Unggul)',
+                        'Universitas Diponegoro (Unggul)',
+                    ];
+                @endphp
+                <div class="md:col-span-2" x-data="selectOrInput({
+                    name: 'nama_universitas',
+                    options: {{ json_encode($univOptions) }},
+                    initialValue: {{ json_encode(old('nama_universitas', $universitas?->nama_universitas)) }},
+                    userId: '{{ Auth::id() }}'
+                })">
                     <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Universitas Tujuan <span class="text-red-500">*</span></label>
-                    <input type="text" name="nama_universitas" value="{{ old('nama_universitas', $universitas?->nama_universitas) }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Ketik nama universitas...">
+                    <select 
+                        x-model="selectedValue"
+                        :name="!isManual ? 'nama_universitas' : 'nama_universitas_select'"
+                        :required="!isManual"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm">
+                        <option value="">-- Pilih Universitas Tujuan --</option>
+                        @foreach($univOptions as $option)
+                            <option value="{{ $option }}">{{ $option }}</option>
+                        @endforeach
+                        <option value="Lainnya">-- Lainnya (Ketik Manual) --</option>
+                    </select>
+
+                    <div x-show="isManual" x-transition class="mt-3">
+                        <input 
+                            type="text" 
+                            x-model="manualValue"
+                            :name="isManual ? 'nama_universitas' : ''"
+                            :required="isManual"
+                            placeholder="Ketik nama universitas tujuan..."
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm">
+                    </div>
                 </div>
                 
-                <div class="md:col-span-2">
+                @php
+                    $prodiOptions = [
+                        'Magister Komunikasi',
+                        'Administrasi Publik (Unggul)',
+                        'Teknik Informatika',
+                        'Magister Manajemen Konsentrasi Pengembangan Organisasi & Sumber Daya Manusia (Unggul)',
+                        'Ilmu Jurnalistik (Unggul)',
+                        'Komunikasi (Baik Sekali)',
+                        'Magister Administrasi Pembangunan Negara (Unggul)',
+                        'Ilmu Komunikasi (Baik Sekali)',
+                        'Kebijakan Publik dan Governansi (Unggul)',
+                        'Ilmu Komunikasi (Unggul)',
+                        'Ilmu Hukum',
+                        'Magister Ilmu Komunikasi',
+                        'Magister Ilmu Hukum (Unggul)',
+                        'Magister Akuntansi (Baik Sekali)',
+                        'Program Magister Ilmu Hukum (Unggul)',
+                        'Magister Manajemen dan Kebijakan Publik (Unggul)',
+                        'Magister Teknologi Informasi (Unggul)',
+                        'Arkeologi (A)',
+                        'Magister Ilmu Administrasi (Unggul)',
+                        'Perencanaan Ekonomi dan Kebijakan Pembangunan (A)',
+                        'Ilmu Hukum (Unggul)',
+                        'Administrasi Pembangunan Negara (Unggul)',
+                        'Master of Digital Communication (A)',
+                        'Magister Ilmu Hukum dengan konsentrasi Hukum Internasional (Unggul)',
+                        'Komunikasi Publik',
+                        'Operations and Supply Chain Management (Unggul)',
+                        'Ilmu Administrasi (Unggul)',
+                        'Master of Management Strategy and Execution (Unggul)',
+                        'Konsentrasi Human Capital Management (Unggul)',
+                        'Magister Kebijakan Publik dan Governansi (Unggul)',
+                        'Magister Ilmu Komunikasi (Unggul)',
+                        'Manajemen Perencanaan Ekonomi dan Kebijakan Pembangunan (A)',
+                        'Magister Perencanaan Ekonomi dan Kebijakan Pembangunan (A)',
+                        'Manajemen SDM (Unggul)',
+                        'Manajemen (Unggul)',
+                        'Konsentrasi Manajemen Sumber Daya Manusia (A)',
+                        'Akuntansi (Unggul)',
+                        'Administrasi dan Kebijakan Publik (Unggul)',
+                        'Magister Manajemen (Unggul)',
+                        'Master’s in Public Policy and Governance (MPPG) (Unggul)',
+                        'Magister Teknik dan Manajemen Industri (Unggul)',
+                        'Ilmu Linguistik (Unggul)',
+                        'Magister Kebijakan Publik',
+                    ];
+                @endphp
+                <div class="md:col-span-2" x-data="selectOrInput({
+                    name: 'program_studi',
+                    options: {{ json_encode($prodiOptions) }},
+                    initialValue: {{ json_encode(old('program_studi', $universitas?->program_studi)) }},
+                    userId: '{{ Auth::id() }}'
+                })">
                     <label class="block text-sm font-semibold text-slate-700 mb-2">Program Studi <span class="text-red-500">*</span></label>
-                    <input type="text" name="program_studi" value="{{ old('program_studi', $universitas?->program_studi) }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm" placeholder="Contoh: S2 Teknik Informatika">
+                    <select 
+                        x-model="selectedValue"
+                        :name="!isManual ? 'program_studi' : 'program_studi_select'"
+                        :required="!isManual"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm">
+                        <option value="">-- Pilih Program Studi --</option>
+                        @foreach($prodiOptions as $option)
+                            <option value="{{ $option }}">{{ $option }}</option>
+                        @endforeach
+                        <option value="Lainnya">-- Lainnya (Ketik Manual) --</option>
+                    </select>
+
+                    <div x-show="isManual" x-transition class="mt-3">
+                        <input 
+                            type="text" 
+                            x-model="manualValue"
+                            :name="isManual ? 'program_studi' : ''"
+                            :required="isManual"
+                            placeholder="Ketik nama program studi..."
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm">
+                    </div>
                 </div>
 
                 <div>
@@ -118,6 +235,54 @@
 </div>
 
 <script>
+    window.selectOrInput = function(config) {
+        const storageKey = 'draft_step_3_user_' + config.userId;
+        let savedVal = null;
+        try {
+            const savedData = localStorage.getItem(storageKey);
+            if (savedData) {
+                const dataObj = JSON.parse(savedData);
+                savedVal = dataObj[config.name];
+            }
+        } catch(e) {}
+
+        const finalVal = (savedVal !== undefined && savedVal !== null) ? savedVal : config.initialValue;
+        const isPredefined = config.options.some(opt => opt.toLowerCase() === (finalVal || '').toLowerCase());
+        const isManual = finalVal && !isPredefined;
+
+        return {
+            name: config.name,
+            options: config.options,
+            selectedValue: isManual ? 'Lainnya' : (finalVal || ''),
+            manualValue: isManual ? finalVal : '',
+            isManual: isManual,
+            
+            init() {
+                this.$watch('selectedValue', value => {
+                    if (value === 'Lainnya') {
+                        this.isManual = true;
+                    } else {
+                        this.isManual = false;
+                        this.manualValue = '';
+                    }
+                    this.triggerFormInput();
+                });
+                this.$watch('manualValue', value => {
+                    this.triggerFormInput();
+                });
+            },
+            
+            triggerFormInput() {
+                this.$nextTick(() => {
+                    const activeInput = this.$el.querySelector('[name="' + this.name + '"]');
+                    if (activeInput) {
+                        activeInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                });
+            }
+        }
+    };
+
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('step-form');
         const storageKey = 'draft_step_{{ $step }}_user_{{ Auth::id() }}';
@@ -127,6 +292,7 @@
         if (savedData) {
             const dataObj = JSON.parse(savedData);
             for (const key in dataObj) {
+                if (key === 'nama_universitas' || key === 'program_studi') continue; // Handled by Alpine
                 const input = form.elements[key];
                 if (input && input.type !== 'file' && dataObj[key] !== undefined && dataObj[key] !== null) {
                     input.value = dataObj[key];
