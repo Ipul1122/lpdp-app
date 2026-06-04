@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selamat Datang - TUBEL App</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/png" href="{{ asset('storage/lpdp-icon.png') }}">
 </head>
 <body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 font-sans">
 

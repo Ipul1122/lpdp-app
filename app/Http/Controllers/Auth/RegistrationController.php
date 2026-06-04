@@ -21,6 +21,9 @@ class RegistrationController extends Controller
      */
     public function showRegistrationForm()
     {
+        if (\App\Models\Setting::get('lock_registration', '0') === '1') {
+            return view('auth.register_closed');
+        }
         return view('auth.register');
     }
 
@@ -29,6 +32,10 @@ class RegistrationController extends Controller
      */
     public function processRegistration(RegisterAccountRequest $request)
     {
+        if (\App\Models\Setting::get('lock_registration', '0') === '1') {
+            return redirect()->route('login')->with('error', 'Pendaftaran saat ini sedang ditutup oleh Admin.');
+        }
+
         // $request->validated() hanya mengambil data yang sudah lolos aturan di RegisterAccountRequest
         $user = $this->registrationService->createNewAccount($request->validated());
 

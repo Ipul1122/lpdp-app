@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrasi Akun - TUBEL App</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/png" href="{{ asset('storage/lpdp-icon.png') }}">
 </head>
 <body class="bg-slate-50 min-h-screen flex flex-col md:flex-row font-sans">
 
@@ -15,10 +16,8 @@
         
         <!-- Logo -->
         <div class="relative z-10 flex items-center space-x-3">
-            <div class="bg-white/20 p-2.5 rounded-2xl backdrop-blur-md">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                </svg>
+            <div class="bg-white p-2.5 rounded-2xl shadow-sm">
+                <img src="{{ asset('storage/lpdp-icon.png') }}" alt="Logo" class="w-8 h-8 object-contain">
             </div>
             <span class="text-2xl font-bold tracking-wider">TUBEL App</span>
         </div>
@@ -57,10 +56,8 @@
             
             <!-- Mobile Header (Hidden on Desktop) -->
             <div class="flex items-center space-x-2 mb-8 md:hidden justify-center">
-                <div class="bg-orange-600 p-2 rounded-xl text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                    </svg>
+                <div class="bg-white border border-slate-100 p-2 rounded-xl shadow-sm">
+                    <img src="{{ asset('storage/lpdp-icon.png') }}" alt="Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-xl font-bold text-slate-800">TUBEL App</span>
             </div>

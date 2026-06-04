@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ringkasan Pendaftaran REG-{{ str_pad($userProfile->id, 5, '0', STR_PAD_LEFT) }}</title>
+    <title>Ringkasan Pendaftaran REG-{{ str_pad($userProfile->user_id, 5, '0', STR_PAD_LEFT) }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/png" href="{{ asset('storage/lpdp-icon.png') }}">
     <style>
         @media print {
             .no-print {
@@ -29,9 +30,9 @@
 
     <!-- Top Action Bar (Hidden on Print) -->
     <div class="max-w-4xl mx-auto mb-6 no-print flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-        <a href="{{ route('riwayat.index') }}" class="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-800 transition">
+        <a href="{{ request()->query('back') === 'admin' ? route('admin.pendaftar.index') : route('riwayat.index') }}" class="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-800 transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Kembali ke Riwayat
+            Kembali
         </a>
         <button onclick="window.print()" class="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-orange-100 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
@@ -45,8 +46,8 @@
         <!-- Header Kop Surat -->
         <div class="flex items-center justify-between border-b-4 border-double border-slate-900 pb-6 mb-8">
             <div class="flex items-center gap-4">
-                <div class="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center text-white font-black text-3xl shadow-md no-print">
-                    L
+                <div class="w-14 h-14 bg-white border border-slate-100 rounded-2xl flex items-center justify-center p-2 shadow-sm no-print">
+                    <img src="{{ asset('storage/lpdp-icon.png') }}" alt="Logo" class="w-12 h-12 object-contain">
                 </div>
                 <div>
                     <h1 class="text-2xl font-black tracking-tight text-slate-900">TUBEL<span class="text-orange-500">App</span></h1>
@@ -58,7 +59,7 @@
                     KARTU PENDAFTARAN
                 </span>
                 <span class="block text-sm font-bold text-slate-800 mt-2">
-                    REG-{{ str_pad($userProfile->id, 5, '0', STR_PAD_LEFT) }}
+                    REG-{{ str_pad($userProfile->user_id, 5, '0', STR_PAD_LEFT) }}
                 </span>
             </div>
         </div>

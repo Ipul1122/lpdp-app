@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syarat Pendaftaran - Portal Pendaftaran Beasiswa TUBEL</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/png" href="{{ asset('storage/lpdp-icon.png') }}">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased selection:bg-orange-500 selection:text-white flex flex-col min-h-screen">
@@ -14,9 +15,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="{{ url('/') }}" class="flex items-center gap-3 hover:opacity-95 transition-opacity">
-                    <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-orange-500/30">
-                        L
-                    </div>
+                    <img src="{{ asset('storage/lpdp-icon.png') }}" alt="Logo" class="w-10 h-10 object-contain">
                     <span class="font-bold text-xl tracking-tight text-slate-800">TUBEL<span class="text-orange-500">App</span></span>
                 </a>
 
@@ -268,7 +267,7 @@
     <footer class="bg-white border-t border-slate-200 py-10 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-slate-800 rounded-lg flex items-center justify-center text-white font-bold text-sm">L</div>
+                <img src="{{ asset('storage/lpdp-icon.png') }}" alt="Logo" class="w-8 h-8 object-contain">
                 <span class="font-bold text-slate-800">TUBEL App</span>
             </div>
             <p class="text-slate-500 text-sm">

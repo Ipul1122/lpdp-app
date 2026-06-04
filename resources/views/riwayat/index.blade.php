@@ -40,7 +40,7 @@
                 <div class="grid grid-cols-5 gap-4 p-6 border-b border-slate-50 items-center text-sm text-slate-700 hover:bg-slate-50 transition-colors">
                     
                     <div class="font-bold text-slate-800">
-                        REG-{{ str_pad($riwayatProfil->id, 5, '0', STR_PAD_LEFT) }}
+                        REG-{{ str_pad($riwayatProfil->user_id, 5, '0', STR_PAD_LEFT) }}
                     </div>
                     
                     <div class="capitalize font-medium">

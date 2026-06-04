@@ -117,9 +117,13 @@
         <div class="relative flex items-center justify-center h-full" x-data="{ profileOpen: false }">
             
             <button @click="profileOpen = !profileOpen" @click.away="profileOpen = false" class="focus:outline-none flex items-center justify-center rounded-full ring-2 ring-transparent hover:ring-slate-200 transition-all duration-200">
-                <div class="w-10 h-10 rounded-full bg-slate-800 text-white font-bold text-sm flex items-center justify-center shadow-sm">
-                    {{ $initials }}
-                </div>
+                @if($userProfile && $userProfile->pas_foto)
+                    <img src="{{ Storage::url($userProfile->pas_foto) }}" alt="Avatar" class="w-10 h-10 rounded-full object-cover shadow-sm">
+                @else
+                    <div class="w-10 h-10 rounded-full bg-slate-800 text-white font-bold text-sm flex items-center justify-center shadow-sm">
+                        {{ $initials }}
+                    </div>
+                @endif
             </button>
 
             <div x-show="profileOpen" 

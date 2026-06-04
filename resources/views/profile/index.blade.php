@@ -83,13 +83,27 @@
                         <div class="md:col-span-1 mt-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Pas Foto 3x4</label>
                             <p class="text-xs text-slate-500 mb-2">3x4, Background Merah, Pose Formal (Maks 5MB)</p>
-                            @if($userProfile?->pas_foto) <p class="mb-2"><a href="{{ asset('storage/' . $userProfile->pas_foto) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📸 Lihat Pas Foto Saat Ini</a></p> @endif
+                            @if($userProfile?->pas_foto)
+                                <div class="mb-3">
+                                    <img src="{{ asset('storage/' . $userProfile->pas_foto) }}" alt="Pas Foto" class="w-24 h-32 object-cover rounded-lg border border-slate-200 shadow-sm mb-1">
+                                    <a href="{{ asset('storage/' . $userProfile->pas_foto) }}" target="_blank" class="text-blue-600 font-semibold text-xs hover:underline flex items-center gap-1">
+                                        📸 Lihat Ukuran Penuh
+                                    </a>
+                                </div>
+                            @endif
                             @if(!$isLocked) <input type="file" name="pas_foto" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                         <div class="md:col-span-1 mt-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Foto KTP</label>
                             <p class="text-xs text-slate-500 mb-2">&nbsp;</p>
-                            @if($userProfile?->foto_ktp) <p class="mb-2"><a href="{{ asset('storage/' . $userProfile->foto_ktp) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat KTP Saat Ini</a></p> @endif
+                            @if($userProfile?->foto_ktp)
+                                <div class="mb-3">
+                                    <img src="{{ asset('storage/' . $userProfile->foto_ktp) }}" alt="Foto KTP" class="w-48 h-32 object-cover rounded-lg border border-slate-200 shadow-sm mb-1">
+                                    <a href="{{ asset('storage/' . $userProfile->foto_ktp) }}" target="_blank" class="text-blue-600 font-semibold text-xs hover:underline flex items-center gap-1">
+                                        📄 Lihat Ukuran Penuh
+                                    </a>
+                                </div>
+                            @endif
                             @if(!$isLocked) <input type="file" name="foto_ktp" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                     </div>
