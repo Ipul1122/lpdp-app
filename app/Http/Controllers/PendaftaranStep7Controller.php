@@ -73,8 +73,23 @@ class PendaftaranStep7Controller extends Controller
 
         // Tentukan tipe email notifikasi ke Admin
         $tipe = $isRevisi ? 'pengajuan_ulang' : 'baru';
-        Mail::to('msyaifulloh2024@gmail.com')->queue(new NotifikasiPendaftaranAdmin($pendaftar, $tipe));
+        Mail::to('msyaifulloh2024@gmail.com')->send(new NotifikasiPendaftaranAdmin($pendaftar, $tipe));
 
         return redirect()->route('riwayat.index')->with('success', 'Selamat! Seluruh Berkas Anda Telah Berhasil Dikirim dan Sedang Diproses.');
+    }
+
+    public function exportPdf()
+    {
+        $userProfile = UserProfile::where('user_id', Auth::id())->firstOrFail();
+        
+        // Ambil semua data lengkap
+        $industri = IndustriPendukung::where('user_id', Auth::id())->first();
+        $universitas = UniversitasPendaftaran::where('user_id', Auth::id())->first();
+        $rekomendasi = RekomendasiPendaftaran::where('user_id', Auth::id())->first();
+        $essay = EssayPendaftaran::where('user_id', Auth::id())->first();
+
+        return view('pdf.summary_print', compact(
+            'userProfile', 'industri', 'universitas', 'rekomendasi', 'essay'
+        ));
     }
 }

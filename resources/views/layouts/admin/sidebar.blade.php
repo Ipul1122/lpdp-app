@@ -63,5 +63,15 @@
                 Notifikasi
             </span>
         </a>
+
+        <a href="{{ route('admin.audit-logs.index') }}" 
+           class="w-full aspect-square rounded-xl flex items-center justify-center transition-all group relative {{ request()->routeIs('admin.audit-logs*') ? 'bg-slate-800 text-orange-500' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+            <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span class="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap z-50 shadow-md">
+                Jejak Audit
+            </span>
+        </a>
     </nav>
 </aside>

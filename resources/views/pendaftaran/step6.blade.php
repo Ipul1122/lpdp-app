@@ -117,12 +117,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('step-form');
-        const storageKey = 'draft_step_{{ $step }}_user_{{ Auth::id() }}';
-
-        // 1. SIMPAN DRAFT SAAT MENGETIK (jika ada input teks lain, di sini hanya file)
-        form.addEventListener('submit', function() {
-            localStorage.removeItem(storageKey);
-        });
 
         // ============================================
         // 2. HANDLE FILE PREVIEW UNTUK SURAT KOMITMEN

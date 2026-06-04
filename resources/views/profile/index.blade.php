@@ -80,8 +80,15 @@
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Status Kawin</label><select name="status_perkawinan" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"><option value="Belum Kawin" {{ $userProfile?->status_perkawinan == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option><option value="Kawin" {{ $userProfile?->status_perkawinan == 'Kawin' ? 'selected' : '' }}>Kawin</option></select></div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Pekerjaan</label><input type="text" name="pekerjaan" value="{{ $userProfile?->pekerjaan }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Kewarganegaraan</label><input type="text" name="kewarganegaraan" value="{{ $userProfile?->kewarganegaraan ?? 'WNI' }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none text-sm"></div>
-                        <div class="md:col-span-2 mt-2">
+                        <div class="md:col-span-1 mt-2">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Pas Foto 3x4</label>
+                            <p class="text-xs text-slate-500 mb-2">3x4, Background Merah, Pose Formal (Maks 5MB)</p>
+                            @if($userProfile?->pas_foto) <p class="mb-2"><a href="{{ asset('storage/' . $userProfile->pas_foto) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📸 Lihat Pas Foto Saat Ini</a></p> @endif
+                            @if(!$isLocked) <input type="file" name="pas_foto" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
+                        </div>
+                        <div class="md:col-span-1 mt-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Foto KTP</label>
+                            <p class="text-xs text-slate-500 mb-2">&nbsp;</p>
                             @if($userProfile?->foto_ktp) <p class="mb-2"><a href="{{ asset('storage/' . $userProfile->foto_ktp) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat KTP Saat Ini</a></p> @endif
                             @if(!$isLocked) <input type="file" name="foto_ktp" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
@@ -108,7 +115,19 @@
                         </div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Nama Instansi</label><input type="text" name="nama_instansi" value="{{ $industri?->nama_instansi }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Tgl Mulai Kerja</label><input type="month" name="tanggal_mulai_kerja" value="{{ $industri?->tanggal_mulai_kerja }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
-                        <div><label class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Pensiun</label><input type="month" name="tanggal_pensiun" value="{{ $industri?->tanggal_pensiun }}" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div>
+                        <div>
+                            <div class="flex items-center gap-1.5 mb-2">
+                                <label class="block text-sm font-semibold text-slate-700">Tanggal Pensiun</label>
+                                <div class="group relative inline-block cursor-pointer">
+                                    <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px] font-extrabold hover:bg-slate-300 transition">?</span>
+                                    <div class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-slate-800 text-white text-xs rounded-xl p-3 shadow-xl leading-relaxed z-20 font-normal">
+                                        Dihitung otomatis berdasarkan Tanggal Lahir dengan usia pensiun maksimal 60 tahun.
+                                        <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="month" name="tanggal_pensiun" value="{{ $tanggal_pensiun ?? $industri?->tanggal_pensiun }}" readonly class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-100 cursor-not-allowed text-slate-500 outline-none text-sm">
+                        </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Surat Izin Instansi</label>
                             @if($industri?->surat_izin) <p class="mb-2"><a href="{{ asset('storage/' . $industri->surat_izin) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat Dokumen Izin</a></p> @endif

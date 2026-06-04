@@ -2,7 +2,7 @@
 @section('title', 'Pendaftaran - Tahap 4')
 
 @section('content')
-<div class="max-w-5xl mx-auto mb-10" x-data="{ showForm: {{ ($rekomendasi && ($rekomendasi->kategori || $rekomendasi->nama_perekomendasi || $rekomendasi->file_rekomendasi)) ? 'true' : 'false' }} || !!localStorage.getItem('draft_step_4_user_{{ Auth::id() }}') }">
+<div class="max-w-5xl mx-auto mb-10" x-data="{ showForm: {{ ($rekomendasi && ($rekomendasi->kategori || $rekomendasi->nama_perekomendasi || $rekomendasi->file_rekomendasi)) ? 'true' : 'false' }} }">
     
     @include('pendaftaran.components.stepper', ['step' => 4])
 
@@ -145,7 +145,6 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Kembali
                 </a>
                 <a href="{{ route('pendaftaran.step5') }}" 
-                   @click="localStorage.removeItem('draft_step_4_user_{{ Auth::id() }}')" 
                    class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-6 rounded-xl transition shadow-md shadow-orange-100 text-xs flex items-center gap-1.5">
                     Lewati & Lanjut Tahap 5 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
@@ -157,38 +156,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('step-form');
-        const storageKey = 'draft_step_{{ $step }}_user_{{ Auth::id() }}';
-
-        // 1. Kembalikan data
-        const savedData = localStorage.getItem(storageKey);
-        if (savedData) {
-            const dataObj = JSON.parse(savedData);
-            for (const key in dataObj) {
-                const input = form.elements[key];
-                if (input && input.type !== 'file' && dataObj[key] !== undefined && dataObj[key] !== null) {
-                    input.value = dataObj[key];
-                }
-            }
-        }
-
-        // 2. Simpan draf
-        form.addEventListener('input', function(e) {
-            if(e.target.type !== 'file' && e.target.name) {
-                const formData = new FormData(form);
-                const obj = {};
-                formData.forEach((value, key) => {
-                    if (key !== '_token' && typeof value === 'string') {
-                        obj[key] = value;
-                    }
-                });
-                localStorage.setItem(storageKey, JSON.stringify(obj));
-            }
-        });
-
-        // 3. Bersihkan draf saat submit
-        form.addEventListener('submit', function() {
-            localStorage.removeItem(storageKey);
-        });
     });
 
     document.getElementById('file_input').addEventListener('change', function(e) {

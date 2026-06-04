@@ -10,11 +10,18 @@
             <p class="text-slate-500 text-sm mt-1">Review berkas dan tentukan status kelulusan pendaftar TUBEL.</p>
         </div>
         
-        <div class="flex bg-slate-200 p-1 rounded-xl">
-            <a href="{{ request()->fullUrlWithQuery(['filter' => 'baru', 'page' => 1]) }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'baru' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Baru</a>
-            <a href="{{ request()->fullUrlWithQuery(['filter' => 'pengajuan_ulang', 'page' => 1]) }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'pengajuan_ulang' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Revisi</a>
-            <a href="{{ request()->fullUrlWithQuery(['filter' => 'disetujui', 'page' => 1]) }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'disetujui' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Diterima</a>
-            <a href="{{ request()->fullUrlWithQuery(['filter' => 'ditolak', 'page' => 1]) }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'ditolak' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Ditolak</a>
+        <div class="flex flex-col sm:flex-row items-center gap-3">
+            <a href="{{ route('admin.pendaftar.export') }}" class="w-full sm:w-auto px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm shadow-emerald-100">
+                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                Ekspor Excel
+            </a>
+            
+            <div class="flex bg-slate-200 p-1 rounded-xl w-full sm:w-auto">
+                <a href="{{ request()->fullUrlWithQuery(['filter' => 'baru', 'page' => 1]) }}" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'baru' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Baru</a>
+                <a href="{{ request()->fullUrlWithQuery(['filter' => 'pengajuan_ulang', 'page' => 1]) }}" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'pengajuan_ulang' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Revisi</a>
+                <a href="{{ request()->fullUrlWithQuery(['filter' => 'disetujui', 'page' => 1]) }}" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'disetujui' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Diterima</a>
+                <a href="{{ request()->fullUrlWithQuery(['filter' => 'ditolak', 'page' => 1]) }}" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'ditolak' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Ditolak</a>
+            </div>
         </div>
     </div>
 
@@ -131,6 +138,10 @@
                             <div><span class="block text-slate-400 text-xs mb-1">TTL</span><p class="font-semibold text-slate-800">{{ $p->tempat_tglLahir }}</p></div>
                             <div><span class="block text-slate-400 text-xs mb-1">Telepon/WA</span><p class="font-semibold text-slate-800">{{ $p->no_telp }}</p></div>
                             <div class="col-span-2"><span class="block text-slate-400 text-xs mb-1">Alamat</span><p class="font-semibold text-slate-800">{{ $p->alamat }}, RT {{ $p->rt }}/RW {{ $p->rw }}, {{ $p->kelurahan }}, {{ $p->kecamatan }}</p></div>
+                            <div>
+                                <span class="block text-slate-400 text-xs mb-1">Pas Foto 3x4</span>
+                                @if($p->pas_foto) <a href="{{ asset('storage/' . $p->pas_foto) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Pas Foto</a> @else <span class="text-red-500">Tidak ada</span> @endif
+                            </div>
                             <div>
                                 <span class="block text-slate-400 text-xs mb-1">Dokumen KTP</span>
                                 @if($p->foto_ktp) <a href="{{ asset('storage/' . $p->foto_ktp) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Foto KTP</a> @else <span class="text-red-500">Tidak ada</span> @endif

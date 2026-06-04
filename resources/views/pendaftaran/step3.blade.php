@@ -236,17 +236,7 @@
 
 <script>
     window.selectOrInput = function(config) {
-        const storageKey = 'draft_step_3_user_' + config.userId;
-        let savedVal = null;
-        try {
-            const savedData = localStorage.getItem(storageKey);
-            if (savedData) {
-                const dataObj = JSON.parse(savedData);
-                savedVal = dataObj[config.name];
-            }
-        } catch(e) {}
-
-        const finalVal = (savedVal !== undefined && savedVal !== null) ? savedVal : config.initialValue;
+        const finalVal = config.initialValue;
         const isPredefined = config.options.some(opt => opt.toLowerCase() === (finalVal || '').toLowerCase());
         const isManual = finalVal && !isPredefined;
 
@@ -285,39 +275,6 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('step-form');
-        const storageKey = 'draft_step_{{ $step }}_user_{{ Auth::id() }}';
-
-        // 1. KEMBALIKAN DATA DARI LOCALSTORAGE
-        const savedData = localStorage.getItem(storageKey);
-        if (savedData) {
-            const dataObj = JSON.parse(savedData);
-            for (const key in dataObj) {
-                if (key === 'nama_universitas' || key === 'program_studi') continue; // Handled by Alpine
-                const input = form.elements[key];
-                if (input && input.type !== 'file' && dataObj[key] !== undefined && dataObj[key] !== null) {
-                    input.value = dataObj[key];
-                }
-            }
-        }
-
-        // 2. SIMPAN DRAFT SAAT MENGETIK
-        form.addEventListener('input', function(e) {
-            if(e.target.type !== 'file' && e.target.name) {
-                const formData = new FormData(form);
-                const obj = {};
-                formData.forEach((value, key) => {
-                    if (key !== '_token' && typeof value === 'string') {
-                        obj[key] = value;
-                    }
-                });
-                localStorage.setItem(storageKey, JSON.stringify(obj));
-            }
-        });
-
-        // 3. BERSIHKAN LOCALSTORAGE SAAT SUBMIT
-        form.addEventListener('submit', function() {
-            localStorage.removeItem(storageKey);
-        });
 
         // ============================================
         // 4. HANDLE FILE PREVIEW UNTUK LOA

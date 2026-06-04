@@ -128,20 +128,10 @@
                         isInspektoratSelected() {
                             return this.inspektoratList.includes((this.selectedValue || '').toUpperCase());
                         },
-                        init() {
-                            const storageKey = 'draft_step_{{ $step }}_user_{{ Auth::id() }}';
-                            const savedData = localStorage.getItem(storageKey);
-                            if (savedData) {
-                                const dataObj = JSON.parse(savedData);
-                                if (dataObj && dataObj.unit_kerja) {
-                                    this.selectedValue = dataObj.unit_kerja;
-                                }
-                            }
-                        },
                         selectOption(val) {
                             this.selectedValue = val;
                             this.$refs.unitKerjaInput.value = val;
-                            // Trigger input event to update localStorage draft
+                            // Trigger input event to update database draft
                             this.$refs.unitKerjaInput.dispatchEvent(new Event('input', { bubbles: true }));
                             // Auto-collapse accordion
                             this.activeTab = null;
@@ -331,8 +321,17 @@
 
                 {{-- Tanggal Pensiun --}}
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Pensiun (Bulan & Tahun) <span class="text-red-500">*</span></label>
-                    <input type="month" name="tanggal_pensiun" value="{{ old('tanggal_pensiun', $industri?->tanggal_pensiun) }}" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm">
+                    <div class="flex items-center gap-1.5 mb-2">
+                        <label class="block text-sm font-semibold text-slate-700">Tanggal Pensiun (Bulan & Tahun) <span class="text-red-500">*</span></label>
+                        <div class="group relative inline-block cursor-pointer">
+                            <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px] font-extrabold hover:bg-slate-300 transition">?</span>
+                            <div class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-slate-800 text-white text-xs rounded-xl p-3 shadow-xl leading-relaxed z-20 font-normal">
+                                Dihitung otomatis berdasarkan Tanggal Lahir (Tahap 1) dengan usia pensiun maksimal 60 tahun.
+                                <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="month" name="tanggal_pensiun" value="{{ old('tanggal_pensiun', $tanggal_pensiun ?? $industri?->tanggal_pensiun) }}" readonly required class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-100 cursor-not-allowed text-slate-500 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm">
                 </div>
             </div>
 
@@ -347,43 +346,4 @@
         </form>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('step-form');
-        const storageKey = 'draft_step_{{ $step }}_user_{{ Auth::id() }}';
-
-        // 1. KEMBALIKAN DATA DARI LOCALSTORAGE
-        const savedData = localStorage.getItem(storageKey);
-        if (savedData) {
-            const dataObj = JSON.parse(savedData);
-            for (const key in dataObj) {
-                const input = form.elements[key];
-                if (input && input.type !== 'file' && dataObj[key] !== undefined && dataObj[key] !== null) {
-                    input.value = dataObj[key];
-                }
-            }
-        }
-
-        // 2. SIMPAN DRAFT SAAT MENGETIK
-        form.addEventListener('input', function(e) {
-            if(e.target.type !== 'file' && e.target.name) {
-                const formData = new FormData(form);
-                const obj = {};
-                formData.forEach((value, key) => {
-                    if (key !== '_token' && typeof value === 'string') {
-                        obj[key] = value;
-                    }
-                });
-                localStorage.setItem(storageKey, JSON.stringify(obj));
-            }
-        });
-
-        // 3. BERSIHKAN LOCALSTORAGE SAAT SUBMIT
-        form.addEventListener('submit', function() {
-            localStorage.removeItem(storageKey);
-        });
-
-    });
-</script>
 @endsection
