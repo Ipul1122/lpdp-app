@@ -8,8 +8,8 @@
 <aside class="w-20 bg-slate-900 flex flex-col items-center py-6 shadow-xl z-40 shrink-0 absolute inset-y-0 left-0 md:relative h-full transition-transform duration-300 ease-in-out"
        :class="{'translate-x-0': sidebarOpen, '-translate-x-full md:translate-x-0': !sidebarOpen}">
     
-    <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mb-10 shadow-lg shadow-orange-500/30">
-        L
+    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center mb-10 shadow-lg shadow-orange-500/10 p-2">
+        <img src="{{ asset('storage/lpdp-icon.png') }}" alt="Logo" class="w-10 h-10 object-contain">
     </div>
 
     <nav class="flex flex-col gap-4 w-full px-3">
@@ -71,6 +71,17 @@
             </svg>
             <span class="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap z-50 shadow-md">
                 Jejak Audit
+            </span>
+        </a>
+
+        <a href="{{ route('admin.settings.index') }}" 
+           class="w-full aspect-square rounded-xl flex items-center justify-center transition-all group relative {{ request()->routeIs('admin.settings*') ? 'bg-slate-800 text-orange-500' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+            <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <span class="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap z-50 shadow-md">
+                Pengaturan
             </span>
         </a>
     </nav>

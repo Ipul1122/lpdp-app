@@ -10,9 +10,7 @@
     
     <a href="{{ route('dashboard') }}" class="mb-10">
         <div class="w-10 h-10 flex items-center justify-center">
-            <svg class="w-8 h-8 text-orange-500" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C12 2 7 7 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 7 12 2 12 2ZM12 22C8.13 22 5 18.87 5 15C5 12.44 6.37 10.2 8.41 8.92C8.15 9.87 8 10.91 8 12C8 16.42 11.58 20 16 20C14.91 21.24 13.53 22 12 22Z" />
-            </svg>
+            <img src="{{ asset('storage/lpdp-icon.png') }}" alt="Logo" class="w-8 h-8 object-contain">
         </div>
     </a>
     

@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PendaftarController;
 use App\Http\Controllers\Admin\NotifikasiController as AdminNotifikasiController;
+use App\Http\Controllers\Admin\SettingsController;
 
 Route::get('/', function () {
     return view('welcome'); 
@@ -143,6 +144,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             // Manajemen Pendaftar
             Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
             Route::get('/pendaftar/export', [PendaftarController::class, 'exportCsv'])->name('pendaftar.export');
+            Route::get('/pendaftar/export-pdf', [PendaftarController::class, 'exportPdfList'])->name('pendaftar.exportPdfList');
+            Route::get('/pendaftar/{id}/pdf', [PendaftarController::class, 'exportPdf'])->name('pendaftar.pdf');
             Route::post('/pendaftar/{id}/status', [PendaftarController::class, 'updateStatus'])->name('pendaftar.updateStatus');
             Route::get('/audit-logs', [\App\Http\Controllers\Admin\AuditLogController::class, 'index'])->name('audit-logs.index');
 
@@ -151,6 +154,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
             Route::get('/pendaftar/infoPendaftar', [PendaftarController::class, 'infoPendaftar'])->name('pendaftar.infoPendaftar');
             
+            // Pengaturan
+            Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+            Route::post('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.updatePassword');
+            Route::post('/settings/registration', [SettingsController::class, 'updateRegistrationLock'])->name('settings.updateRegistrationLock');
+
             // Mengizinkan metode GET dan POST sekaligus
             Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
         });

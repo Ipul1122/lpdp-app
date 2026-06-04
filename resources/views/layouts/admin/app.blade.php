@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - Admin TUBEL</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/png" href="{{ asset('storage/lpdp-icon.png') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>

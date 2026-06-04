@@ -12,12 +12,36 @@ class PendaftarController extends Controller
 {
     public function index(Request $request)
     {
-        $query = UserProfile::with(['user', 'industri', 'universitas', 'rekomendasi', 'essay'])->latest();
+        $query = UserProfile::with(['user', 'industri', 'universitas', 'rekomendasi', 'essay'])->orderBy('user_id', 'asc');
         
         $filterActive = $request->filter ?? 'baru';
 
+        // Hitung statistik berdasarkan filter program_beasiswa dan kategori jika ada
+        $countQuery = UserProfile::query();
+        if ($request->filled('program_beasiswa')) {
+            $countQuery->where('program_beasiswa', $request->program_beasiswa);
+        }
+        if ($request->filled('kategori')) {
+            $countQuery->where('kategori', $request->kategori);
+        }
+
+        $countSemua = (clone $countQuery)->count();
+        $countBaru = (clone $countQuery)->where('status', 'pending')
+            ->where(function($q) {
+                $q->where('is_pengajuan_ulang', false)
+                  ->orWhereNull('is_pengajuan_ulang');
+            })->count();
+        $countRevisi = (clone $countQuery)->where('status', 'pending')
+            ->where('is_pengajuan_ulang', true)->count();
+        $countDiterima = (clone $countQuery)->where('status', 'diterima')->count();
+        $countDitolak = (clone $countQuery)->where('status', 'ditolak')->count();
+
         // Filter berdasarkan URL parameter
         switch ($filterActive) {
+            case 'semua':
+                // Tampilkan semua data, tidak ada filter status / pengajuan ulang
+                break;
+                
             case 'pengajuan_ulang':
                 // Hanya tampilkan yang direvisi DAN statusnya masih pending
                 $query->where('is_pengajuan_ulang', true)
@@ -34,6 +58,7 @@ class PendaftarController extends Controller
                 
             case 'baru':
             default:
+                $filterActive = 'baru';
                 // Tampilkan pendaftar baru DAN statusnya masih pending
                 $query->where('status', 'pending')
                       ->where(function($q) {
@@ -56,7 +81,14 @@ class PendaftarController extends Controller
         $pendaftars = $query->paginate(10); 
         
         return view('admin.pendaftar.index', compact(
-            'pendaftars', 'filterActive'));
+            'pendaftars', 
+            'filterActive', 
+            'countSemua', 
+            'countBaru', 
+            'countRevisi', 
+            'countDiterima', 
+            'countDitolak'
+        ));
     }
    public function updateStatus(Request $request, $id)
     {
@@ -64,7 +96,7 @@ class PendaftarController extends Controller
         $request->validate([
             'status'  => 'required|in:pending,diproses,diterima,ditolak',
             'catatan' => 'nullable|string|max:255',
-            'filter'  => 'nullable|string|in:baru,pengajuan_ulang,disetujui,ditolak',
+            'filter'  => 'nullable|string|in:semua,baru,pengajuan_ulang,disetujui,ditolak',
         ]);
 
         // 2. Cari pendaftar berdasarkan ID
@@ -97,7 +129,7 @@ class PendaftarController extends Controller
             'action' => 'update_status',
             'target_type' => 'UserProfile',
             'target_id' => $pendaftar->id,
-            'details' => 'Mengubah status pendaftaran ' . $pendaftar->nama . ' (REG-' . str_pad($pendaftar->id, 5, '0', STR_PAD_LEFT) . ') menjadi ' . ucfirst($request->status) . ($request->catatan ? ' dengan catatan: ' . $request->catatan : ''),
+            'details' => 'Mengubah status pendaftaran ' . $pendaftar->nama . ' (REG-' . str_pad($pendaftar->user_id, 5, '0', STR_PAD_LEFT) . ') menjadi ' . ucfirst($request->status) . ($request->catatan ? ' dengan catatan: ' . $request->catatan : ''),
             'ip_address' => $request->ip()
         ]);
 
@@ -167,7 +199,7 @@ class PendaftarController extends Controller
         return view('admin.pendaftar.infoPendaftar', compact('users', 'search', 'filter'));
     }
 
-    public function exportCsv()
+    public function exportCsv(Request $request)
     {
         $headers = [
             "Content-type"        => "text/csv",
@@ -177,7 +209,43 @@ class PendaftarController extends Controller
             "Expires"             => "0"
         ];
 
-        $pendaftarans = UserProfile::with(['user', 'industri', 'universitas', 'rekomendasi', 'essay'])->get();
+        $query = UserProfile::with(['user', 'industri', 'universitas', 'rekomendasi', 'essay'])->orderBy('user_id', 'asc');
+
+        // Filter berdasarkan URL parameter
+        if ($request->filled('filter')) {
+            switch ($request->filter) {
+                case 'pengajuan_ulang':
+                    $query->where('is_pengajuan_ulang', true)->where('status', 'pending');
+                    break;
+                case 'disetujui':
+                    $query->where('status', 'diterima');
+                    break;
+                case 'ditolak':
+                    $query->where('status', 'ditolak');
+                    break;
+                case 'baru':
+                    $query->where('status', 'pending')
+                          ->where(function($q) {
+                              $q->where('is_pengajuan_ulang', false)->orWhereNull('is_pengajuan_ulang');
+                          });
+                    break;
+                case 'semua':
+                    // Tampilkan semua data, tidak ada filter status / pengajuan ulang
+                    break;
+            }
+        }
+
+        // Filter berdasarkan Program Beasiswa (magister atau dokter)
+        if ($request->filled('program_beasiswa')) {
+            $query->where('program_beasiswa', $request->program_beasiswa);
+        }
+
+        // Filter berdasarkan Kategori (Usulan Unit atau Manajemen Talenta)
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        $pendaftarans = $query->get();
 
         $columns = [
             'No REG',
@@ -283,5 +351,62 @@ class PendaftarController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function exportPdfList(Request $request)
+    {
+        $query = UserProfile::with(['user', 'industri', 'universitas'])->orderBy('user_id', 'asc');
+
+        // Filter berdasarkan URL parameter
+        if ($request->filled('filter')) {
+            switch ($request->filter) {
+                case 'pengajuan_ulang':
+                    $query->where('is_pengajuan_ulang', true)->where('status', 'pending');
+                    break;
+                case 'disetujui':
+                    $query->where('status', 'diterima');
+                    break;
+                case 'ditolak':
+                    $query->where('status', 'ditolak');
+                    break;
+                case 'baru':
+                    $query->where('status', 'pending')
+                          ->where(function($q) {
+                              $q->where('is_pengajuan_ulang', false)->orWhereNull('is_pengajuan_ulang');
+                          });
+                    break;
+                case 'semua':
+                    // Tampilkan semua data, tidak ada filter status / pengajuan ulang
+                    break;
+            }
+        }
+
+        // Filter berdasarkan Program Beasiswa (magister atau dokter)
+        if ($request->filled('program_beasiswa')) {
+            $query->where('program_beasiswa', $request->program_beasiswa);
+        }
+
+        // Filter berdasarkan Kategori (Usulan Unit atau Manajemen Talenta)
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        $pendaftars = $query->get();
+
+        return view('pdf.pendaftar_list', compact('pendaftars'));
+    }
+
+    public function exportPdf($id)
+    {
+        $userProfile = UserProfile::with(['user', 'industri', 'universitas', 'rekomendasi', 'essay'])->findOrFail($id);
+        
+        $industri = $userProfile->industri;
+        $universitas = $userProfile->universitas;
+        $rekomendasi = $userProfile->rekomendasi;
+        $essay = $userProfile->essay;
+
+        return view('pdf.summary_print', compact(
+            'userProfile', 'industri', 'universitas', 'rekomendasi', 'essay'
+        ));
     }
 }

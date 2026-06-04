@@ -2,25 +2,114 @@
 @section('title', 'Data Pendaftar')
 
 @section('content')
-<div class="max-w-6xl mx-auto pb-20">
+<div class="max-w-6xl mx-auto pb-20" x-data="{ 
+    showStats: localStorage.getItem('show_admin_stats') !== 'false',
+    toggleStats() {
+        this.showStats = !this.showStats;
+        localStorage.setItem('show_admin_stats', this.showStats);
+        if (this.showStats && window.pendaftarChart) {
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    window.pendaftarChart.resize();
+                }, 50);
+            });
+        }
+    }
+}">
     
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-            <h1 class="text-2xl font-bold text-slate-800">Manajemen Data Pendaftar</h1>
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold text-slate-800">Manajemen Data Pendaftar</h1>
+                <button @click="toggleStats()" class="inline-flex items-center gap-1.5 px-3 py-1 bg-white hover:bg-slate-50 text-slate-600 rounded-xl text-xs font-bold border border-slate-200 shadow-sm transition-all duration-200">
+                    <svg x-show="showStats" class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.024 10.024 0 013.858-5.07m3.703-4.063A2.999 2.999 0 0112 3c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                    </svg>
+                    <svg x-show="!showStats" class="w-3.5 h-3.5 text-slate-500" style="display: none;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                    <span x-text="showStats ? 'Sembunyikan Statistik' : 'Tampilkan Statistik'"></span>
+                </button>
+            </div>
             <p class="text-slate-500 text-sm mt-1">Review berkas dan tentukan status kelulusan pendaftar TUBEL.</p>
         </div>
         
         <div class="flex flex-col sm:flex-row items-center gap-3">
-            <a href="{{ route('admin.pendaftar.export') }}" class="w-full sm:w-auto px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm shadow-emerald-100">
-                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <a href="{{ route('admin.pendaftar.export', request()->query()) }}" class="w-full sm:w-auto px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm shadow-emerald-100">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l-3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                 Ekspor Excel
             </a>
             
-            <div class="flex bg-slate-200 p-1 rounded-xl w-full sm:w-auto">
+            <a href="{{ route('admin.pendaftar.exportPdfList', request()->query()) }}" target="_blank" class="w-full sm:w-auto px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm shadow-rose-100">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                Ekspor PDF
+            </a>
+            
+            <div class="flex bg-slate-200 p-1 rounded-xl w-full sm:w-auto overflow-x-auto">
+                <a href="{{ request()->fullUrlWithQuery(['filter' => 'semua', 'page' => 1]) }}" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'semua' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Semua</a>
                 <a href="{{ request()->fullUrlWithQuery(['filter' => 'baru', 'page' => 1]) }}" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'baru' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Baru</a>
                 <a href="{{ request()->fullUrlWithQuery(['filter' => 'pengajuan_ulang', 'page' => 1]) }}" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'pengajuan_ulang' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Revisi</a>
                 <a href="{{ request()->fullUrlWithQuery(['filter' => 'disetujui', 'page' => 1]) }}" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'disetujui' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Diterima</a>
                 <a href="{{ request()->fullUrlWithQuery(['filter' => 'ditolak', 'page' => 1]) }}" class="flex-1 sm:flex-none text-center px-4 py-2 rounded-lg text-sm font-semibold transition {{ $filterActive == 'ditolak' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">Ditolak</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Stats & Chart Section -->
+    <div x-show="showStats" x-transition class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <!-- Stat Cards (Left 2 Columns on LG) -->
+        <div class="lg:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <!-- Card Semua -->
+            <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl p-5 text-white shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden group">
+                <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition duration-300">
+                    <svg class="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                </div>
+                <span class="text-indigo-100 text-xs font-bold uppercase tracking-wider">Semua Pendaftar</span>
+                <div class="flex items-baseline gap-2 mt-2">
+                    <span class="text-3xl font-extrabold">{{ $countSemua }}</span>
+                    <span class="text-indigo-200 text-xs font-semibold">Orang</span>
+                </div>
+            </div>
+            <!-- Card Baru -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border-l-4 border-l-amber-500 relative overflow-hidden group">
+                <span class="text-slate-400 text-xs font-bold uppercase tracking-wider block">Pendaftar Baru</span>
+                <div class="flex items-baseline gap-2 mt-2">
+                    <span class="text-3xl font-extrabold text-slate-800">{{ $countBaru }}</span>
+                    <span class="text-slate-500 text-xs font-semibold">Orang</span>
+                </div>
+            </div>
+            <!-- Card Revisi -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border-l-4 border-l-blue-500 relative overflow-hidden group">
+                <span class="text-slate-400 text-xs font-bold uppercase tracking-wider block">Butuh Revisi</span>
+                <div class="flex items-baseline gap-2 mt-2">
+                    <span class="text-3xl font-extrabold text-slate-800">{{ $countRevisi }}</span>
+                    <span class="text-slate-500 text-xs font-semibold">Orang</span>
+                </div>
+            </div>
+            <!-- Card Diterima -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border-l-4 border-l-emerald-500 relative overflow-hidden group">
+                <span class="text-slate-400 text-xs font-bold uppercase tracking-wider block">Diterima / Lulus</span>
+                <div class="flex items-baseline gap-2 mt-2">
+                    <span class="text-3xl font-extrabold text-slate-800">{{ $countDiterima }}</span>
+                    <span class="text-slate-500 text-xs font-semibold">Orang</span>
+                </div>
+            </div>
+            <!-- Card Ditolak -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border-l-4 border-l-rose-500 relative overflow-hidden group">
+                <span class="text-slate-400 text-xs font-bold uppercase tracking-wider block">Ditolak</span>
+                <div class="flex items-baseline gap-2 mt-2">
+                    <span class="text-3xl font-extrabold text-slate-800">{{ $countDitolak }}</span>
+                    <span class="text-slate-500 text-xs font-semibold">Orang</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chart Card (Right 1 Column on LG) -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+            <h4 class="text-slate-700 text-sm font-bold mb-3">Distribusi Status Pendaftaran</h4>
+            <div class="w-full h-32 relative flex items-center justify-center">
+                <canvas id="pendaftarChart"></canvas>
             </div>
         </div>
     </div>
@@ -229,25 +318,34 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 pt-6 border-t border-slate-200 flex flex-col md:flex-row justify-end items-center gap-4 bg-slate-50 p-4 rounded-xl">
-                        <span class="text-sm font-semibold text-slate-600">Tentukan Status Pendaftar:</span>
-                        
-                        <form id="form-status-{{ $p->id }}" action="{{ route('admin.pendaftar.updateStatus', $p->id) }}" method="POST" class="flex gap-2 w-full md:w-auto">
-                            @csrf
-                            
-                            <button type="button" onclick="konfirmasiTolak('{{ $p->id }}', '{{ $phone }}', '{{ addslashes($p->nama) }}', '{{ ucfirst($p->program_beasiswa) }}')" 
-                                    class="flex-1 md:flex-none px-6 py-2.5 rounded-xl flex items-center justify-center gap-2 bg-white border-2 border-red-500 text-red-600 hover:bg-red-50 transition font-bold text-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                Tolak Berkas
-                            </button>
+                    <div class="mt-6 pt-6 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-50 p-4 rounded-xl">
+                        <div>
+                            <a href="{{ route('admin.pendaftar.pdf', [$p->id, 'back' => 'admin']) }}" target="_blank" class="w-full md:w-auto px-5 py-2.5 bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm shadow-slate-100">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                                Cetak PDF
+                            </a>
+                        </div>
 
-                            <button type="submit" name="status" value="diterima" 
-                                    onclick="window.open('https://wa.me/{{ $phone }}?text={{ urlencode($msgTerima) }}', '_blank');" 
-                                    class="flex-1 md:flex-none px-6 py-2.5 rounded-xl flex items-center justify-center gap-2 bg-green-600 text-white hover:bg-green-700 transition font-bold text-sm shadow-lg shadow-green-200">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                                Terima & Luluskan
-                            </button>
-                        </form>
+                        <div class="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto justify-end">
+                            <span class="text-sm font-semibold text-slate-600">Tentukan Status Pendaftar:</span>
+                            
+                            <form id="form-status-{{ $p->id }}" action="{{ route('admin.pendaftar.updateStatus', $p->id) }}" method="POST" class="flex gap-2 w-full md:w-auto">
+                                @csrf
+                                
+                                <button type="button" onclick="konfirmasiTolak('{{ $p->id }}', '{{ $phone }}', '{{ addslashes($p->nama) }}', '{{ ucfirst($p->program_beasiswa) }}')" 
+                                        class="flex-1 md:flex-none px-6 py-2.5 rounded-xl flex items-center justify-center gap-2 bg-white border-2 border-red-500 text-red-600 hover:bg-red-50 transition font-bold text-sm">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    Tolak Berkas
+                                </button>
+
+                                <button type="submit" name="status" value="diterima" 
+                                        onclick="window.open('https://wa.me/{{ $phone }}?text={{ urlencode($msgTerima) }}', '_blank');" 
+                                        class="flex-1 md:flex-none px-6 py-2.5 rounded-xl flex items-center justify-center gap-2 bg-green-600 text-white hover:bg-green-700 transition font-bold text-sm shadow-lg shadow-green-200">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                    Terima & Luluskan
+                                </button>
+                            </form>
+                        </div>
                     </div>
 
                 </div> 
@@ -266,7 +364,61 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('pendaftarChart').getContext('2d');
+        window.pendaftarChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Baru', 'Revisi', 'Diterima', 'Ditolak'],
+                datasets: [{
+                    data: [{{ $countBaru }}, {{ $countRevisi }}, {{ $countDiterima }}, {{ $countDitolak }}],
+                    backgroundColor: [
+                        '#f59e0b', // Amber-500
+                        '#3b82f6', // Blue-500
+                        '#10b981', // Emerald-500
+                        '#f43f5e'  // Rose-500
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#ffffff',
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 8,
+                            padding: 8,
+                            font: {
+                                size: 10,
+                                family: 'Inter, sans-serif'
+                            },
+                            color: '#475569'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw + ' orang';
+                                return label;
+                            }
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+    });
+
     function konfirmasiTolak(pendaftarId, phone, nama, program) {
         Swal.fire({
             title: 'Tolak Berkas & Beri Catatan',
