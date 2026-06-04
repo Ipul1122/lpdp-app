@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Mail\ResetPasswordMail;
+use Illuminate\Validation\Rules\Password;
 
 class PasswordResetController extends Controller
 {
@@ -56,7 +57,19 @@ class PasswordResetController extends Controller
         $request->validate([
             'email' => 'required|email|exists:users,email',
             'token' => 'required|string',
-            'password' => 'required|string|min:8|confirmed', // butuh input password_confirmation
+            'password' => [
+                'required',
+                'string',
+                'confirmed',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+            ],
+        ], [
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password' => 'Password harus minimal 8 karakter dan mengandung huruf kapital, angka, serta simbol.'
         ]);
 
         // Cek validitas token
