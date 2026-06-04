@@ -76,6 +76,7 @@ class PendaftaranApiController extends Controller
 
             $validated = $request->validate([
                 'foto_ktp'          => ($profilExist && $profilExist->foto_ktp) ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
+                'pas_foto'          => ($profilExist && $profilExist->pas_foto) ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
                 'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . $user->id . ',user_id',
                 'nama'              => 'required|string|max:255',
                 'no_telp'           => 'required|numeric|digits_between:10,15',
@@ -105,6 +106,13 @@ class PendaftaranApiController extends Controller
                     Storage::disk('public')->delete($profilExist->foto_ktp);
                 }
                 $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'public');
+            }
+
+            if ($request->hasFile('pas_foto')) {
+                if ($profilExist && $profilExist->pas_foto) {
+                    Storage::disk('public')->delete($profilExist->pas_foto);
+                }
+                $validated['pas_foto'] = $request->file('pas_foto')->store('pas_foto', 'public');
             }
 
             // Format fields to Title Case / Sentence Case
@@ -141,6 +149,23 @@ class PendaftaranApiController extends Controller
             $profilExist = UserProfile::where('user_id', $user->id)->first();
             if (!$profilExist || !$profilExist->nik) {
                 return response()->json(['success' => false, 'message' => 'Silakan selesaikan Tahap 1 terlebih dahulu.'], 400);
+            }
+
+            // Hitung tanggal pensiun secara otomatis (umur maksimal 60 tahun)
+            $tanggal_lahir = null;
+            if ($profilExist && $profilExist->tempat_tglLahir) {
+                $ttl = explode(', ', $profilExist->tempat_tglLahir);
+                $tanggal_lahir = end($ttl);
+            }
+
+            if ($tanggal_lahir) {
+                try {
+                    $date = new \DateTime($tanggal_lahir);
+                    $date->modify('+60 years');
+                    $request->merge(['tanggal_pensiun' => $date->format('Y-m')]);
+                } catch (\Exception $e) {
+                    // ignore
+                }
             }
 
             $validated = $request->validate([
@@ -328,7 +353,7 @@ class PendaftaranApiController extends Controller
 
         // Tentukan tipe email notifikasi ke Admin
         $tipe = $isRevisi ? 'pengajuan_ulang' : 'baru';
-        Mail::to('msyaifulloh2024@gmail.com')->queue(new NotifikasiPendaftaranAdmin($pendaftar, $tipe));
+        Mail::to('msyaifulloh2024@gmail.com')->send(new NotifikasiPendaftaranAdmin($pendaftar, $tipe));
 
         return response()->json(['success' => true, 'message' => 'Pendaftaran Final Berhasil Dikirim dan Sedang Diproses.'], 200);
     }

@@ -38,8 +38,8 @@ class PasswordResetController extends Controller
             ['token' => $token, 'created_at' => Carbon::now()]
         );
 
-        // Kirim email menggunakan sistem antrean (Queue) agar tidak lemot
-        Mail::to($request->email)->queue(new ResetPasswordMail($request->email, $token));
+        // Kirim email secara langsung agar tidak tertahan di antrean
+        Mail::to($request->email)->send(new ResetPasswordMail($request->email, $token));
 
         return back()->with('success', 'Link untuk mereset password telah dikirim ke email Anda.');
     }

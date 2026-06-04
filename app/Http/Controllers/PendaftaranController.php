@@ -101,6 +101,7 @@ class PendaftaranController extends Controller
 
         $validated = $request->validate([
             'foto_ktp'          => ($profilExist && $profilExist->foto_ktp) ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
+            'pas_foto'          => ($profilExist && $profilExist->pas_foto) ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
             'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . Auth::id() . ',user_id',
             'nama'              => 'required|string|max:255',
             'no_telp'           => 'required|numeric|digits_between:10,15',
@@ -135,6 +136,13 @@ class PendaftaranController extends Controller
             $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'public');
         }
 
+        if ($request->hasFile('pas_foto')) {
+            if ($profilExist && $profilExist->pas_foto) {
+                Storage::disk('public')->delete($profilExist->pas_foto);
+            }
+            $validated['pas_foto'] = $request->file('pas_foto')->store('pas_foto', 'public');
+        }
+
         // Format fields to Title Case / Sentence Case
         $capitalFields = ['nama', 'tempat_lahir', 'kelurahan', 'kecamatan', 'pekerjaan', 'kewarganegaraan'];
         foreach ($capitalFields as $field) {
@@ -149,6 +157,116 @@ class PendaftaranController extends Controller
         UserProfile::updateOrCreate(['user_id' => Auth::id()], $validated);
 
         return redirect()->route('pendaftaran.step2')->with('success', 'Data tersimpan, silakan lanjut ke Tahap 2.');
+    }
+
+    public function saveDraft(Request $request)
+    {
+        $user = Auth::user();
+        $step = $request->input('step');
+        $data = $request->input('data', []);
+
+        // Filter out _token, files and empty/null keys we don't want to save
+        unset($data['_token']);
+
+        switch ($step) {
+            case 1:
+                if (isset($data['tempat_lahir']) || isset($data['tanggal_lahir'])) {
+                    $tempat = $data['tempat_lahir'] ?? '';
+                    $tgl = $data['tanggal_lahir'] ?? '';
+                    $data['tempat_tglLahir'] = $tempat . ($tempat && $tgl ? ', ' : '') . $tgl;
+                    unset($data['tempat_lahir'], $data['tanggal_lahir']);
+                }
+                
+                $capitalFields = ['nama', 'kelurahan', 'kecamatan', 'pekerjaan', 'kewarganegaraan'];
+                foreach ($capitalFields as $field) {
+                    if (isset($data[$field]) && !empty($data[$field])) {
+                        $data[$field] = ucwords(strtolower($data[$field]));
+                    }
+                }
+                if (isset($data['alamat']) && !empty($data['alamat'])) {
+                    $data['alamat'] = ucfirst($data['alamat']);
+                }
+                
+                if (isset($data['nik'])) {
+                    if (empty($data['nik'])) {
+                        unset($data['nik']);
+                    } else {
+                        $exists = UserProfile::where('nik', $data['nik'])->where('user_id', '!=', $user->id)->exists();
+                        if ($exists) {
+                            return response()->json(['success' => false, 'message' => 'NIK ini sudah terdaftar.'], 422);
+                        }
+                    }
+                }
+                
+                UserProfile::updateOrCreate(['user_id' => $user->id], $data);
+                break;
+                
+            case 2:
+                // Hitung tanggal pensiun secara otomatis (umur maksimal 60 tahun)
+                $userProfile = UserProfile::where('user_id', $user->id)->first();
+                $tanggal_lahir = null;
+                if ($userProfile && $userProfile->tempat_tglLahir) {
+                    $ttl = explode(', ', $userProfile->tempat_tglLahir);
+                    $tanggal_lahir = end($ttl);
+                }
+                if ($tanggal_lahir) {
+                    try {
+                        $date = new \DateTime($tanggal_lahir);
+                        $date->modify('+60 years');
+                        $data['tanggal_pensiun'] = $date->format('Y-m');
+                    } catch (\Exception $e) {
+                        // ignore
+                    }
+                }
+
+                $capitalFields = ['nama_instansi', 'unit_kerja', 'jabatan'];
+                foreach ($capitalFields as $field) {
+                    if (isset($data[$field]) && !empty($data[$field])) {
+                        $data[$field] = ucwords(strtolower($data[$field]));
+                    }
+                }
+                \App\Models\IndustriPendukung::updateOrCreate(['user_id' => $user->id], $data);
+                break;
+                
+            case 3:
+                $capitalFields = ['kota'];
+                foreach ($capitalFields as $field) {
+                    if (isset($data[$field]) && !empty($data[$field])) {
+                        $data[$field] = ucwords(strtolower($data[$field]));
+                    }
+                }
+                if (isset($data['durasi_studi'])) {
+                    $data['durasi_studi'] = empty($data['durasi_studi']) ? null : (int)$data['durasi_studi'];
+                }
+                if (isset($data['nama_universitas']) && $data['nama_universitas'] === 'Lainnya' && isset($data['nama_universitas_manual'])) {
+                    $data['nama_universitas'] = $data['nama_universitas_manual'];
+                }
+                if (isset($data['program_studi']) && $data['program_studi'] === 'Lainnya' && isset($data['program_studi_manual'])) {
+                    $data['program_studi'] = $data['program_studi_manual'];
+                }
+                
+                \App\Models\UniversitasPendaftaran::updateOrCreate(['user_id' => $user->id], $data);
+                break;
+                
+            case 4:
+                $capitalFields = ['kategori', 'nama_perekomendasi', 'instansi_perekomendasi', 'jabatan_perekomendasi'];
+                foreach ($capitalFields as $field) {
+                    if (isset($data[$field]) && !empty($data[$field])) {
+                        $data[$field] = ucwords(strtolower($data[$field]));
+                    }
+                }
+                \App\Models\RekomendasiPendaftaran::updateOrCreate(['user_id' => $user->id], $data);
+                break;
+                
+            case 5:
+                if (isset($data['essay_kontribusi']) && !empty($data['essay_kontribusi'])) {
+                    $data['essay_kontribusi'] = ucfirst($data['essay_kontribusi']);
+                }
+                \App\Models\EssayPendaftaran::updateOrCreate(['user_id' => $user->id], $data);
+                break;
+        }
+
+        return response()->json(['success' => true, 'message' => 'Draft saved successfully.']);
     }
 
 }

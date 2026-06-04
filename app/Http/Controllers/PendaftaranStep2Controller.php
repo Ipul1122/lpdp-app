@@ -27,16 +27,52 @@ class PendaftaranStep2Controller extends Controller
 
         $industri = IndustriPendukung::where('user_id', Auth::id())->first();
 
+        $tanggal_lahir = null;
+        if ($profilExist && $profilExist->tempat_tglLahir) {
+            $ttl = explode(', ', $profilExist->tempat_tglLahir);
+            $tanggal_lahir = end($ttl);
+        }
+
+        $tanggal_pensiun = null;
+        if ($tanggal_lahir) {
+            try {
+                $date = new \DateTime($tanggal_lahir);
+                $date->modify('+60 years');
+                $tanggal_pensiun = $date->format('Y-m');
+            } catch (\Exception $e) {
+                // ignore
+            }
+        }
+
         return view('pendaftaran.step2', [
             'step' => 2,
             'industri' => $industri,
-            'userProfile' => $profilExist
+            'userProfile' => $profilExist,
+            'tanggal_pensiun' => $tanggal_pensiun
         ]);
     }
 
     public function store(Request $request)
     {
         $industriExist = IndustriPendukung::where('user_id', Auth::id())->first();
+        $profilExist = UserProfile::where('user_id', Auth::id())->first();
+
+        // Hitung tanggal pensiun secara otomatis (umur maksimal 60 tahun)
+        $tanggal_lahir = null;
+        if ($profilExist && $profilExist->tempat_tglLahir) {
+            $ttl = explode(', ', $profilExist->tempat_tglLahir);
+            $tanggal_lahir = end($ttl);
+        }
+
+        if ($tanggal_lahir) {
+            try {
+                $date = new \DateTime($tanggal_lahir);
+                $date->modify('+60 years');
+                $request->merge(['tanggal_pensiun' => $date->format('Y-m')]);
+            } catch (\Exception $e) {
+                // ignore
+            }
+        }
 
         $validated = $request->validate([
             'unit_kerja' => 'required|string|max:255',

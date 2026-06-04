@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
 
    // --- RUTE PENDAFTARAN MULTI-STEP ---
     Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
+    Route::post('/pendaftaran/draft/save', [PendaftaranController::class, 'saveDraft'])->name('pendaftaran.draft.save');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -114,6 +115,7 @@ Route::middleware(['auth'])->group(function () {
     // TAHAP 7 (Ringkasan & Kirim)
     Route::get('/pendaftaran/step/7', [PendaftaranStep7Controller::class, 'create'])->name('pendaftaran.step7');
     Route::post('/pendaftaran/step/7', [PendaftaranStep7Controller::class, 'store'])->name('pendaftaran.step7.store');
+    Route::get('/pendaftaran/summary/pdf', [PendaftaranStep7Controller::class, 'exportPdf'])->name('pendaftaran.summary.pdf');
     
     // Rute Edit & Update (Untuk Revisi Admin) tetap di Controller Utama
     // Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
@@ -140,7 +142,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
             // Manajemen Pendaftar
             Route::get('/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.index');
+            Route::get('/pendaftar/export', [PendaftarController::class, 'exportCsv'])->name('pendaftar.export');
             Route::post('/pendaftar/{id}/status', [PendaftarController::class, 'updateStatus'])->name('pendaftar.updateStatus');
+            Route::get('/audit-logs', [\App\Http\Controllers\Admin\AuditLogController::class, 'index'])->name('audit-logs.index');
 
             Route::get('/notifikasi', [AdminNotifikasiController::class, 'index'])->name('notifikasi.index');
             Route::post('/notifikasi/mark-all-read', [AdminNotifikasiController::class, 'markAllAsRead'])->name('notifikasi.markAllRead');

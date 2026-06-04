@@ -90,11 +90,18 @@
                             {{ $riwayatProfil->status }}
                         </span>
 
-                        {{-- Button to toggle detail --}}
-                        <button type="button" @click="detailOpen = !detailOpen" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 text-white text-xs font-semibold rounded-lg hover:bg-slate-900 transition shadow-sm mt-1">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                            Detail Pengisian
-                        </button>
+                        {{-- Button to toggle detail & download PDF --}}
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            <button type="button" @click="detailOpen = !detailOpen" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 text-white text-xs font-semibold rounded-lg hover:bg-slate-900 transition shadow-sm">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                Detail Pengisian
+                            </button>
+                            
+                            <a href="{{ route('pendaftaran.summary.pdf') }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 text-white text-xs font-semibold rounded-lg hover:bg-orange-600 transition shadow-sm">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                                Unduh PDF
+                            </a>
+                        </div>
 
                         {{-- Fitur jika ditolak: Tampilkan alasan dan tombol Ajukan Ulang --}}
                         @if($riwayatProfil->status === 'ditolak')
@@ -132,6 +139,10 @@
                             <div><span class="block text-slate-400 text-xs mb-1">TTL</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->tempat_tglLahir }}</p></div>
                             <div><span class="block text-slate-400 text-xs mb-1">Telepon/WA</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->no_telp }}</p></div>
                             <div class="col-span-2"><span class="block text-slate-400 text-xs mb-1">Alamat</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->alamat }}, RT {{ $riwayatProfil->rt }}/RW {{ $riwayatProfil->rw }}, {{ $riwayatProfil->kelurahan }}, {{ $riwayatProfil->kecamatan }}</p></div>
+                            <div>
+                                <span class="block text-slate-400 text-xs mb-1">Pas Foto 3x4</span>
+                                @if($riwayatProfil->pas_foto) <a href="{{ asset('storage/' . $riwayatProfil->pas_foto) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Pas Foto</a> @else <span class="text-red-500">Tidak ada</span> @endif
+                            </div>
                             <div>
                                 <span class="block text-slate-400 text-xs mb-1">Dokumen KTP</span>
                                 @if($riwayatProfil->foto_ktp) <a href="{{ asset('storage/' . $riwayatProfil->foto_ktp) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Foto KTP</a> @else <span class="text-red-500">Tidak ada</span> @endif

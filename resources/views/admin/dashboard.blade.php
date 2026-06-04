@@ -127,85 +127,39 @@
                 
                 <hr class="border-slate-100">
 
-                <!-- Kategori Pendaftaran Breakdown -->
-                @php
-                    $totalKategori = $totalUsulanUnit + $totalManajemenTalenta;
-                    $pctUsulan = $totalKategori > 0 ? round(($totalUsulanUnit / $totalKategori) * 100) : 0;
-                    $pctTalenta = $totalKategori > 0 ? round(($totalManajemenTalenta / $totalKategori) * 100) : 0;
-                @endphp
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center text-sm font-semibold">
-                        <span class="text-slate-600">Jalur / Kategori Pendaftaran</span>
-                        <span class="text-xs text-slate-400">{{ $totalKategori }} Terklasifikasi</span>
-                    </div>
-
-                    <!-- Progress Bar -->
-                    <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden flex shadow-inner">
-                        <div style="width: {{ $totalKategori > 0 ? $pctUsulan : 50 }}%" class="bg-gradient-to-r from-orange-500 to-amber-500 h-full transition-all duration-500 relative group cursor-pointer" title="Usulan Unit">
-                            <span class="absolute inset-0 flex items-center justify-center text-[10px] text-white font-bold">{{ $pctUsulan }}%</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Chart 1: Kategori -->
+                    <div class="flex flex-col items-center">
+                        <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Jalur / Kategori Pendaftaran</h4>
+                        <div class="w-full max-w-[180px] aspect-square relative">
+                            <canvas id="kategoriChart"></canvas>
                         </div>
-                        <div style="width: {{ $totalKategori > 0 ? $pctTalenta : 50 }}%" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full transition-all duration-500 relative group cursor-pointer" title="Manajemen Talenta">
-                            <span class="absolute inset-0 flex items-center justify-center text-[10px] text-white font-bold">{{ $pctTalenta }}%</span>
-                        </div>
-                    </div>
-
-                    <!-- Labels -->
-                    <div class="grid grid-cols-2 gap-4 pt-1">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-3.5 h-3.5 rounded-md bg-gradient-to-r from-orange-500 to-amber-500 shrink-0"></span>
-                            <div>
-                                <span class="block text-xs font-semibold text-slate-500">Usulan Unit</span>
-                                <span class="text-sm font-bold text-slate-800">{{ $totalUsulanUnit }} <span class="text-xs font-medium text-slate-400">pendaftar</span></span>
+                        <div class="w-full grid grid-cols-2 gap-2 mt-4 text-center">
+                            <div class="p-2 rounded-xl bg-slate-50 border border-slate-100/80">
+                                <span class="block text-[9px] font-bold text-slate-400 uppercase">Usulan Unit</span>
+                                <span class="text-sm font-black text-slate-800">{{ $totalUsulanUnit }}</span>
                             </div>
-                        </div>
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-3.5 h-3.5 rounded-md bg-gradient-to-r from-indigo-500 to-purple-500 shrink-0"></span>
-                            <div>
-                                <span class="block text-xs font-semibold text-slate-500">Manajemen Talenta</span>
-                                <span class="text-sm font-bold text-slate-800">{{ $totalManajemenTalenta }} <span class="text-xs font-medium text-slate-400">pendaftar</span></span>
+                            <div class="p-2 rounded-xl bg-slate-50 border border-slate-100/80">
+                                <span class="block text-[9px] font-bold text-slate-400 uppercase">Talenta</span>
+                                <span class="text-sm font-black text-slate-800">{{ $totalManajemenTalenta }}</span>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <hr class="border-slate-100">
-
-                <!-- Program Beasiswa Breakdown -->
-                @php
-                    $totalProgram = $totalMagister + $totalDokter;
-                    $pctMagister = $totalProgram > 0 ? round(($totalMagister / $totalProgram) * 100) : 0;
-                    $pctDokter = $totalProgram > 0 ? round(($totalDokter / $totalProgram) * 100) : 0;
-                @endphp
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center text-sm font-semibold">
-                        <span class="text-slate-600">Jenjang Program Beasiswa</span>
-                        <span class="text-xs text-slate-400">{{ $totalProgram }} Terklasifikasi</span>
-                    </div>
-
-                    <!-- Progress Bar -->
-                    <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden flex shadow-inner">
-                        <div style="width: {{ $totalProgram > 0 ? $pctMagister : 50 }}%" class="bg-gradient-to-r from-emerald-500 to-teal-500 h-full transition-all duration-500 relative group cursor-pointer" title="Magister (S2)">
-                            <span class="absolute inset-0 flex items-center justify-center text-[10px] text-white font-bold">{{ $pctMagister }}%</span>
+                    <!-- Chart 2: Beasiswa -->
+                    <div class="flex flex-col items-center">
+                        <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Jenjang Program Beasiswa</h4>
+                        <div class="w-full max-w-[180px] aspect-square relative">
+                            <canvas id="beasiswaChart"></canvas>
                         </div>
-                        <div style="width: {{ $totalProgram > 0 ? $pctDokter : 50 }}%" class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full transition-all duration-500 relative group cursor-pointer" title="Dokter Spesialis">
-                            <span class="absolute inset-0 flex items-center justify-center text-[10px] text-white font-bold">{{ $pctDokter }}%</span>
-                        </div>
-                    </div>
-
-                    <!-- Labels -->
-                    <div class="grid grid-cols-2 gap-4 pt-1">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-3.5 h-3.5 rounded-md bg-gradient-to-r from-emerald-500 to-teal-500 shrink-0"></span>
-                            <div>
-                                <span class="block text-xs font-semibold text-slate-500">Magister (S2)</span>
-                                <span class="text-sm font-bold text-slate-800">{{ $totalMagister }} <span class="text-xs font-medium text-slate-400">pendaftar</span></span>
+                        <div class="w-full grid grid-cols-2 gap-2 mt-4 text-center">
+                            <div class="p-2 rounded-xl bg-slate-50 border border-slate-100/80">
+                                <span class="block text-[9px] font-bold text-slate-400 uppercase">Magister (S2)</span>
+                                <span class="text-sm font-black text-slate-800">{{ $totalMagister }}</span>
                             </div>
-                        </div>
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-3.5 h-3.5 rounded-md bg-gradient-to-r from-cyan-500 to-blue-500 shrink-0"></span>
-                            <div>
-                                <span class="block text-xs font-semibold text-slate-500">Dokter Spesialis</span>
-                                <span class="text-sm font-bold text-slate-800">{{ $totalDokter }} <span class="text-xs font-medium text-slate-400">pendaftar</span></span>
+                            <div class="p-2 rounded-xl bg-slate-50 border border-slate-100/80">
+                                <span class="block text-[9px] font-bold text-slate-400 uppercase">Spesialis</span>
+                                <span class="text-sm font-black text-slate-800">{{ $totalDokter }}</span>
                             </div>
                         </div>
                     </div>
@@ -317,4 +271,59 @@
     </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 1. Kategori Chart
+        const ctxKategori = document.getElementById('kategoriChart').getContext('2d');
+        new Chart(ctxKategori, {
+            type: 'doughnut',
+            data: {
+                labels: ['Usulan Unit', 'Manajemen Talenta'],
+                datasets: [{
+                    data: [{{ $totalUsulanUnit }}, {{ $totalManajemenTalenta }}],
+                    backgroundColor: ['#f97316', '#6366f1'],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+
+        // 2. Beasiswa Chart
+        const ctxBeasiswa = document.getElementById('beasiswaChart').getContext('2d');
+        new Chart(ctxBeasiswa, {
+            type: 'doughnut',
+            data: {
+                labels: ['Magister (S2)', 'Dokter Spesialis'],
+                datasets: [{
+                    data: [{{ $totalMagister }}, {{ $totalDokter }}],
+                    backgroundColor: ['#10b981', '#06b6d4'],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+    });
+</script>
 @endsection

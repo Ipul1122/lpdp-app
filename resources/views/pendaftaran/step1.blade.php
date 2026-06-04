@@ -20,7 +20,35 @@
                     </select>
                 </div>
 
-                <div class="md:col-span-2 mt-4">
+                <div class="md:col-span-1 mt-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Upload Pas Foto 3x4 <span class="text-red-500">*</span></label>
+                    
+                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative" id="pas-foto-upload-area">
+                        <input type="file" name="pas_foto" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept=".jpg,.jpeg,.png" {{ $userProfile?->pas_foto ? '' : 'required' }} id="pas-foto-input">
+                        
+                        <div id="pas-foto-preview-container">
+                            @if(!($userProfile && $userProfile->pas_foto))
+                                <svg class="w-8 h-8 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                <p class="text-sm text-slate-600 font-medium">Klik untuk mengunggah Pas Foto</p>
+                                <p class="text-xs text-slate-400 mt-1">3x4, Background Merah, Pose Formal (Maks 5MB)</p>
+                            @else
+                                @php
+                                    $pasFotoPath = $userProfile->pas_foto;
+                                    $pasFotoNameStart = strrpos($pasFotoPath, '/') + 1;
+                                    $pasFotoName = substr($pasFotoPath, $pasFotoNameStart);
+                                @endphp
+                                <img src="{{ Storage::url($pasFotoPath) }}" alt="Pas Foto Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 shadow-sm relative z-0">
+                                <p class="text-sm text-green-600 font-semibold">✓ {{ $pasFotoName }}</p>
+                                <p class="text-xs text-slate-500 mt-1">Klik atau seret untuk mengganti file</p>
+                            @endif
+                        </div>
+                    </div>
+                    @error('pas_foto')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="md:col-span-1 mt-4">
                     <label class="block text-sm font-semibold text-slate-700 mb-2">Upload Foto KTP <span class="text-red-500">*</span></label>
                     
                     <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative" id="foto-ktp-upload-area">
@@ -142,38 +170,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('step-form');
-        const storageKey = 'draft_step_{{ $step }}_user_{{ Auth::id() }}';
-
-        // 1. KEMBALIKAN DATA DARI LOCALSTORAGE
-        const savedData = localStorage.getItem(storageKey);
-        if (savedData) {
-            const dataObj = JSON.parse(savedData);
-            for (const key in dataObj) {
-                const input = form.elements[key];
-                if (input && input.type !== 'file' && dataObj[key] !== undefined && dataObj[key] !== null) {
-                    input.value = dataObj[key];
-                }
-            }
-        }
-
-        // 2. SIMPAN DRAFT SAAT MENGETIK
-        form.addEventListener('input', function(e) {
-            if(e.target.type !== 'file' && e.target.name) {
-                const formData = new FormData(form);
-                const obj = {};
-                formData.forEach((value, key) => {
-                    if (key !== '_token' && typeof value === 'string') {
-                        obj[key] = value;
-                    }
-                });
-                localStorage.setItem(storageKey, JSON.stringify(obj));
-            }
-        });
-
-        // 3. BERSIHKAN LOCALSTORAGE SAAT SUBMIT
-        form.addEventListener('submit', function() {
-            localStorage.removeItem(storageKey);
-        });
 
         // Handle file preview untuk Foto KTP
         const fotoKtpInput = document.getElementById('foto-ktp-input');
@@ -182,7 +178,7 @@
         if (fotoKtpInput) {
             fotoKtpInput.addEventListener('change', function() {
                 if (this.files && this.files[0]) {
-                    showFilePreview(this.files[0], uploadArea);
+                    showFilePreview(this.files[0], 'preview-container');
                 }
             });
 
@@ -201,17 +197,48 @@
                 uploadArea.classList.remove('bg-slate-100');
                 if (e.dataTransfer.files && e.dataTransfer.files[0]) {
                     fotoKtpInput.files = e.dataTransfer.files;
-                    showFilePreview(e.dataTransfer.files[0], uploadArea);
+                    showFilePreview(e.dataTransfer.files[0], 'preview-container');
+                }
+            });
+        }
+
+        // Handle file preview untuk Pas Foto
+        const pasFotoInput = document.getElementById('pas-foto-input');
+        const pasUploadArea = document.getElementById('pas-foto-upload-area');
+        
+        if (pasFotoInput) {
+            pasFotoInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    showFilePreview(this.files[0], 'pas-foto-preview-container');
+                }
+            });
+
+            // Drag and drop
+            pasUploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                pasUploadArea.classList.add('bg-slate-100');
+            });
+
+            pasUploadArea.addEventListener('dragleave', () => {
+                pasUploadArea.classList.remove('bg-slate-100');
+            });
+
+            pasUploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                pasUploadArea.classList.remove('bg-slate-100');
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    pasFotoInput.files = e.dataTransfer.files;
+                    showFilePreview(e.dataTransfer.files[0], 'pas-foto-preview-container');
                 }
             });
         }
 
         // Fungsi untuk menampilkan preview file
-        function showFilePreview(file) {
+        function showFilePreview(file, containerId) {
             const fileName = file.name;
             const fileExt = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
             const isImage = ['.jpg', '.jpeg', '.png'].includes(fileExt);
-            const previewContainer = document.getElementById('preview-container'); // Ambil target spesifik
+            const previewContainer = document.getElementById(containerId); // Ambil target spesifik
 
             if (isImage && previewContainer) {
                 const reader = new FileReader();

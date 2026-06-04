@@ -49,19 +49,35 @@
                         <div><span class="block text-slate-400 text-xs mb-1">Pekerjaan</span><p class="font-semibold text-slate-800">{{ $userProfile?->pekerjaan ?? '-' }}</p></div>
                         <div><span class="block text-slate-400 text-xs mb-1">Kewarganegaraan</span><p class="font-semibold text-slate-800">{{ $userProfile?->kewarganegaraan ?? '-' }}</p></div>
                         <div class="md:col-span-3"><span class="block text-slate-400 text-xs mb-1">Alamat Lengkap</span><p class="font-semibold text-slate-800">{{ $userProfile?->alamat ?? '-' }}, RT {{ $userProfile?->rt ?? '-' }}/RW {{ $userProfile?->rw ?? '-' }}, Kel. {{ $userProfile?->kelurahan ?? '-' }}, Kec. {{ $userProfile?->kecamatan ?? '-' }}</p></div>
-                        <div class="md:col-span-3">
-                            <span class="block text-slate-400 text-xs mb-1">Foto KTP</span>
-                            @if($userProfile?->foto_ktp) 
-                                <div class="flex items-center gap-3">
-                                    <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span>
-                                    <a href="{{ Storage::url($userProfile->foto_ktp) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                                        Lihat KTP
-                                    </a>
-                                </div>
-                            @else 
-                                <span class="text-red-500 text-xs">Kosong</span> 
-                            @endif
+                        <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <span class="block text-slate-400 text-xs mb-1">Pas Foto 3x4</span>
+                                @if($userProfile?->pas_foto) 
+                                    <div class="flex items-center gap-3">
+                                        <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span>
+                                        <a href="{{ Storage::url($userProfile->pas_foto) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                            Lihat Pas Foto
+                                        </a>
+                                    </div>
+                                @else 
+                                    <span class="text-red-500 text-xs font-semibold">Kosong</span> 
+                                @endif
+                            </div>
+                            <div>
+                                <span class="block text-slate-400 text-xs mb-1">Foto KTP</span>
+                                @if($userProfile?->foto_ktp) 
+                                    <div class="flex items-center gap-3">
+                                        <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span>
+                                        <a href="{{ Storage::url($userProfile->foto_ktp) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                            Lihat KTP
+                                        </a>
+                                    </div>
+                                @else 
+                                    <span class="text-red-500 text-xs font-semibold">Kosong</span> 
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <div class="mt-4">

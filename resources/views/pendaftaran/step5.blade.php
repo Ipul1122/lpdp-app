@@ -33,42 +33,4 @@
         </form>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('step-form');
-        const storageKey = 'draft_step_{{ $step }}_user_{{ Auth::id() }}';
-
-        // 1. Kembalikan data
-        const savedData = localStorage.getItem(storageKey);
-        if (savedData) {
-            const dataObj = JSON.parse(savedData);
-            for (const key in dataObj) {
-                const input = form.elements[key];
-                if (input && input.type !== 'file' && dataObj[key] !== undefined && dataObj[key] !== null) {
-                    input.value = dataObj[key];
-                }
-            }
-        }
-
-        // 2. Simpan draf
-        form.addEventListener('input', function(e) {
-            if(e.target.type !== 'file' && e.target.name) {
-                const formData = new FormData(form);
-                const obj = {};
-                formData.forEach((value, key) => {
-                    if (key !== '_token' && typeof value === 'string') {
-                        obj[key] = value;
-                    }
-                });
-                localStorage.setItem(storageKey, JSON.stringify(obj));
-            }
-        });
-
-        // 3. Bersihkan draf saat submit
-        form.addEventListener('submit', function() {
-            localStorage.removeItem(storageKey);
-        });
-    });
-</script>
 @endsection

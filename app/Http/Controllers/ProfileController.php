@@ -33,12 +33,23 @@ class ProfileController extends Controller
             $tanggal_lahir = $ttl[1] ?? '';
         }
 
+        $tanggal_pensiun = null;
+        if ($tanggal_lahir) {
+            try {
+                $date = new \DateTime($tanggal_lahir);
+                $date->modify('+60 years');
+                $tanggal_pensiun = $date->format('Y-m');
+            } catch (\Exception $e) {
+                // ignore
+            }
+        }
+
         // Kunci form jika status bukan draft/ditolak
         $isLocked = $userProfile && !in_array($userProfile->status, ['draft', 'ditolak']);
 
         return view('profile.index', compact(
             'userProfile', 'industri', 'universitas', 'rekomendasi', 'essay', 
-            'tempat_lahir', 'tanggal_lahir', 'isLocked'
+            'tempat_lahir', 'tanggal_lahir', 'tanggal_pensiun', 'isLocked'
         ));
     }
 
@@ -63,6 +74,7 @@ class ProfileController extends Controller
             case 'profil':
                 $validated = $request->validate([
                     'foto_ktp'          => $userProfile && $userProfile->foto_ktp ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
+                    'pas_foto'          => $userProfile && $userProfile->pas_foto ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
                     'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . $userId . ',user_id',
                     'nama'              => 'required|string|max:255',
                     'no_telp'           => 'required|numeric',
@@ -80,10 +92,15 @@ class ProfileController extends Controller
                     $validated['status'] = 'draft'; 
                     $validated['is_pengajuan_ulang'] = false;
                 }
-
+ 
                 if ($request->hasFile('foto_ktp')) {
                     if ($userProfile && $userProfile->foto_ktp) Storage::disk('public')->delete($userProfile->foto_ktp);
                     $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'public');
+                }
+
+                if ($request->hasFile('pas_foto')) {
+                    if ($userProfile && $userProfile->pas_foto) Storage::disk('public')->delete($userProfile->pas_foto);
+                    $validated['pas_foto'] = $request->file('pas_foto')->store('pas_foto', 'public');
                 }
                 UserProfile::updateOrCreate(['user_id' => $userId], $validated);
                 break;
@@ -94,6 +111,23 @@ class ProfileController extends Controller
                     'nama_instansi' => 'nullable|string', 'tanggal_mulai_kerja' => 'nullable|string', 'tanggal_pensiun' => 'nullable|string',
                     'surat_izin' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
                 ]);
+
+                // Hitung tanggal pensiun secara otomatis (umur maksimal 60 tahun)
+                $tanggal_lahir = null;
+                if ($userProfile && $userProfile->tempat_tglLahir) {
+                    $ttl = explode(', ', $userProfile->tempat_tglLahir);
+                    $tanggal_lahir = end($ttl);
+                }
+                if ($tanggal_lahir) {
+                    try {
+                        $date = new \DateTime($tanggal_lahir);
+                        $date->modify('+60 years');
+                        $validated['tanggal_pensiun'] = $date->format('Y-m');
+                    } catch (\Exception $e) {
+                        // ignore
+                    }
+                }
+
                 $industri = IndustriPendukung::where('user_id', $userId)->first();
                 if ($request->hasFile('surat_izin')) {
                     if ($industri && $industri->surat_izin) Storage::disk('public')->delete($industri->surat_izin);

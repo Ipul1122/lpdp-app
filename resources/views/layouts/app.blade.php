@@ -120,6 +120,51 @@
                     title: "{{ session('info') }}"
                 });
             @endif
+
+            // ----------------------------------------------------
+            // AUTO-SAVE DRAFT TO DATABASE (CROSS-DEVICE)
+            // ----------------------------------------------------
+            @if(isset($step))
+                const stepForm = document.getElementById('step-form');
+                if (stepForm) {
+                    let draftDebounceTimer;
+                    stepForm.addEventListener('input', function(e) {
+                        if (e.target.type !== 'file' && e.target.name) {
+                            clearTimeout(draftDebounceTimer);
+                            draftDebounceTimer = setTimeout(() => {
+                                const formData = new FormData(stepForm);
+                                const data = {};
+                                formData.forEach((value, key) => {
+                                    if (key !== '_token' && typeof value === 'string') {
+                                        data[key] = value;
+                                    }
+                                });
+                                
+                                // Send draft to DB
+                                fetch('{{ route('pendaftaran.draft.save') }}', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                        'Accept': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        step: {{ $step }},
+                                        data: data
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(res => {
+                                    console.log('Draft auto-saved to DB:', res);
+                                })
+                                .catch(err => {
+                                    console.error('Error auto-saving draft to DB:', err);
+                                });
+                            }, 1000); // 1s debounce
+                        }
+                    });
+                }
+            @endif
         });
     </script>
 
