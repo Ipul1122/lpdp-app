@@ -36,9 +36,9 @@ class PendaftaranStep6Controller extends Controller
 
         if ($request->hasFile('surat_komitmen')) {
             if ($profil->surat_komitmen) {
-                Storage::disk('public')->delete($profil->surat_komitmen);
+                Storage::disk('local')->delete($profil->surat_komitmen);
             }
-            $path = $request->file('surat_komitmen')->store('dokumen_komitmen', 'public');
+            $path = $request->file('surat_komitmen')->store('dokumen_komitmen', 'local');
             
             $profil->update([
                 'surat_komitmen' => $path

@@ -102,7 +102,17 @@ class PendaftaranController extends Controller
         $validated = $request->validate([
             'foto_ktp'          => ($profilExist && $profilExist->foto_ktp) ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
             'pas_foto'          => ($profilExist && $profilExist->pas_foto) ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
-            'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . Auth::id() . ',user_id',
+            'nik'               => [
+                'required', 'string', 'size:16',
+                function ($attribute, $value, $fail) {
+                    $exists = UserProfile::where('nik_hash', hash('sha256', $value))
+                        ->where('user_id', '!=', Auth::id())
+                        ->exists();
+                    if ($exists) {
+                        $fail('NIK ini sudah terdaftar di sistem kami.');
+                    }
+                }
+            ],
             'nama'              => 'required|string|max:255',
             'no_telp'           => 'required|numeric|digits_between:10,15',
             'tempat_lahir'      => 'required|string|max:100', 
@@ -117,8 +127,6 @@ class PendaftaranController extends Controller
             'pekerjaan'         => 'required|string|max:100',
             'kewarganegaraan'   => 'required|string|max:50',
             'program_beasiswa'  => 'required|in:magister,dokter', 
-        ], [
-            'nik.unique' => 'NIK ini sudah terdaftar di sistem kami.',
         ]);
 
         $validated['tempat_tglLahir'] = $validated['tempat_lahir'] . ', ' . $validated['tanggal_lahir'];
@@ -131,16 +139,16 @@ class PendaftaranController extends Controller
         
         if ($request->hasFile('foto_ktp')) {
             if ($profilExist && $profilExist->foto_ktp) {
-                Storage::disk('public')->delete($profilExist->foto_ktp);
+                Storage::disk('local')->delete($profilExist->foto_ktp);
             }
-            $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'public');
+            $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'local');
         }
 
         if ($request->hasFile('pas_foto')) {
             if ($profilExist && $profilExist->pas_foto) {
-                Storage::disk('public')->delete($profilExist->pas_foto);
+                Storage::disk('local')->delete($profilExist->pas_foto);
             }
-            $validated['pas_foto'] = $request->file('pas_foto')->store('pas_foto', 'public');
+            $validated['pas_foto'] = $request->file('pas_foto')->store('pas_foto', 'local');
         }
 
         // Format fields to Title Case / Sentence Case
@@ -191,7 +199,7 @@ class PendaftaranController extends Controller
                     if (empty($data['nik'])) {
                         unset($data['nik']);
                     } else {
-                        $exists = UserProfile::where('nik', $data['nik'])->where('user_id', '!=', $user->id)->exists();
+                        $exists = UserProfile::where('nik_hash', hash('sha256', $data['nik']))->where('user_id', '!=', $user->id)->exists();
                         if ($exists) {
                             return response()->json(['success' => false, 'message' => 'NIK ini sudah terdaftar.'], 422);
                         }

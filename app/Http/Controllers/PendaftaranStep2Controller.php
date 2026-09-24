@@ -85,9 +85,9 @@ class PendaftaranStep2Controller extends Controller
 
         if ($request->hasFile('surat_izin')) {
             if ($industriExist && $industriExist->surat_izin) {
-                Storage::disk('public')->delete($industriExist->surat_izin);
+                Storage::disk('local')->delete($industriExist->surat_izin);
             }
-            $validated['surat_izin'] = $request->file('surat_izin')->store('dokumen_industri', 'public');
+            $validated['surat_izin'] = $request->file('surat_izin')->store('dokumen_industri', 'local');
         }
 
         // Format fields to Title Case

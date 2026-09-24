@@ -126,7 +126,7 @@
             <input type="file" name="foto_ktp" accept="image/jpeg,image/png,image/jpg" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 transition">
             @if($profil->foto_ktp)
                 <div class="mt-3 text-sm text-blue-600 font-medium">
-                    <a href="{{ asset('storage/'.$profil->foto_ktp) }}" target="_blank" class="hover:underline">Lihat KTP Saat Ini</a>
+                    <a href="{{ route('pendaftaran.file', ['type' => 'foto_ktp']) }}" target="_blank" class="hover:underline">Lihat KTP Saat Ini</a>
                 </div>
             @endif
         </div>

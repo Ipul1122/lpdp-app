@@ -77,7 +77,17 @@ class PendaftaranApiController extends Controller
             $validated = $request->validate([
                 'foto_ktp'          => ($profilExist && $profilExist->foto_ktp) ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
                 'pas_foto'          => ($profilExist && $profilExist->pas_foto) ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
-                'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . $user->id . ',user_id',
+                'nik'               => [
+                    'required', 'string', 'size:16',
+                    function ($attribute, $value, $fail) use ($user) {
+                        $exists = UserProfile::where('nik_hash', hash('sha256', $value))
+                            ->where('user_id', '!=', $user->id)
+                            ->exists();
+                        if ($exists) {
+                            $fail('NIK ini sudah terdaftar di sistem kami.');
+                        }
+                    }
+                ],
                 'nama'              => 'required|string|max:255',
                 'no_telp'           => 'required|numeric|digits_between:10,15',
                 'tempat_lahir'      => 'required|string|max:100', 
@@ -92,8 +102,6 @@ class PendaftaranApiController extends Controller
                 'pekerjaan'         => 'required|string|max:100',
                 'kewarganegaraan'   => 'required|string|max:50',
                 'program_beasiswa'  => 'required|in:magister,dokter',
-            ], [
-                'nik.unique' => 'NIK ini sudah terdaftar di sistem kami.',
             ]);
 
             $validated['tempat_tglLahir'] = $validated['tempat_lahir'] . ', ' . $validated['tanggal_lahir'];
@@ -103,16 +111,16 @@ class PendaftaranApiController extends Controller
 
             if ($request->hasFile('foto_ktp')) {
                 if ($profilExist && $profilExist->foto_ktp) {
-                    Storage::disk('public')->delete($profilExist->foto_ktp);
+                    Storage::disk('local')->delete($profilExist->foto_ktp);
                 }
-                $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'public');
+                $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'local');
             }
 
             if ($request->hasFile('pas_foto')) {
                 if ($profilExist && $profilExist->pas_foto) {
-                    Storage::disk('public')->delete($profilExist->pas_foto);
+                    Storage::disk('local')->delete($profilExist->pas_foto);
                 }
-                $validated['pas_foto'] = $request->file('pas_foto')->store('pas_foto', 'public');
+                $validated['pas_foto'] = $request->file('pas_foto')->store('pas_foto', 'local');
             }
 
             // Format fields to Title Case / Sentence Case
@@ -179,8 +187,8 @@ class PendaftaranApiController extends Controller
 
             $industri = IndustriPendukung::where('user_id', $user->id)->first();
             if ($request->hasFile('surat_izin')) {
-                if ($industri && $industri->surat_izin) Storage::disk('public')->delete($industri->surat_izin);
-                $validated['surat_izin'] = $request->file('surat_izin')->store('dokumen_industri', 'public');
+                if ($industri && $industri->surat_izin) Storage::disk('local')->delete($industri->surat_izin);
+                $validated['surat_izin'] = $request->file('surat_izin')->store('dokumen_industri', 'local');
             }
 
             // Format fields to Title Case
@@ -225,12 +233,12 @@ class PendaftaranApiController extends Controller
             ]);
 
             if ($request->hasFile('loa')) {
-                if ($univExist && $univExist->loa) Storage::disk('public')->delete($univExist->loa);
-                $validated['loa'] = $request->file('loa')->store('dokumen_universitas', 'public');
+                if ($univExist && $univExist->loa) Storage::disk('local')->delete($univExist->loa);
+                $validated['loa'] = $request->file('loa')->store('dokumen_universitas', 'local');
             }
             if ($request->hasFile('khs_ipk')) {
-                if ($univExist && $univExist->khs_ipk) Storage::disk('public')->delete($univExist->khs_ipk);
-                $validated['khs_ipk'] = $request->file('khs_ipk')->store('dokumen_universitas', 'public');
+                if ($univExist && $univExist->khs_ipk) Storage::disk('local')->delete($univExist->khs_ipk);
+                $validated['khs_ipk'] = $request->file('khs_ipk')->store('dokumen_universitas', 'local');
             }
 
             // Format fields to Title Case
@@ -273,8 +281,8 @@ class PendaftaranApiController extends Controller
 
             $rek = RekomendasiPendaftaran::where('user_id', $user->id)->first();
             if ($request->hasFile('file_rekomendasi')) {
-                if ($rek && $rek->file_rekomendasi) Storage::disk('public')->delete($rek->file_rekomendasi);
-                $validated['file_rekomendasi'] = $request->file('file_rekomendasi')->store('dokumen_rekomendasi', 'public');
+                if ($rek && $rek->file_rekomendasi) Storage::disk('local')->delete($rek->file_rekomendasi);
+                $validated['file_rekomendasi'] = $request->file('file_rekomendasi')->store('dokumen_rekomendasi', 'local');
             }
 
             // Format fields to Title Case

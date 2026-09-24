@@ -49,16 +49,16 @@ class PendaftaranStep3Controller extends Controller
 
         if ($request->hasFile('loa')) {
             if ($univExist && $univExist->loa) {
-                Storage::disk('public')->delete($univExist->loa);
+                Storage::disk('local')->delete($univExist->loa);
             }
-            $validated['loa'] = $request->file('loa')->store('dokumen_universitas', 'public');
+            $validated['loa'] = $request->file('loa')->store('dokumen_universitas', 'local');
         }
 
         if ($request->hasFile('khs_ipk')) {
             if ($univExist && $univExist->khs_ipk) {
-                Storage::disk('public')->delete($univExist->khs_ipk);
+                Storage::disk('local')->delete($univExist->khs_ipk);
             }
-            $validated['khs_ipk'] = $request->file('khs_ipk')->store('dokumen_universitas', 'public');
+            $validated['khs_ipk'] = $request->file('khs_ipk')->store('dokumen_universitas', 'local');
         }
 
         // Format fields to Title Case

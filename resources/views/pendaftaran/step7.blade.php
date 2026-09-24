@@ -55,7 +55,7 @@
                                 @if($userProfile?->pas_foto) 
                                     <div class="flex items-center gap-3">
                                         <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span>
-                                        <a href="{{ Storage::url($userProfile->pas_foto) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
+                                        <a href="{{ route('pendaftaran.file', ['type' => 'pas_foto']) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                             Lihat Pas Foto
                                         </a>
@@ -69,7 +69,7 @@
                                 @if($userProfile?->foto_ktp) 
                                     <div class="flex items-center gap-3">
                                         <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span>
-                                        <a href="{{ Storage::url($userProfile->foto_ktp) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
+                                        <a href="{{ route('pendaftaran.file', ['type' => 'foto_ktp']) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                             Lihat KTP
                                         </a>
@@ -106,7 +106,7 @@
                             @if($industri?->surat_izin) 
                                 <div class="flex items-center gap-3">
                                     <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span>
-                                    <a href="{{ Storage::url($industri->surat_izin) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
+                                    <a href="{{ route('pendaftaran.file', ['type' => 'surat_izin']) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                         Lihat Surat Izin
                                     </a>
@@ -141,7 +141,7 @@
                             @if($universitas?->loa) 
                                 <div class="flex items-center gap-3">
                                     <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span>
-                                    <a href="{{ Storage::url($universitas->loa) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
+                                    <a href="{{ route('pendaftaran.file', ['type' => 'loa']) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                         Lihat LoA
                                     </a>
@@ -155,7 +155,7 @@
                             @if($universitas?->khs_ipk) 
                                 <div class="flex items-center gap-3">
                                     <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span>
-                                    <a href="{{ Storage::url($universitas->khs_ipk) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
+                                    <a href="{{ route('pendaftaran.file', ['type' => 'khs_ipk']) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                         Lihat KHS
                                     </a>
@@ -190,7 +190,7 @@
                             @if($rekomendasi?->file_rekomendasi) 
                                 <div class="flex items-center gap-3">
                                     <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">✓ Terlampir</span>
-                                    <a href="{{ Storage::url($rekomendasi->file_rekomendasi) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
+                                    <a href="{{ route('pendaftaran.file', ['type' => 'file_rekomendasi']) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                         Lihat Rekomendasi
                                     </a>
@@ -241,7 +241,7 @@
                                     <span class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-green-50 text-green-700 border border-green-100 rounded-lg text-xs font-bold">
                                         ✓ Terlampir
                                     </span>
-                                    <a href="{{ Storage::url($userProfile->surat_komitmen) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
+                                    <a href="{{ route('pendaftaran.file', ['type' => 'surat_komitmen']) }}" target="_blank" class="text-xs text-orange-500 hover:text-orange-600 font-bold underline flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                         Lihat Surat Komitmen
                                     </a>

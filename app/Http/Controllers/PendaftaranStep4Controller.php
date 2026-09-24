@@ -47,9 +47,9 @@ class PendaftaranStep4Controller extends Controller
 
         if ($request->hasFile('file_rekomendasi')) {
             if ($rekExist && $rekExist->file_rekomendasi) {
-                Storage::disk('public')->delete($rekExist->file_rekomendasi);
+                Storage::disk('local')->delete($rekExist->file_rekomendasi);
             }
-            $validated['file_rekomendasi'] = $request->file('file_rekomendasi')->store('dokumen_rekomendasi', 'public');
+            $validated['file_rekomendasi'] = $request->file('file_rekomendasi')->store('dokumen_rekomendasi', 'local');
         }
 
         // Format fields to Title Case

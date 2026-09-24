@@ -75,7 +75,17 @@ class ProfileController extends Controller
                 $validated = $request->validate([
                     'foto_ktp'          => $userProfile && $userProfile->foto_ktp ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
                     'pas_foto'          => $userProfile && $userProfile->pas_foto ? 'nullable|image|mimes:jpeg,png,jpg|max:5120' : 'required|image|mimes:jpeg,png,jpg|max:5120',
-                    'nik'               => 'required|string|size:16|unique:user_profiles,nik,' . $userId . ',user_id',
+                    'nik'               => [
+                        'required', 'string', 'size:16',
+                        function ($attribute, $value, $fail) use ($userId) {
+                            $exists = UserProfile::where('nik_hash', hash('sha256', $value))
+                                ->where('user_id', '!=', $userId)
+                                ->exists();
+                            if ($exists) {
+                                $fail('NIK ini sudah terdaftar di sistem kami.');
+                            }
+                        }
+                    ],
                     'nama'              => 'required|string|max:255',
                     'no_telp'           => 'required|numeric',
                     'tempat_lahir'      => 'required|string|max:100', 'tanggal_lahir' => 'required|date',           
@@ -94,13 +104,13 @@ class ProfileController extends Controller
                 }
  
                 if ($request->hasFile('foto_ktp')) {
-                    if ($userProfile && $userProfile->foto_ktp) Storage::disk('public')->delete($userProfile->foto_ktp);
-                    $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'public');
+                    if ($userProfile && $userProfile->foto_ktp) Storage::disk('local')->delete($userProfile->foto_ktp);
+                    $validated['foto_ktp'] = $request->file('foto_ktp')->store('ktp', 'local');
                 }
 
                 if ($request->hasFile('pas_foto')) {
-                    if ($userProfile && $userProfile->pas_foto) Storage::disk('public')->delete($userProfile->pas_foto);
-                    $validated['pas_foto'] = $request->file('pas_foto')->store('pas_foto', 'public');
+                    if ($userProfile && $userProfile->pas_foto) Storage::disk('local')->delete($userProfile->pas_foto);
+                    $validated['pas_foto'] = $request->file('pas_foto')->store('pas_foto', 'local');
                 }
                 UserProfile::updateOrCreate(['user_id' => $userId], $validated);
                 break;
@@ -130,8 +140,8 @@ class ProfileController extends Controller
 
                 $industri = IndustriPendukung::where('user_id', $userId)->first();
                 if ($request->hasFile('surat_izin')) {
-                    if ($industri && $industri->surat_izin) Storage::disk('public')->delete($industri->surat_izin);
-                    $validated['surat_izin'] = $request->file('surat_izin')->store('dokumen_industri', 'public');
+                    if ($industri && $industri->surat_izin) Storage::disk('local')->delete($industri->surat_izin);
+                    $validated['surat_izin'] = $request->file('surat_izin')->store('dokumen_industri', 'local');
                 }
                 IndustriPendukung::updateOrCreate(['user_id' => $userId], $validated);
                 break;
@@ -144,12 +154,12 @@ class ProfileController extends Controller
                 ]);
                 $univ = UniversitasPendaftaran::where('user_id', $userId)->first();
                 if ($request->hasFile('loa')) {
-                    if ($univ && $univ->loa) Storage::disk('public')->delete($univ->loa);
-                    $validated['loa'] = $request->file('loa')->store('dokumen_universitas', 'public');
+                    if ($univ && $univ->loa) Storage::disk('local')->delete($univ->loa);
+                    $validated['loa'] = $request->file('loa')->store('dokumen_universitas', 'local');
                 }
                 if ($request->hasFile('khs_ipk')) {
-                    if ($univ && $univ->khs_ipk) Storage::disk('public')->delete($univ->khs_ipk);
-                    $validated['khs_ipk'] = $request->file('khs_ipk')->store('dokumen_universitas', 'public');
+                    if ($univ && $univ->khs_ipk) Storage::disk('local')->delete($univ->khs_ipk);
+                    $validated['khs_ipk'] = $request->file('khs_ipk')->store('dokumen_universitas', 'local');
                 }
                 UniversitasPendaftaran::updateOrCreate(['user_id' => $userId], $validated);
                 break;
@@ -161,8 +171,8 @@ class ProfileController extends Controller
                 ]);
                 $rek = RekomendasiPendaftaran::where('user_id', $userId)->first();
                 if ($request->hasFile('file_rekomendasi')) {
-                    if ($rek && $rek->file_rekomendasi) Storage::disk('public')->delete($rek->file_rekomendasi);
-                    $validated['file_rekomendasi'] = $request->file('file_rekomendasi')->store('dokumen_rekomendasi', 'public');
+                    if ($rek && $rek->file_rekomendasi) Storage::disk('local')->delete($rek->file_rekomendasi);
+                    $validated['file_rekomendasi'] = $request->file('file_rekomendasi')->store('dokumen_rekomendasi', 'local');
                 }
                 RekomendasiPendaftaran::updateOrCreate(['user_id' => $userId], $validated);
                 break;
