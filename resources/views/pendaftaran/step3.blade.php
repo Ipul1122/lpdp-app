@@ -32,7 +32,7 @@
                                     $loaIsImage = in_array($loaExt, ['jpg', 'jpeg', 'png']);
                                 @endphp
                                 @if($loaIsImage)
-                                    <img src="{{ Storage::url($loaPath) }}" alt="LoA Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 relative z-0">
+                                    <img src="{{ route('pendaftaran.file', ['type' => 'loa']) }}" alt="LoA Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 relative z-0">
                                 @else
                                     <div class="w-16 h-16 mx-auto mb-3 bg-slate-100 rounded-lg flex items-center justify-center relative z-0">
                                         <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
@@ -65,7 +65,7 @@
                                     $khsIsImage = in_array($khsExt, ['jpg', 'jpeg', 'png']);
                                 @endphp
                                 @if($khsIsImage)
-                                    <img src="{{ Storage::url($khsPath) }}" alt="KHS/IPK Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 relative z-0">
+                                    <img src="{{ route('pendaftaran.file', ['type' => 'khs_ipk']) }}" alt="KHS/IPK Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 relative z-0">
                                 @else
                                     <div class="w-16 h-16 mx-auto mb-3 bg-slate-100 rounded-lg flex items-center justify-center relative z-0">
                                         <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>

@@ -85,8 +85,8 @@
                             <p class="text-xs text-slate-500 mb-2">3x4, Background Merah, Pose Formal (Maks 5MB)</p>
                             @if($userProfile?->pas_foto)
                                 <div class="mb-3">
-                                    <img src="{{ asset('storage/' . $userProfile->pas_foto) }}" alt="Pas Foto" class="w-24 h-32 object-cover rounded-lg border border-slate-200 shadow-sm mb-1">
-                                    <a href="{{ asset('storage/' . $userProfile->pas_foto) }}" target="_blank" class="text-blue-600 font-semibold text-xs hover:underline flex items-center gap-1">
+                                    <img src="{{ route('pendaftaran.file', ['type' => 'pas_foto']) }}" alt="Pas Foto" class="w-24 h-32 object-cover rounded-lg border border-slate-200 shadow-sm mb-1">
+                                    <a href="{{ route('pendaftaran.file', ['type' => 'pas_foto']) }}" target="_blank" class="text-blue-600 font-semibold text-xs hover:underline flex items-center gap-1">
                                         📸 Lihat Ukuran Penuh
                                     </a>
                                 </div>
@@ -98,8 +98,8 @@
                             <p class="text-xs text-slate-500 mb-2">&nbsp;</p>
                             @if($userProfile?->foto_ktp)
                                 <div class="mb-3">
-                                    <img src="{{ asset('storage/' . $userProfile->foto_ktp) }}" alt="Foto KTP" class="w-48 h-32 object-cover rounded-lg border border-slate-200 shadow-sm mb-1">
-                                    <a href="{{ asset('storage/' . $userProfile->foto_ktp) }}" target="_blank" class="text-blue-600 font-semibold text-xs hover:underline flex items-center gap-1">
+                                    <img src="{{ route('pendaftaran.file', ['type' => 'foto_ktp']) }}" alt="Foto KTP" class="w-48 h-32 object-cover rounded-lg border border-slate-200 shadow-sm mb-1">
+                                    <a href="{{ route('pendaftaran.file', ['type' => 'foto_ktp']) }}" target="_blank" class="text-blue-600 font-semibold text-xs hover:underline flex items-center gap-1">
                                         📄 Lihat Ukuran Penuh
                                     </a>
                                 </div>
@@ -144,7 +144,7 @@
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Surat Izin Instansi</label>
-                            @if($industri?->surat_izin) <p class="mb-2"><a href="{{ asset('storage/' . $industri->surat_izin) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat Dokumen Izin</a></p> @endif
+                            @if($industri?->surat_izin) <p class="mb-2"><a href="{{ route('pendaftaran.file', ['type' => 'surat_izin']) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat Dokumen Izin</a></p> @endif
                             @if(!$isLocked) <input type="file" name="surat_izin" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                     </div>
@@ -273,12 +273,12 @@
                         
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-2">LoA (Letter of Acceptance)</label>
-                            @if($universitas?->loa) <p class="mb-2"><a href="{{ asset('storage/' . $universitas->loa) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat LoA</a></p> @endif
+                            @if($universitas?->loa) <p class="mb-2"><a href="{{ route('pendaftaran.file', ['type' => 'loa']) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat LoA</a></p> @endif
                             @if(!$isLocked) <input type="file" name="loa" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-2">KHS / IPK Terakhir</label>
-                            @if($universitas?->khs_ipk) <p class="mb-2"><a href="{{ asset('storage/' . $universitas->khs_ipk) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat KHS</a></p> @endif
+                            @if($universitas?->khs_ipk) <p class="mb-2"><a href="{{ route('pendaftaran.file', ['type' => 'khs_ipk']) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat KHS</a></p> @endif
                             @if(!$isLocked) <input type="file" name="khs_ipk" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                     </div>
@@ -298,7 +298,7 @@
                         <div><label class="block text-sm font-semibold text-slate-700 mb-2">Instansi & Jabatan</label><div class="flex gap-2"><input type="text" name="instansi_perekomendasi" value="{{ $rekomendasi?->instansi_perekomendasi }}" placeholder="Instansi" class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"><input type="text" name="jabatan_perekomendasi" value="{{ $rekomendasi?->jabatan_perekomendasi }}" placeholder="Jabatan" class="w-1/2 px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm"></div></div>
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-2">File Surat Rekomendasi</label>
-                            @if($rekomendasi?->file_rekomendasi) <p class="mb-2"><a href="{{ asset('storage/' . $rekomendasi->file_rekomendasi) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat Rekomendasi</a></p> @endif
+                            @if($rekomendasi?->file_rekomendasi) <p class="mb-2"><a href="{{ route('pendaftaran.file', ['type' => 'file_rekomendasi']) }}" target="_blank" class="text-blue-600 font-semibold text-sm hover:underline">📄 Lihat Rekomendasi</a></p> @endif
                             @if(!$isLocked) <input type="file" name="file_rekomendasi" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm"> @endif
                         </div>
                     </div>

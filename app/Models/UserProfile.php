@@ -15,7 +15,7 @@ class UserProfile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'kategori', 'foto_ktp', 'pas_foto', 'surat_komitmen', 'nik', 'nama', 'no_telp', 'tempat_tglLahir', 
+        'user_id', 'kategori', 'foto_ktp', 'pas_foto', 'surat_komitmen', 'nik', 'nik_hash', 'nama', 'no_telp', 'tempat_tglLahir', 
         'alamat', 'rt', 'rw', 'kelurahan', 'kecamatan', 
         'agama', 'status_perkawinan', 'pekerjaan', 'kewarganegaraan',
         'program_beasiswa', 'status', 'catatan', 'is_pengajuan_ulang',
@@ -30,7 +30,18 @@ class UserProfile extends Model
     protected $casts = [
         'submitted_at' => 'datetime',
         'responded_at' => 'datetime',
+        'nik' => 'encrypted',
+        'alamat' => 'encrypted',
     ];
+
+    protected static function booted()
+    {
+        static::saving(function ($profile) {
+            if ($profile->isDirty('nik') && !empty($profile->nik)) {
+                $profile->nik_hash = hash('sha256', $profile->nik);
+            }
+        });
+    }
 
     // Relasi untuk menarik data lain berdasarkan user_id yang sama
     public function industri() { 

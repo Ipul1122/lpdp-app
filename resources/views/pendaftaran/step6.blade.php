@@ -89,8 +89,8 @@
                                 </div>
                                 <p class="text-sm text-green-600 font-semibold">✓ {{ $fileName }}</p>
                                 <p class="text-xs text-slate-500 mt-1">Klik untuk mengganti file</p>
-                                <div class="mt-3">
-                                    <a href="{{ Storage::url($filePath) }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition relative z-20">
+                                 <div class="mt-3">
+                                    <a href="{{ route('pendaftaran.file', ['type' => 'surat_komitmen']) }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition relative z-20">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                         Lihat Surat yang Diunggah
                                     </a>

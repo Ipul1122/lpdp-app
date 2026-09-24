@@ -229,11 +229,11 @@
                             <div class="col-span-2"><span class="block text-slate-400 text-xs mb-1">Alamat</span><p class="font-semibold text-slate-800">{{ $p->alamat }}, RT {{ $p->rt }}/RW {{ $p->rw }}, {{ $p->kelurahan }}, {{ $p->kecamatan }}</p></div>
                             <div>
                                 <span class="block text-slate-400 text-xs mb-1">Pas Foto 3x4</span>
-                                @if($p->pas_foto) <a href="{{ asset('storage/' . $p->pas_foto) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Pas Foto</a> @else <span class="text-red-500">Tidak ada</span> @endif
+                                @if($p->pas_foto) <a href="{{ route('pendaftaran.file', ['type' => 'pas_foto', 'userId' => $p->user_id]) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Pas Foto</a> @else <span class="text-red-500">Tidak ada</span> @endif
                             </div>
                             <div>
                                 <span class="block text-slate-400 text-xs mb-1">Dokumen KTP</span>
-                                @if($p->foto_ktp) <a href="{{ asset('storage/' . $p->foto_ktp) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Foto KTP</a> @else <span class="text-red-500">Tidak ada</span> @endif
+                                @if($p->foto_ktp) <a href="{{ route('pendaftaran.file', ['type' => 'foto_ktp', 'userId' => $p->user_id]) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Foto KTP</a> @else <span class="text-red-500">Tidak ada</span> @endif
                             </div>
                         </div>
                     </div>
@@ -266,11 +266,11 @@
                                 <div><span class="block text-slate-400 text-xs mb-1">Rencana Studi</span><p class="font-semibold text-slate-800">Mulai: {{ $p->universitas->tanggal_mulai_studi ?? '-' }} ({{ $p->universitas->durasi_studi ?? '-' }} Bulan)</p></div>
                                 <div>
                                     <span class="block text-slate-400 text-xs mb-1">LoA / Bukti Lulus</span>
-                                    @if($p->universitas->loa) <a href="{{ asset('storage/' . $p->universitas->loa) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Dokumen LoA</a> @else <span class="text-slate-500">-</span> @endif
+                                    @if($p->universitas->loa) <a href="{{ route('pendaftaran.file', ['type' => 'loa', 'userId' => $p->user_id]) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Dokumen LoA</a> @else <span class="text-slate-500">-</span> @endif
                                 </div>
                                 <div>
                                     <span class="block text-slate-400 text-xs mb-1">KHS / Bukti IPK</span>
-                                    @if($p->universitas->khs_ipk) <a href="{{ asset('storage/' . $p->universitas->khs_ipk) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat KHS/IPK</a> @else <span class="text-slate-500">-</span> @endif
+                                    @if($p->universitas->khs_ipk) <a href="{{ route('pendaftaran.file', ['type' => 'khs_ipk', 'userId' => $p->user_id]) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat KHS/IPK</a> @else <span class="text-slate-500">-</span> @endif
                                 </div>
                             @else <p class="text-slate-500 italic col-span-2">Data belum diisi.</p> @endif
                         </div>
@@ -285,7 +285,7 @@
                             @if($p->rekomendasi && $p->rekomendasi->file_rekomendasi)
                                 <p class="mb-2"><b>Kategori Rekomendasi:</b> {{ $p->rekomendasi->kategori ?? '-' }}</p>
                                 <p class="mb-2"><b>Perekomendasi:</b> {{ $p->rekomendasi->nama_perekomendasi ?? '-' }} ({{ $p->rekomendasi->jabatan_perekomendasi ?? '-' }} - {{ $p->rekomendasi->instansi_perekomendasi ?? '-' }})</p>
-                                <a href="{{ asset('storage/' . $p->rekomendasi->file_rekomendasi) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Rekomendasi</a>
+                                <a href="{{ route('pendaftaran.file', ['type' => 'file_rekomendasi', 'userId' => $p->user_id]) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Rekomendasi</a>
                             @else
                                 <p class="text-red-500 font-bold italic">(TIDAK DAPAT REKOMENDASI)</p>
                             @endif
@@ -311,7 +311,7 @@
                         </button>
                         <div x-show="tab6" style="display:none;" class="p-5 border-t border-slate-100 text-sm">
                             @if($p->surat_komitmen)
-                                <a href="{{ asset('storage/' . $p->surat_komitmen) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Komitmen</a>
+                                <a href="{{ route('pendaftaran.file', ['type' => 'surat_komitmen', 'userId' => $p->user_id]) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Komitmen</a>
                             @else
                                 <p class="text-slate-500 italic">Belum diunggah.</p>
                             @endif

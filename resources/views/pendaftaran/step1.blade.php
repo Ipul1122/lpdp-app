@@ -37,7 +37,7 @@
                                     $pasFotoNameStart = strrpos($pasFotoPath, '/') + 1;
                                     $pasFotoName = substr($pasFotoPath, $pasFotoNameStart);
                                 @endphp
-                                <img src="{{ Storage::url($pasFotoPath) }}" alt="Pas Foto Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 shadow-sm relative z-0">
+                                <img src="{{ route('pendaftaran.file', ['type' => 'pas_foto']) }}" alt="Pas Foto Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 shadow-sm relative z-0">
                                 <p class="text-sm text-green-600 font-semibold">✓ {{ $pasFotoName }}</p>
                                 <p class="text-xs text-slate-500 mt-1">Klik atau seret untuk mengganti file</p>
                             @endif
@@ -65,7 +65,7 @@
                                     $fotoNameStart = strrpos($fotoPath, '/') + 1;
                                     $fotoName = substr($fotoPath, $fotoNameStart);
                                 @endphp
-                                <img src="{{ Storage::url($fotoPath) }}" alt="Foto KTP Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 shadow-sm relative z-0">
+                                <img src="{{ route('pendaftaran.file', ['type' => 'foto_ktp']) }}" alt="Foto KTP Preview" class="w-32 h-32 object-cover mx-auto rounded-lg mb-3 border border-slate-200 shadow-sm relative z-0">
                                 <p class="text-sm text-green-600 font-semibold">✓ {{ $fotoName }}</p>
                                 <p class="text-xs text-slate-500 mt-1">Klik atau seret untuk mengganti file</p>
                             @endif

@@ -35,6 +35,8 @@ Route::get('/syarat-pendaftaran', function () {
     return view('syaratPendaftaran');
 })->name('syarat.pendaftaran');
 
+Route::get('/pendaftaran/file/{type}/{userId?}', [\App\Http\Controllers\FileController::class, 'show'])->name('pendaftaran.file');
+
 // --------------------------------------------------------
 // 1. Rute untuk Tamu (Belum Login)
 // --------------------------------------------------------

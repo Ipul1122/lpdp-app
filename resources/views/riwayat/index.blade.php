@@ -141,11 +141,11 @@
                             <div class="col-span-2"><span class="block text-slate-400 text-xs mb-1">Alamat</span><p class="font-semibold text-slate-800">{{ $riwayatProfil->alamat }}, RT {{ $riwayatProfil->rt }}/RW {{ $riwayatProfil->rw }}, {{ $riwayatProfil->kelurahan }}, {{ $riwayatProfil->kecamatan }}</p></div>
                             <div>
                                 <span class="block text-slate-400 text-xs mb-1">Pas Foto 3x4</span>
-                                @if($riwayatProfil->pas_foto) <a href="{{ asset('storage/' . $riwayatProfil->pas_foto) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Pas Foto</a> @else <span class="text-red-500">Tidak ada</span> @endif
+                                @if($riwayatProfil->pas_foto) <a href="{{ route('pendaftaran.file', ['type' => 'pas_foto']) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Pas Foto</a> @else <span class="text-red-500">Tidak ada</span> @endif
                             </div>
                             <div>
                                 <span class="block text-slate-400 text-xs mb-1">Dokumen KTP</span>
-                                @if($riwayatProfil->foto_ktp) <a href="{{ asset('storage/' . $riwayatProfil->foto_ktp) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Foto KTP</a> @else <span class="text-red-500">Tidak ada</span> @endif
+                                @if($riwayatProfil->foto_ktp) <a href="{{ route('pendaftaran.file', ['type' => 'foto_ktp']) }}" target="_blank" class="text-blue-600 hover:underline font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Lihat Foto KTP</a> @else <span class="text-red-500">Tidak ada</span> @endif
                             </div>
                         </div>
                     </div>
@@ -178,11 +178,11 @@
                                 <div><span class="block text-slate-400 text-xs mb-1">Rencana Studi</span><p class="font-semibold text-slate-800">Mulai: {{ $riwayatProfil->universitas->tanggal_mulai_studi ?? '-' }} ({{ $riwayatProfil->universitas->durasi_studi ?? '-' }} Bulan)</p></div>
                                 <div>
                                     <span class="block text-slate-400 text-xs mb-1">LoA / Bukti Lulus</span>
-                                    @if($riwayatProfil->universitas->loa) <a href="{{ asset('storage/' . $riwayatProfil->universitas->loa) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Dokumen LoA</a> @else <span class="text-slate-500">-</span> @endif
+                                    @if($riwayatProfil->universitas->loa) <a href="{{ route('pendaftaran.file', ['type' => 'loa']) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Dokumen LoA</a> @else <span class="text-slate-500">-</span> @endif
                                 </div>
                                 <div>
                                     <span class="block text-slate-400 text-xs mb-1">KHS / Bukti IPK</span>
-                                    @if($riwayatProfil->universitas->khs_ipk) <a href="{{ asset('storage/' . $riwayatProfil->universitas->khs_ipk) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat KHS/IPK</a> @else <span class="text-slate-500">-</span> @endif
+                                    @if($riwayatProfil->universitas->khs_ipk) <a href="{{ route('pendaftaran.file', ['type' => 'khs_ipk']) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat KHS/IPK</a> @else <span class="text-slate-500">-</span> @endif
                                 </div>
                             @else <p class="text-slate-500 italic col-span-2">Data belum diisi.</p> @endif
                         </div>
@@ -197,7 +197,7 @@
                             @if($riwayatProfil->rekomendasi && $riwayatProfil->rekomendasi->file_rekomendasi)
                                 <p class="mb-2"><b>Kategori Rekomendasi:</b> {{ $riwayatProfil->rekomendasi->kategori ?? '-' }}</p>
                                 <p class="mb-2"><b>Perekomendasi:</b> {{ $riwayatProfil->rekomendasi->nama_perekomendasi ?? '-' }} ({{ $riwayatProfil->rekomendasi->jabatan_perekomendasi ?? '-' }} - {{ $riwayatProfil->rekomendasi->instansi_perekomendasi ?? '-' }})</p>
-                                <a href="{{ asset('storage/' . $riwayatProfil->rekomendasi->file_rekomendasi) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Rekomendasi</a>
+                                <a href="{{ route('pendaftaran.file', ['type' => 'file_rekomendasi']) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Rekomendasi</a>
                             @else
                                 <p class="text-red-500 font-bold italic">(TIDAK DAPAT REKOMENDASI)</p>
                             @endif
@@ -223,7 +223,7 @@
                         </button>
                         <div x-show="tab6" style="display:none;" class="p-5 border-t border-slate-100 text-sm">
                             @if($riwayatProfil->surat_komitmen)
-                                <a href="{{ asset('storage/' . $riwayatProfil->surat_komitmen) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Komitmen</a>
+                                <a href="{{ route('pendaftaran.file', ['type' => 'surat_komitmen']) }}" target="_blank" class="text-blue-600 hover:underline font-semibold inline-flex items-center gap-1">📄 Lihat Surat Komitmen</a>
                             @else
                                 <p class="text-slate-500 italic">Belum diunggah.</p>
                             @endif
